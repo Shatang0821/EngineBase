@@ -1,0 +1,13 @@
+digraph "Vector2::magnitude"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Consolas,fontsize=11,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Consolas,fontsize=11,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [id="Node000001",label="Vector2::magnitude",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="ベクトルの大きさ（長さ）を計算します。"];
+  Node1 -> Node2 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="Vector2::angleBetween",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$struct_vector2.html#a6fce61eb668fa5d6f2747106855482e5",tooltip="2つのベクトルの間の角度を計算します"];
+  Node1 -> Node3 [id="edge2_Node000001_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="Vector2::normalized",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$struct_vector2.html#a1e0be0f2d578e8b5d0b8f95a9f8b6626",tooltip="ベクトルを正規化します"];
+}

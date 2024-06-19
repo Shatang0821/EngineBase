@@ -1,0 +1,9 @@
+digraph "クラス階層図"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Consolas,fontsize=11,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Consolas,fontsize=11,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node0 [id="Node000000",label="Transform",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$struct_transform.html",tooltip="位置、回転、スケールを表す構造体"];
+}

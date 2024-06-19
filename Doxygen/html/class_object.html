@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.11.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EngineBase: Object クラス</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EngineBase
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.11.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','検索',true);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){initNavTree('class_object.html',''); initResizable(true); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">公開メンバ関数</a> &#124;
+<a href="#pro-attribs">限定公開変数類</a> &#124;
+<a href="#friends">フレンド</a> &#124;
+<a href="class_object-members.html">全メンバ一覧</a>  </div>
+  <div class="headertitle"><div class="title">Object クラス</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>ゲームオブジェクトの基底クラス  
+ <a href="#details">[詳解]</a></p>
+
+<p><code>#include &lt;<a class="el" href="_object_8h_source.html">Object.h</a>&gt;</code></p>
+<div class="dynheader">
+Object の継承関係図</div>
+<div class="dyncontent">
+<div class="center"><!-- SVG 0 --></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">凡例</a>]</span></center></div>
+<div class="dynheader">
+Object 連携図</div>
+<div class="dyncontent">
+<div class="center"><!-- SVG 1 --></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">凡例</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+公開メンバ関数</h2></td></tr>
+<tr class="memitem:a65e7852f8bb02a7fe3026a65b12bda20" id="r_a65e7852f8bb02a7fe3026a65b12bda20"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a65e7852f8bb02a7fe3026a65b12bda20"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a65e7852f8bb02a7fe3026a65b12bda20">ConstructComponent</a> (<a class="el" href="struct_vector2.html">Vector2</a> pos)</td></tr>
+<tr class="memdesc:a65e7852f8bb02a7fe3026a65b12bda20"><td class="mdescLeft">&#160;</td><td class="mdescRight">コンポーネントの生成  <br /></td></tr>
+<tr class="separator:a65e7852f8bb02a7fe3026a65b12bda20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d5a5e05d9923b8d86ea5a1ff4095a30" id="r_a7d5a5e05d9923b8d86ea5a1ff4095a30"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d5a5e05d9923b8d86ea5a1ff4095a30">Update</a> (float DeltaTime) override</td></tr>
+<tr class="memdesc:a7d5a5e05d9923b8d86ea5a1ff4095a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">オブジェクトの更新処理  <br /></td></tr>
+<tr class="separator:a7d5a5e05d9923b8d86ea5a1ff4095a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+限定公開変数類</h2></td></tr>
+<tr class="memitem:aa9ea8b696ba455f847805ef0872551ca" id="r_aa9ea8b696ba455f847805ef0872551ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_scene_component.html">SceneComponent</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9ea8b696ba455f847805ef0872551ca">root</a> = nullptr</td></tr>
+<tr class="memdesc:aa9ea8b696ba455f847805ef0872551ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">オブジェクトのルートとなるシーンコンポーネントを指します  <br /></td></tr>
+<tr class="separator:aa9ea8b696ba455f847805ef0872551ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae612ee50e3c4f1c084f4bc061cedf4ce" id="r_ae612ee50e3c4f1c084f4bc061cedf4ce"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="class_component.html">Component</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae612ee50e3c4f1c084f4bc061cedf4ce">components</a></td></tr>
+<tr class="memdesc:ae612ee50e3c4f1c084f4bc061cedf4ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">オブジェクトに所属するコンポーネントを管理します。  <br /></td></tr>
+<tr class="separator:ae612ee50e3c4f1c084f4bc061cedf4ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1eba8a35c50697354699d2a909cd291" id="r_ac1eba8a35c50697354699d2a909cd291"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="class_component.html">Component</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1eba8a35c50697354699d2a909cd291">components_to_destruct</a></td></tr>
+<tr class="memdesc:ac1eba8a35c50697354699d2a909cd291"><td class="mdescLeft">&#160;</td><td class="mdescRight">削除予定のコンポーネントを管理します。  <br /></td></tr>
+<tr class="separator:ac1eba8a35c50697354699d2a909cd291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+フレンド</h2></td></tr>
+<tr class="memitem:a3453e07468bb36dfa6ceadc17d0cac3e" id="r_a3453e07468bb36dfa6ceadc17d0cac3e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3453e07468bb36dfa6ceadc17d0cac3e">Component::Destruct</a> ()</td></tr>
+<tr class="separator:a3453e07468bb36dfa6ceadc17d0cac3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">詳解</h2>
+<div class="textblock"><p>ゲームオブジェクトの基底クラス </p>
+<p>このクラスは、ゲーム内のオブジェクトを表し、複数のコンポーネントを保持します。 </p>
+</div><h2 class="groupheader">関数詳解</h2>
+<a id="a65e7852f8bb02a7fe3026a65b12bda20" name="a65e7852f8bb02a7fe3026a65b12bda20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65e7852f8bb02a7fe3026a65b12bda20">&#9670;&#160;</a></span>ConstructComponent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * Object::ConstructComponent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_vector2.html">Vector2</a></td>          <td class="paramname"><span class="paramname"><em>pos</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>コンポーネントの生成 </p>
+<p>指定された位置に新しいコンポーネントを生成し、オブジェクトに追加します。</p>
+<dl class="tparams"><dt>テンプレート引数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>生成するコンポーネントの型 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pos</td><td>コンポーネントの位置 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>戻り値</dt><dd>T* 生成されたコンポーネントへのポインタ </dd></dl>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>                                       {</div>
+<div class="line"><span class="lineno">   44</span>        T* pCom = <span class="keyword">new</span> T();</div>
+<div class="line"><span class="lineno">   45</span>        <span class="comment">//派生クラスを基底クラスにキャストするだけからstatic_castを使う</span></div>
+<div class="line"><span class="lineno">   46</span>        <span class="keywordflow">if</span> (<a class="code hl_class" href="class_component.html">Component</a>* pBuffer = <span class="keyword">static_cast&lt;</span><a class="code hl_class" href="class_component.html">Component</a>*<span class="keyword">&gt;</span>(pCom)) {</div>
+<div class="line"><span class="lineno">   47</span>            <span class="comment">//pBuffer-&gt;SetPosition(pos);</span></div>
+<div class="line"><span class="lineno">   48</span>            pBuffer-&gt;SetOwner(<span class="keyword">this</span>);</div>
+<div class="line"><span class="lineno">   49</span>            <a class="code hl_variable" href="#ae612ee50e3c4f1c084f4bc061cedf4ce">components</a>.insert(pBuffer);</div>
+<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">return</span> pCom;</div>
+<div class="line"><span class="lineno">   51</span>        }</div>
+<div class="line"><span class="lineno">   52</span>        <span class="comment">//失敗したらnullを返す</span></div>
+<div class="line"><span class="lineno">   53</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><span class="lineno">   54</span>    }</div>
+<div class="ttc" id="aclass_component_html"><div class="ttname"><a href="class_component.html">Component</a></div><div class="ttdoc">コンポーネントの基底クラス</div><div class="ttdef"><b>Definition</b> Component.h:22</div></div>
+<div class="ttc" id="aclass_object_html_ae612ee50e3c4f1c084f4bc061cedf4ce"><div class="ttname"><a href="#ae612ee50e3c4f1c084f4bc061cedf4ce">Object::components</a></div><div class="ttdeci">std::set&lt; Component * &gt; components</div><div class="ttdoc">オブジェクトに所属するコンポーネントを管理します。</div><div class="ttdef"><b>Definition</b> Object.h:29</div></div>
+</div><!-- fragment --><div class="dynheader">
+被呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><!-- SVG 2 --></div>
+</div>
+
+</div>
+</div>
+<a id="a7d5a5e05d9923b8d86ea5a1ff4095a30" name="a7d5a5e05d9923b8d86ea5a1ff4095a30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d5a5e05d9923b8d86ea5a1ff4095a30">&#9670;&#160;</a></span>Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Object::Update </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>DeltaTime</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>オブジェクトの更新処理 </p>
+<p>この関数は、オブジェクトの状態を更新します。</p>
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">DeltaTime</td><td>前フレームからの経過時間 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p><a class="el" href="class_base.html#a263cbaf1632c4a23dad719389da31fe5">Base</a>を実装しています。</p>
+<div class="fragment"><div class="line"><span class="lineno">    4</span>{</div>
+<div class="line"><span class="lineno">    5</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">フレンドと関連関数の詳解</h2>
+<a id="a3453e07468bb36dfa6ceadc17d0cac3e" name="a3453e07468bb36dfa6ceadc17d0cac3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3453e07468bb36dfa6ceadc17d0cac3e">&#9670;&#160;</a></span>Component::Destruct</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="class_component.html#a796d5cd46061d3426d098f0d74c38596">Component::Destruct</a> </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">メンバ詳解</h2>
+<a id="ae612ee50e3c4f1c084f4bc061cedf4ce" name="ae612ee50e3c4f1c084f4bc061cedf4ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae612ee50e3c4f1c084f4bc061cedf4ce">&#9670;&#160;</a></span>components</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::set&lt;<a class="el" href="class_component.html">Component</a>*&gt; Object::components</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>オブジェクトに所属するコンポーネントを管理します。 </p>
+
+</div>
+</div>
+<a id="ac1eba8a35c50697354699d2a909cd291" name="ac1eba8a35c50697354699d2a909cd291"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1eba8a35c50697354699d2a909cd291">&#9670;&#160;</a></span>components_to_destruct</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::set&lt;<a class="el" href="class_component.html">Component</a>*&gt; Object::components_to_destruct</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>削除予定のコンポーネントを管理します。 </p>
+
+</div>
+</div>
+<a id="aa9ea8b696ba455f847805ef0872551ca" name="aa9ea8b696ba455f847805ef0872551ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9ea8b696ba455f847805ef0872551ca">&#9670;&#160;</a></span>root</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_scene_component.html">SceneComponent</a>* Object::root = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>オブジェクトのルートとなるシーンコンポーネントを指します </p>
+
+</div>
+</div>
+<hr/>このクラス詳解は次のファイルから抽出されました:<ul>
+<li>EngineBase/EngineBase/<a class="el" href="_object_8h_source.html">Object.h</a></li>
+<li>EngineBase/EngineBase/<a class="el" href="_object_8cpp.html">Object.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_object.html">Object</a></li>
+    <li class="footer">構築: <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.11.0 </li>
+  </ul>
+</div>
+</body>
+</html>

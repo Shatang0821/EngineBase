@@ -47,7 +47,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Manager.h">
+    <ClInclude Include="Singleton.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="Vector2.h">
