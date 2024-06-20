@@ -26,9 +26,11 @@ class SceneComponent : public Component
 protected:
     //! コンポーネントの変換情報
     Transform transform;
+
     //! コンポーネントの子要素を管理します。頻繁に削除や追加が行われるため、setを使用しています。
     std::set<SceneComponent*>children;
-    //! コンポーネントの親要素を指します。
+
+    //! コンポーネントの親要素を指します。削除追加しやすいため
     SceneComponent* parent = nullptr;
 public:
     /**
@@ -47,8 +49,17 @@ public:
     *
     * @param par 設定する親コンポーネントへのポインタ
     */
-    void SetAttachment(SceneComponent* par);
+    void AttachTo(SceneComponent* par);
 
+
+    /**
+    * @brief 親コンポーネントの設定
+    *
+    * この関数は、コンポーネントの親要素を解除します。
+    *
+    * @param par 設定する親コンポーネントへのポインタ
+    */
+    void DetachFrom(SceneComponent* par);
     /**
      * @brief 削除処理をサポートする関数
      *

@@ -27,31 +27,47 @@ protected:
 	SceneComponent* root = nullptr;
 	//! オブジェクトに所属するコンポーネントを管理します。
 	std::set<Component*>components;
-	//! 削除予定のコンポーネントを管理します。
-	std::set<Component*>components_to_destruct;
+	//! コンポーネントのイテレータ 追加削除予定のコンポーネントを管理します。
+	std::set<Component*>::iterator components_iter;
 public:
 	/**
 	 * @brief コンポーネントの生成
 	 *
-	 * 指定された位置に新しいコンポーネントを生成し、オブジェクトに追加します。
+	 * 指定された新しいコンポーネントを生成し、オブジェクトに追加します。
 	 *
 	 * @tparam T 生成するコンポーネントの型
-	 * @param pos コンポーネントの位置
 	 * @return T* 生成されたコンポーネントへのポインタ
 	 */
 	template<typename T>
-	T* ConstructComponent(Vector2 pos) {
+	T* ConstructComponent() {
 		T* pCom = new T();
 		//派生クラスを基底クラスにキャストするだけからstatic_castを使う
-		if (Component* pBuffer = static_cast<Component*>(pCom)) {
-			//pBuffer->SetPosition(pos);
-			pBuffer->SetOwner(this);
-			components.insert(pBuffer);
+		if (pCom && static_cast<Component*>(pCom)) {
+			pCom->SetOwner(this);
+			RegisterComponent(pCom);
 			return pCom;
 		}
 		//失敗したらnullを返す
 		return nullptr;
 	}
+
+	/**
+	 * @brief コンポーネントの登録
+	 *
+	 * 指定されたコンポーネントをコンテナに登録します。
+	 *
+	 * @param pCom 登録するコンポーネントのポインタ
+	 */
+	void RegisterComponent(Component* pCom);
+
+	/**
+	 * @brief コンポーネントの登録解除
+	 *
+	 * 指定されたコンポーネントをコンテナから解除します。
+	 *
+	 * @param pCom 解除するコンポーネントのポインタ
+	 */
+	void UnregisterComponent(Component* pCom);
 	/**
 	 * @brief オブジェクトの更新処理
 	 *

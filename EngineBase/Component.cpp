@@ -5,5 +5,6 @@ void Component::Update(float DeltaTime)
 }
 void Component::Destruct()
 {
-	pOwner->components_to_destruct.insert(this);
+	pOwner->UnregisterComponent(this);
+	delete this;
 }
