@@ -4,6 +4,8 @@
 #include "Object.h"
 
 int main() {
-	Object owner;
-	owner.ConstructComponent<SceneComponent>(Vector2::Zero());
+
+	Object* obj = new Object();
+	obj->GetLocalPosition();
+	return 0;
 }

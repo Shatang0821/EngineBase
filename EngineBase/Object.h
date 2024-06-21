@@ -23,6 +23,13 @@ class Object : public Base
 {
 	friend void Component::Destruct();
 protected:
+
+	//! オブジェクトの子要素を管理します。頻繁に削除や追加が行われるため、setを使用しています。
+	std::set<Object*>children;
+	//! オブジェクトの親要素を指します。削除追加しやすいため
+	Object* parent = nullptr;
+
+
 	//! オブジェクトのルートとなるシーンコンポーネントを指します
 	SceneComponent* root = nullptr;
 	//! オブジェクトに所属するコンポーネントを管理します。
@@ -50,7 +57,6 @@ public:
 		//失敗したらnullを返す
 		return nullptr;
 	}
-
 	/**
 	 * @brief コンポーネントの登録
 	 *
@@ -59,7 +65,6 @@ public:
 	 * @param pCom 登録するコンポーネントのポインタ
 	 */
 	void RegisterComponent(Component* pCom);
-
 	/**
 	 * @brief コンポーネントの登録解除
 	 *
@@ -68,6 +73,26 @@ public:
 	 * @param pCom 解除するコンポーネントのポインタ
 	 */
 	void UnregisterComponent(Component* pCom);
+
+
+	/**
+	* @brief 親オブジェクトの設定関数
+	*
+	* この関数は、オブジェクトの親要素を設定します。
+	*
+	* @param par 設定する親オブジェクトへのポインタ
+	*/
+	void AttachTo(Object* par);
+	/**
+	* @brief 親オブジェクトの設定する関数
+	*
+	* この関数は、オブジェクトの親要素を解除します。
+	*
+	* @param par 設定する親オブジェクトへのポインタ
+	*/
+	void DetachFrom(Object* par);
+
+
 	/**
 	 * @brief オブジェクトの更新処理
 	 *
@@ -76,6 +101,68 @@ public:
 	 * @param DeltaTime 前フレームからの経過時間
 	 */
 	virtual void Update(float DeltaTime) override;
+public:
+	/**
+	 * @brief ローカル位置情報を取得する関数
+	 *
+	 * @return Vector2 ローカル位置
+	 */
+	Vector2 GetLocalPosition() const { return root->GetLocalPosition(); }
+	/**
+	 * @brief 回転情報を取得する関数
+	 *
+	 * @return float 回転(度数法)
+	 */
+	float GetLocalRotation() const { return root->GetLocalRotation(); }
+	/**
+	 * @brief スケール情報を取得する関数
+	 *
+	 * @return Vector2 スケール
+	 */
+	Vector2 GetLocalScale() const { return root->GetLocalScale(); }
+	/**
+	 * @brief ワールド位置情報を取得する関数
+	 *
+	 * @return Vector2 ワールド位置(絶対位置)
+	 */
+	Vector2 GetWorldPosition() const;
+	/**
+	 * @brief ワールド回転情報を取得する関数
+	 *
+	 * @return float ワールド回転(度数法)
+	 */
+	float GetWorldRotation() const;
+	/**
+	 * @brief ワールドスケール情報を取得する関数
+	 *
+	 * @return Vector2 ワールドスケール
+	 */
+	Vector2 GetWorldScale() const;
+	/**
+	 * @brief ローカル位置を設定する関数
+	 * @param[in] pos 位置情報
+	*/
+	void SetLocalPosition(const Vector2& pos) { root->SetLocalPosition(pos); }
+	/**
+	 * @brief ローカル回転を設定する関数
+	 * @param[in] rot 回転情報
+	*/
+	void SetLocalRotation(float rot) { root->SetLocalRotation(rot); }
+	/**
+	 * @brief ローカルスケールを設定する関数
+	 * @param[in] scale スケール情報
+	*/
+	void SetLocalScale(const Vector2& scale) { root->SetLocalScale(scale); }
+	/**
+	 * @brief ローカル位置を加算する関数
+	 * @param[in] pos 位置情報
+	*/
+	void AddPosition(const Vector2& pos) { root->AddPosition(pos); }
+	/**
+	 * @brief ローカル回転を加算する関数
+	 * @param[in] rot 回転情報
+	*/
+	void AddRotation(float rot) { root->AddRotation(rot); }
 };
 
 #endif // !_OBJECT_H_
