@@ -13,14 +13,19 @@ void Object::UnregisterComponent(Component* pCom)
 
 void Object::AttachTo(Object* par)
 {
-	parent->children.insert(this);
-	parent = par;
+	if (par) {
+		parent->children.insert(this);
+		parent = par;
+	}
 }
 
 void Object::DetachFrom(Object* par)
 {
-	par->children.erase(this);
-	parent = nullptr;
+	if (par) {
+		par->children.erase(this);
+		parent = nullptr;
+	}
+	
 }
 
 void Object::Update(float DeltaTime)
@@ -32,6 +37,10 @@ void Object::Update(float DeltaTime)
 		if (components_iter == components.end()) break;
 		components_iter++;
 	}
+}
+
+void Object::Destroy()
+{
 }
 
 Vector2 Object::GetWorldPosition() const

@@ -28,15 +28,30 @@ protected:
 	std::set<Object*>children;
 	//! オブジェクトの親要素を指します。削除追加しやすいため
 	Object* parent = nullptr;
-
-
-	//! オブジェクトのルートとなるシーンコンポーネントを指します
-	SceneComponent* root = nullptr;
+	//! オブジェクトのルートとなるTransformを示すシーンコンポーネントを指します
+	 SceneComponent * const root = new SceneComponent;
 	//! オブジェクトに所属するコンポーネントを管理します。
 	std::set<Component*>components;
 	//! コンポーネントのイテレータ 追加削除予定のコンポーネントを管理します。
 	std::set<Component*>::iterator components_iter;
 public:
+	/**
+	 * @brief コンストラクタ
+	 *
+	 * ルートコンポーネント所有者設定
+	 */
+	Object() { root->SetOwner(this); }
+	/**
+	 * @brief デストラクタ
+	 *
+	 * コンポーネントをすべて削除する
+	 */
+	virtual ~Object() {
+		for (auto& com : components) delete com;
+		delete root;
+	}
+
+
 	/**
 	 * @brief コンポーネントの生成
 	 *
@@ -46,10 +61,11 @@ public:
 	 * @return T* 生成されたコンポーネントへのポインタ
 	 */
 	template<typename T>
-	T* ConstructComponent() {
+	T* ConstructComponent(Vector2 pos = Vector2(0,0)) {
 		T* pCom = new T();
 		//派生クラスを基底クラスにキャストするだけからstatic_castを使う
 		if (pCom && static_cast<Component*>(pCom)) {
+			pCom->SetLocalPosition(pos);
 			pCom->SetOwner(this);
 			RegisterComponent(pCom);
 			return pCom;
@@ -102,6 +118,13 @@ public:
 	 */
 	virtual void Update(float DeltaTime) override;
 public:
+
+	/**
+	 * @brief ワールドから自身を削除する
+	 *
+	 */
+	void Destroy();
+
 	/**
 	 * @brief ローカル位置情報を取得する関数
 	 *

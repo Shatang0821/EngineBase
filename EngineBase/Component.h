@@ -24,14 +24,7 @@ class Component : public Base
 protected:
     //! コンポーネントの所有者（親オブジェクト）を指します。
     class Object* pOwner = nullptr;
-    /**
-     * @brief 所有者の設定
-     *
-     * この関数は、コンポーネントの所有者（親オブジェクト）を設定します。
-     *
-     * @param owner 設定する所有者へのポインタ
-     */
-    void SetOwner(class Object* owner) { pOwner = owner; }
+    
 public:
     /**
       * @brief コンポーネントの更新処理
@@ -47,6 +40,15 @@ public:
      * この関数は、コンポーネントの削除処理を行います。
      */
     virtual void Destruct();
+
+    /**
+     * @brief 所有者の設定
+     *
+     * この関数は、コンポーネントの所有者（親オブジェクト）を設定します。
+     *
+     * @param owner 設定する所有者へのポインタ
+     */
+    void SetOwner(class Object* owner) { pOwner = owner; }
 };
 
 #endif // !_COMPONENT_H_

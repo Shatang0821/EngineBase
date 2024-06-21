@@ -31,6 +31,9 @@
     <Filter Include="Header Files\Game">
       <UniqueIdentifier>{2ad05f44-b876-41eb-8b06-4f69c7e6b480}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Core\Utility">
+      <UniqueIdentifier>{3c55133d-7837-4463-a2a1-306561b561e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,12 +48,15 @@
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="Base.h">
@@ -67,6 +73,15 @@
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Files\Core\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

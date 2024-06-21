@@ -7,14 +7,19 @@ void SceneComponent::Update(float DeltaTime)
 
 void SceneComponent::AttachTo(SceneComponent* par)
 {
-	parent->children.insert(this);
-	parent = par;
+	if (par) {
+		parent->children.insert(this);
+		parent = par;
+		SetOwner(parent->pOwner);
+	}
 }
 
 void SceneComponent::DetachFrom(SceneComponent* par)
 {
-	par->children.erase(this);
-	parent = nullptr;
+	if (par) {
+		par->children.erase(this);
+		parent = nullptr;
+	}
 }
 
 void SceneComponent::process_Destruct()
