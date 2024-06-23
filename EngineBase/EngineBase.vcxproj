@@ -130,8 +130,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="GameInstance.cpp" />
+    <ClCompile Include="GameStatics.cpp" />
     <ClCompile Include="Level.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="SceneComponent.cpp" />
     <ClCompile Include="World.cpp" />
@@ -139,6 +141,8 @@
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="GameInstance.h" />
+    <ClInclude Include="GameStatics.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Object.h" />

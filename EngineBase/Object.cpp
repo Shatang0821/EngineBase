@@ -1,4 +1,6 @@
 #include "Object.h"
+#include <stack>
+#include "World.h"
 
 void Object::RegisterComponent(Component* pCom)
 {
@@ -41,6 +43,30 @@ void Object::Update(float DeltaTime)
 
 void Object::Destroy()
 {
+	if (parent) parent->children.erase(this);
+
+	std::stack<Object*>objects_to_delete;
+	objects_to_delete.push(this);
+
+	// オブジェクトを削除するためのスタックが空になるまでループ
+	while (!objects_to_delete.empty()) {
+		// スタックのトップにあるオブジェクトを取得
+		Object* current_obj = objects_to_delete.top();
+		// 取得したオブジェクトをスタックから取り除く
+		objects_to_delete.pop();
+
+		// 子オブジェクトが存在するか確認
+		if (!current_obj->children.empty()) {
+			// 子オブジェクトを順番に処理
+			for (auto& children : current_obj->children) {
+				// 子オブジェクトをスタックに追加
+				objects_to_delete.push(children);
+			}
+		}
+		// 現在のオブジェクトを削除予定リストに追加
+		mainWorld.GameObjects_to_delete.insert(current_obj);
+	}
+
 }
 
 Vector2 Object::GetWorldPosition() const

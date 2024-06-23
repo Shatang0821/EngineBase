@@ -34,9 +34,15 @@
     <Filter Include="Header Files\Core\Utility">
       <UniqueIdentifier>{3c55133d-7837-4463-a2a1-306561b561e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Core\EngineCore">
+      <UniqueIdentifier>{370b3c1a-2971-4b20-a4e0-2014ecce80e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\EngineCore">
+      <UniqueIdentifier>{28093933-efad-459a-8e3c-8503d527f20d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
@@ -45,43 +51,55 @@
     <ClCompile Include="SceneComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Core</Filter>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\Core\EngineCore</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
-      <Filter>Source Files\Core</Filter>
+      <Filter>Source Files\Core\EngineCore</Filter>
     </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Core\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInstance.cpp">
+      <Filter>Source Files\Core\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStatics.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Singleton.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Base.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="SceneComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2.h">
       <Filter>Header Files\Core\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="World.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Core\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\Core\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\Core\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\Core\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Header Files\Core\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Base.h">
+      <Filter>Header Files\Core\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInstance.h">
+      <Filter>Header Files\Core\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStatics.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

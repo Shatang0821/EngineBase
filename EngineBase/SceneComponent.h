@@ -23,6 +23,15 @@
   */
 class SceneComponent : public Component
 {
+private:
+
+    /**
+     * @brief 削除処理をサポートする関数
+     *
+     * この関数は、コンポーネントの削除処理をサポートします。
+     */
+    void process_Destruct();
+
 protected:
     //! コンポーネントの変換情報
     Transform transform;
@@ -59,13 +68,7 @@ public:
     */
     void DetachFrom(SceneComponent* par);
 
-
-    /**
-     * @brief 削除処理をサポートする関数
-     *
-     * この関数は、コンポーネントの削除処理をサポートします。
-     */
-    void process_Destruct();
+    
     /**
      * @brief コンポーネントの削除処理する関数
      *
