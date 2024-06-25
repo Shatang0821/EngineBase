@@ -63,8 +63,11 @@
     <ClCompile Include="GameInstance.cpp">
       <Filter>Source Files\Core\EngineCore</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Core\EngineCore</Filter>
+    </ClCompile>
     <ClCompile Include="GameStatics.cpp">
-      <Filter>Source Files\Game</Filter>
+      <Filter>Source Files\Core\EngineCore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,8 +101,11 @@
     <ClInclude Include="GameInstance.h">
       <Filter>Header Files\Core\EngineCore</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Core\EngineCore</Filter>
+    </ClInclude>
     <ClInclude Include="GameStatics.h">
-      <Filter>Header Files\Game</Filter>
+      <Filter>Header Files\Core\EngineCore</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

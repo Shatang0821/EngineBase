@@ -136,6 +136,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="SceneComponent.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +148,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="SceneComponent.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="World.h" />

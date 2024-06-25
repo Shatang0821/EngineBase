@@ -51,7 +51,6 @@ public:
 		delete root;
 	}
 
-
 	/**
 	 * @brief コンポーネントの生成
 	 *
@@ -61,18 +60,19 @@ public:
 	 * @return T* 生成されたコンポーネントへのポインタ
 	 */
 	template<typename T>
-	T* ConstructComponent(Vector2 pos = Vector2(0,0)) {
-		T* pCom = new T();
-		//派生クラスを基底クラスにキャストするだけからstatic_castを使う
-		if (pCom && static_cast<Component*>(pCom)) {
-			pCom->SetLocalPosition(pos);
-			pCom->SetOwner(this);
-			RegisterComponent(pCom);
-			return pCom;
-		}
-		//失敗したらnullを返す
-		return nullptr;
-	}
+	T* ConstructComponent(Vector2 pos = Vector2(0, 0));
+
+	/**
+	 * @brief コンポーネントの取得
+	 *
+	 * 指定されたコンポーネントをオブジェクトから取得する。
+	 *
+	 * @tparam T 取得したいコンポーネントの型
+	 * @return T* 取得されたコンポーネントへのポインタ
+	 */
+	template<typename T>
+	T* GetComponentByClass();
+
 	/**
 	 * @brief コンポーネントの登録
 	 *
@@ -89,7 +89,7 @@ public:
 	 * @param pCom 解除するコンポーネントのポインタ
 	 */
 	void UnregisterComponent(Component* pCom);
-
+	
 
 	/**
 	* @brief 親オブジェクトの設定関数
@@ -188,7 +188,29 @@ public:
 	void AddRotation(float rot) { root->AddRotation(rot); }
 };
 
-#endif // !_OBJECT_H_
+template<typename T>
+inline T* Object::ConstructComponent(Vector2 pos) {
+	T* pCom = new T();
+	//派生クラスを基底クラスにキャストするだけからstatic_castを使う
+	if (pCom && static_cast<Component*>(pCom)) {
+		pCom->SetLocalPosition(pos);
+		pCom->SetOwner(this);
+		RegisterComponent(pCom);
+		return pCom;
+	}
+	//失敗したらnullを返す
+	return nullptr;
+}
 
+template<typename T>
+inline T* Object::GetComponentByClass()
+{
+	for (auto& com : components) {
+		if (T* pCom = dynamic_cast<T*>(com)) return pCom;
+	}
+	return nullptr;
+}
+
+#endif // !_OBJECT_H_
 
 
