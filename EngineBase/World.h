@@ -2,7 +2,6 @@
  * @file World.h
  * @brief ゲーム全般を管理するクラス
  *
-
  * @author サトウ
  * @date 2024/06/21
  */

@@ -2,7 +2,6 @@
  * @file Level.h
  * @brief オブジェクトを保持するクラス
  *
-
  * @author サトウ
  * @date 2024/06/21
  */
