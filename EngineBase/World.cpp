@@ -1,4 +1,5 @@
 #include "World.h"
+#include "Timer.h"
 
 World mainWorld;
 
@@ -25,7 +26,7 @@ void World::Update(float DeltaTime)
 	GameUIs_to_delete.clear();
 
 	for (auto& obj : GameTimers) {
-
+		obj->Execute();
 	}
 }
 

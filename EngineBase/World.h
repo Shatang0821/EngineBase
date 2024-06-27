@@ -25,6 +25,8 @@ class World final
 {
 	friend class Engine;
 	friend class GameStatics;
+	friend class Timer;
+
 	friend void Object::Destroy();
 private:
 	/* シーンオブジェクト、UI、タイマーコンテナ*/

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "GameStatics.h"
 
 GameInstance* GameStatics::GetGameInstance()
