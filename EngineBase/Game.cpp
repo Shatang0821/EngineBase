@@ -1,5 +1,6 @@
 //#include <iostream>
-
+#include "stdafx.h"
+#include "myApp.h"
 
 class Engine
 {

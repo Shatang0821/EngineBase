@@ -12,6 +12,8 @@
 #include <functional>
 #include <chrono>
 
+#include "World.h"
+
  /**
    * @class Timer
    * @brief ŠÔ‚ÆŠÖŒW‚·‚éƒNƒ‰ƒX

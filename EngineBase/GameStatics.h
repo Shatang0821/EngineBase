@@ -9,6 +9,10 @@
 #ifndef _GAMESTATICS_H_
 #define _GAMESTATICS_H_
 
+#include "GameInstance.h"
+#include "Vector2.h"
+#include "World.h"
+
  /**
    * @class GameStatics
    * @brief World‚ğ‘€ì‚·‚éƒNƒ‰ƒX

@@ -8,8 +8,8 @@
  * @date 2024/06/19
  */
 
-#ifndef _MANAGER_H_
-#define _MANAGER_H_
+#ifndef _SINGLETON_H_
+#define _SINGLETON_H_
 
  /**
   * @class Singleton
@@ -23,57 +23,55 @@ template <typename T>
 class Singleton
 {
 public:
-	/**
-	 * @brief インスタンスを取得する
-	 *
-	 * この関数は、シングルトンインスタンスを取得します。
-	 * インスタンスが存在しない場合は、新しく作成されます。
-	 *
-	 * @return T* シングルトンインスタンスへのポインタ
-	 */
-	static T* instance() {
-		if (!manager)
-			manager = new T();
-		return manager;
+    /**
+     * @brief インスタンスを取得する
+     *
+     * この関数は、シングルトンインスタンスを取得します。
+     *
+     * @return T& シングルトンインスタンスへの参照
+     */
+	static T* Instance() {
+		return &instance;
 	}
 private:
 	//! 管理するシングルトンインスタンスを指します。
-	static T* manager;
+	static T instance;
 protected:
     /**
      * @brief コンストラクタ
      *
      * シングルトンインスタンスの生成を防ぐためにprotectedにしています。
      */
-    Manager() = default;
+    Singleton() = default;
 
     /**
      * @brief デストラクタ
      *
      * シングルトンインスタンスの破棄を防ぐためにprotectedにしています。
      */
-    ~Manager() = default;
+    ~Singleton() = default;
 
     /**
      * @brief コピーコンストラクタ（削除）
      *
      * シングルトンパターンを維持するために削除しています。
      */
-    Manager(const Manager&) = delete;
+    Singleton(const Singleton&) = delete;
 
     /**
      * @brief 代入演算子（削除）
      *
      * シングルトンパターンを維持するために削除しています。
      *
-     * @return Manager& 自身への参照
+     * @return Singleton& 自身への参照
      */
-    Manager& operator=(const Manager&) = delete;
+    Singleton& operator=(const Singleton&) = delete;
 };
 
 template <typename T>
-T* Singleton<T>::manager = nullptr;
-#endif // !_MANAGER_H_
+T Singleton<T>::instance;
+
+#endif // !_SINGLETON_H_
 
 
 
