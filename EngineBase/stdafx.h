@@ -43,7 +43,5 @@
 #define WIDTH (512)	// ïù.
 #define HEIGHT (512)	// çÇÇ≥.
 
-
-
 #endif // !_STDAFX_H_
 

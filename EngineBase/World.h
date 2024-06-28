@@ -12,6 +12,16 @@
 #include "Object.h"
 #include "Level.h"
 #include "GameInstance.h"
+#include "VisualInterface.h"
+
+
+struct LayerSort
+{
+	bool operator()(const class LayerInterface* a, const class LayerInterface* b) const {
+		return a->GetLayer() < b->GetLayer();
+	}
+};
+
 
  /**
   * @class World
@@ -26,6 +36,7 @@ class World final
 	friend class Engine;
 	friend class GameStatics;
 	friend class Timer;
+	friend class LayerInterface;
 
 	friend void Object::Destroy();
 private:
