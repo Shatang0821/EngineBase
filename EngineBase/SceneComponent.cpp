@@ -8,7 +8,7 @@ void SceneComponent::Update(float DeltaTime)
 void SceneComponent::AttachTo(SceneComponent* par)
 {
 	if (par) {
-		parent->children.insert(this);
+		par->children.insert(this);
 		parent = par;
 		SetOwner(parent->pOwner);
 	}
@@ -65,7 +65,7 @@ Vector2 SceneComponent::GetWorldScale() const
 {
 	//親コンポーネントを配慮する
 	if (parent)
-		return parent->GetWorldScale() + GetLocalScale();
+		return parent->GetWorldScale() * GetLocalScale();
 	else {
 		//所有者を配慮する
 		if (pOwner) return pOwner->GetWorldScale();

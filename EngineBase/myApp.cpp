@@ -57,7 +57,7 @@ bool MyApp::InitApp()
 	// LoadTextureごとにif判定をするのは面倒なので、try～throw～catchを使う.
 	try {
 		// テストテクスチャの読み込み.
-		//sp.sprite = MyTexture::LoadTexture(pDevice, _T("data/image/bullet.png"));
+
 	}
 	// catch句はtryの直後に記述する.
 	catch (HRESULT /*hr*/) {
@@ -67,35 +67,44 @@ bool MyApp::InitApp()
 	return true;
 }
 
+bool MyApp::DrawStart()
+{
+	auto myApp = MyApp::Instance();
+	D3DCOLOR rgb = D3DCOLOR_XRGB(10, 10, 80);
+	HRESULT hr = myApp->GetDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, rgb, 1.0f, 0);
+	if (FAILED(hr)) {
+		_tprintf(D3DErrStr(hr));
+		return false;
+	}
+
+	// 描画を開始（シーン描画の開始）.
+	if (FAILED(myApp->GetDevice()->BeginScene())) {
+		return false;
+	}
+
+	if (FAILED(myApp->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND)))
+	{
+		return false;
+	}
+	return true;
+}
+
+void MyApp::DrawEnd()
+{
+	auto myApp = MyApp::Instance();
+	myApp->GetSprite()->End();
+	myApp->GetDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	// 描画を終了（シーン描画の終了）.
+	myApp->GetDevice()->EndScene();
+
+	// 実際に画面に表示。バックバッファからフロントバッファへの転送.
+	// デバイス生成時のフラグ指定により、ここでVSYNCを待つ.
+	myApp->GetDevice()->Present(NULL, NULL, NULL, NULL);
+}
+
 void MyApp::MainLoop()
 {
-	ShowWindow(hWnd, SW_SHOWNORMAL);	// 作成したウィンドウを表示する.
-
-	// イベントループ.
-	// ブロック型関数GetMessageではなくノンブロック型関数のPeekMessageを使う.
-	MSG msg;
-	bool flag = true;
-	while (flag) {
-		// メッセージがあるかどうか確認する.
-		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
-			// メッセージがあるので処理する.
-			if (GetMessage(&msg, NULL, 0, 0) != 0) {
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-			else {
-				flag = 0;
-			}
-		}
-		else {
-			//sp.Render();
-			//if (UpdateData()) {	// 位置の再計算.
-			//	DrawData();		// 描画.
-			//}
-		}
-		// Sleepなど行っていないが、DrawData関数内のpDevice->Presentが.
-		// 画面更新待ちを行うので、結果的にVSyncごとにイベントループが回る.
-	}
+	
 }
 
 // マクロを複数行で書きたいときは\を行末に付けることで可能.
@@ -150,6 +159,10 @@ HRESULT MyApp::InitDirect3D()
 	
 	// Present時に垂直同期に合わせる.
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
+
+	// デプスステンシルバッファを有効にする
+	d3dpp.EnableAutoDepthStencil = TRUE;
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 
 	// D3Dデバイスオブジェクトの作成。HAL&HARD.
 	HRESULT hr = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &(d3dpp), &(pDevice));

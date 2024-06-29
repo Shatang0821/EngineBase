@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "myApp.h"
 #include "StaticMesh.h"
-
+#include "ResourceManager.h"
+#include "GameLevel.h"
 
 // イベント処理コールバック（ウィンドウプロシージャ）.
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -61,11 +62,14 @@ public:
 	 */
 	static void Init()
 	{
+		// ライブラリ初期化
+		MyApp::Instance()->InitApp();
 		//Engine初期化
-
+		ResourceManager::Instance()->Initalize();
 		//ワールド初期化
-		mainWorld.currentLevel = new Level;
+		mainWorld.currentLevel = new GameLevel;
 		mainWorld.gameInstance = new GameInstance;
+
 	}
 
 	/**
@@ -75,14 +79,16 @@ public:
 	{
 		mainWorld.Input();
 		mainWorld.Update(0.016f);
+		MyApp::Instance()->DrawStart();
 		mainWorld.Render();
+		MyApp::Instance()->DrawEnd();
 	}
 
 	/**
 	 * @brief エンジン終了処理
 	 */
 	static void Exit() {
-
+		MyApp::Instance()->ReleaseData();
 	}
 
 };
@@ -121,25 +127,36 @@ int main() {
 
 	Engine::Init();
 
-	TestObject testObj;
-	ImageInterface test;
-	std::cout << test.GetTransprancy() << std::endl;
-	test.SetTransprancy(0.5);
-	std::cout << test.GetTransprancy() << std::endl;
+	ShowWindow(MyApp::Instance()->GetHWND(), SW_SHOWNORMAL);	// 作成したウィンドウを表示する.
 
-	MyApp* pApp = MyApp::Instance();
-	if (pApp->InitApp()) {
-		pApp->MainLoop();
+	// イベントループ.
+	// ブロック型関数GetMessageではなくノンブロック型関数のPeekMessageを使う.
+	MSG msg;
+	bool flag = true;
+	while (flag) {
+		// メッセージがあるかどうか確認する.
+		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
+			// メッセージがあるので処理する.
+			if (GetMessage(&msg, NULL, 0, 0) != 0) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			else {
+				flag = 0;
+			}
+		}
+		else {
+
+			Engine::Tick();
+		}
+		// Sleepなど行っていないが、DrawData関数内のpDevice->Presentが.
+		// 画面更新待ちを行うので、結果的にVSyncごとにイベントループが回る.
 	}
-	pApp->ReleaseData();
+
+	Engine::Exit();
 
 #ifdef MEMORY_LEAK
 	_CrtDumpMemoryLeaks();		// メモリリークを検出する.
 #endif
-	//while (true)
-	//{
-	//	Engine::Tick();
-	//	
-	//}
 	return 0;
 }

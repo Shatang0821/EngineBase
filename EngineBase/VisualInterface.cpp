@@ -25,4 +25,10 @@ int LayerInterface::GetLayer() const
 	return layer;
 }
 
-
+void ImageInterface::LoadSprite(ResID id)
+{
+	sprite = ResourceManager::Instance()->Fetch(id);
+	if (sprite == nullptr) {
+		std::cout << "‰æ‘œ‚Ìƒ[ƒh‚ªŽ¸”s";
+	}
+}

@@ -72,6 +72,9 @@ public:
 	 * @return 成功した場合はtrue、失敗した場合はfalseを返します。
 	 */
 	bool	InitApp();
+	
+	bool DrawStart();
+	void DrawEnd();
 	/**
 	 * @brief メインループを実行する
 	 *
@@ -91,8 +94,10 @@ public:
 	 *
 	 * @return D3Dスプライト
 	 */
-	ID3DXSprite* GetSprite() { return pSprite; }
 
+	ID3DXSprite* GetSprite() { return pSprite; }
+	IDirect3DDevice9* GetDevice() { return pDevice; }
+	HWND GetHWND() { return hWnd; }
 private:
 	HRESULT InitDirect3D();
 private:

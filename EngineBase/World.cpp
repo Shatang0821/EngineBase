@@ -6,6 +6,8 @@ World mainWorld;
 
 void World::Update(float DeltaTime)
 {
+	currentLevel->Update(DeltaTime);
+
 	//オブジェクトの更新
 	for (auto& obj : GameObjects) {
 		obj->Update(DeltaTime);
@@ -33,6 +35,7 @@ void World::Update(float DeltaTime)
 
 void World::Render()
 {
+
 	for (auto& obj : GameRenderers) {
 		obj->Render();
 	}

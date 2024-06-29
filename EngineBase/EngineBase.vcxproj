@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameInstance.cpp" />
+    <ClCompile Include="GameLevel.cpp" />
     <ClCompile Include="GameStatics.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Base.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameInstance.h" />
+    <ClInclude Include="GameLevel.h" />
     <ClInclude Include="GameStatics.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="myApp.h" />

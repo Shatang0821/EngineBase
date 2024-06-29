@@ -9,6 +9,8 @@
 #define _VISUALINTERFACE_H_
 
 #include "MyTexture.h"
+#include "ResourceManager.h"
+
  /**
   * @class LayerInterface
   * @brief レイヤー管理のためのインターフェースクラス
@@ -94,6 +96,14 @@ public:
 	 * @param transprancy 設定する透過度（0.0〜1.0の範囲）
 	 */
 	void SetTransprancy(float transprancy) { alpha = transprancy; }
+	/**
+	 * @brief 画像の取得
+	 *
+	 * リソースマネージャーから画像を取得する
+	 *
+	 * @param id 素材id
+	 */
+	void LoadSprite(ResID id);
 };
 
 #endif // !_VISUALINTERFACE_H_

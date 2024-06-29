@@ -29,7 +29,7 @@ protected:
 	//! オブジェクトの親要素を指します。削除追加しやすいため
 	Object* parent = nullptr;
 	//! オブジェクトのルートとなるTransformを示すシーンコンポーネントを指します
-	 SceneComponent * const root = new SceneComponent;
+	SceneComponent * const root = new SceneComponent;
 	//! オブジェクトに所属するコンポーネントを管理します。
 	std::set<Component*>components;
 	//! コンポーネントのイテレータ 追加削除予定のコンポーネントを管理します。
