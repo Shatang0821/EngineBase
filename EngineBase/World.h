@@ -8,17 +8,36 @@
 #ifndef _WORLD_H_
 #define _WORLD_H_
 
-#include <set>
 #include "Object.h"
 #include "Level.h"
 #include "GameInstance.h"
 #include "VisualInterface.h"
 
-
+ /**
+  * @struct LayerSort
+  * @brief LayerInterfaceポインタをソートするための比較ファンクタ
+  *
+  * この構造体は、LayerInterfaceポインタを特定の基準でソートするための
+  * 比較関数オブジェクトを定義します。主にstd::setのソートが必要なコンテナで使用されます。
+  */
 struct LayerSort
 {
+	/**
+	 * @brief 比較演算子
+	 *
+	 * この関数は、2つのLayerInterfaceポインタを比較し、
+	 * ソート順序を決定します。具体的には、まずLayerの値を比較し、
+	 * 値が同じ場合にはポインタのアドレスを比較してソート順序を決定します。
+	 *
+	 * @param a 比較対象の最初のLayerInterfaceポインタ
+	 * @param b 比較対象の2番目のLayerInterfaceポインタ
+	 * @return aがbより前にある場合はtrue、そうでない場合はfalse
+	 */
 	bool operator()(const class LayerInterface* a, const class LayerInterface* b) const {
-		return a->GetLayer() < b->GetLayer();
+		if (a->GetLayer() == b->GetLayer())
+			return a < b;
+		else
+			return a->GetLayer() < b->GetLayer();
 	}
 };
 
@@ -58,7 +77,7 @@ private:
 	/* レンダラー、コライダーコンテナ*/
 
 	//! レンダラーコンテナ
-	std::set<class LayerInterface*>GameRenderers;
+	std::set<class LayerInterface*,LayerSort>GameRenderers;
 	//! コライダーコンテナ
 	std::set<class BoxCollider*>GameColliders;	//まずボックスだけで
 	//             Circle実装予定

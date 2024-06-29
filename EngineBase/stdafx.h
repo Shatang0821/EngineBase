@@ -20,6 +20,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <vector>
+#include <stack>
+#include <set>
 #include <tchar.h>
 #include <locale.h>
 #include <assert.h>

@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "Object.h"
-#include <stack>
 #include "World.h"
 
 void Object::RegisterComponent(Component* pCom)

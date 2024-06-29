@@ -16,17 +16,11 @@
     <Filter Include="Source Files\Core">
       <UniqueIdentifier>{e134b2d5-8fd4-400c-8235-02c18dc1810d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Components">
-      <UniqueIdentifier>{af30eb7a-cd13-442f-9d66-561a9f50246b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{5c293996-2f5d-4ea5-86d8-4c1686e58861}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Core">
       <UniqueIdentifier>{744677e1-647d-456a-b773-0fd008dd23b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Components">
-      <UniqueIdentifier>{62dec928-3162-44b7-9ffe-543ba65f8df0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Game">
       <UniqueIdentifier>{2ad05f44-b876-41eb-8b06-4f69c7e6b480}</UniqueIdentifier>
@@ -40,34 +34,28 @@
     <Filter Include="Source Files\Core\EngineCore">
       <UniqueIdentifier>{28093933-efad-459a-8e3c-8503d527f20d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Core\EngineCore\Componentes">
+      <UniqueIdentifier>{ea1051ea-58dc-4655-bf56-56d3cf465e7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\EngineCore\Main">
+      <UniqueIdentifier>{ff39af8f-220a-4210-8fa0-52da365943ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core\EngineCore\Object">
+      <UniqueIdentifier>{f6f84741-e7ed-49a2-8fa7-8168520fc67d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\EngineCore\Componentes">
+      <UniqueIdentifier>{62551445-467a-45ff-a8b1-bf4189d56cc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\EngineCore\Main">
+      <UniqueIdentifier>{b35f3188-1c95-4b86-90d3-d782a18292c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\EngineCore\Object">
+      <UniqueIdentifier>{166e65cf-e39b-42c9-be2c-8ce41230e358}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files\Core\EngineCore</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Source Files\Core\EngineCore</Filter>
-    </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Core\EngineCore</Filter>
-    </ClCompile>
-    <ClCompile Include="GameInstance.cpp">
-      <Filter>Source Files\Core\EngineCore</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source Files\Core\EngineCore</Filter>
-    </ClCompile>
-    <ClCompile Include="GameStatics.cpp">
-      <Filter>Source Files\Core\EngineCore</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Header Files\Core</Filter>
@@ -75,28 +63,49 @@
     <ClCompile Include="myApp.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="GameInstance.cpp">
+      <Filter>Source Files\Core\EngineCore\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStatics.cpp">
+      <Filter>Source Files\Core\EngineCore\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTexture.cpp">
+      <Filter>Source Files\Core\EngineCore\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Core\EngineCore\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Core\EngineCore\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Core\EngineCore\Main</Filter>
+    </ClCompile>
     <ClCompile Include="VisualInterface.cpp">
-      <Filter>Source Files\Core\EngineCore</Filter>
+      <Filter>Source Files\Core\EngineCore\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Source Files\Core\EngineCore\Componentes</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneComponent.cpp">
+      <Filter>Source Files\Core\EngineCore\Componentes</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\Core\EngineCore\Componentes</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\Core\EngineCore\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMesh.cpp">
+      <Filter>Source Files\Core\EngineCore\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files\Core\EngineCore\Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Component.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2.h">
       <Filter>Header Files\Core\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Header Files\Core\EngineCore</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files\Core\EngineCore</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Header Files\Core\EngineCore</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Header Files\Core\Utility</Filter>
@@ -104,26 +113,53 @@
     <ClInclude Include="Singleton.h">
       <Filter>Header Files\Core\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Base.h">
-      <Filter>Header Files\Core\EngineCore</Filter>
-    </ClInclude>
-    <ClInclude Include="GameInstance.h">
-      <Filter>Header Files\Core\EngineCore</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files\Core\EngineCore</Filter>
-    </ClInclude>
-    <ClInclude Include="GameStatics.h">
-      <Filter>Header Files\Core\EngineCore</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="myApp.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\Core\EngineCore\Componentes</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneComponent.h">
+      <Filter>Header Files\Core\EngineCore\Componentes</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Header Files\Core\EngineCore\Componentes</Filter>
+    </ClInclude>
+    <ClInclude Include="Base.h">
+      <Filter>Header Files\Core\EngineCore\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInstance.h">
+      <Filter>Header Files\Core\EngineCore\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStatics.h">
+      <Filter>Header Files\Core\EngineCore\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\Core\EngineCore\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTexture.h">
+      <Filter>Header Files\Core\EngineCore\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\Core\EngineCore\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Core\EngineCore\Main</Filter>
+    </ClInclude>
     <ClInclude Include="VisualInterface.h">
-      <Filter>Header Files\Core\EngineCore</Filter>
+      <Filter>Header Files\Core\EngineCore\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files\Core\EngineCore\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMesh.h">
+      <Filter>Header Files\Core\EngineCore\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files\Core\EngineCore\Main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

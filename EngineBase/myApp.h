@@ -15,6 +15,7 @@
 
 #include "Singleton.h"
 #include "Timer.h"
+#include "GameStatics.h"
 #include "World.h"
 
  /**
@@ -50,7 +51,10 @@ protected:
 	 *
 	 * シングルトンパターンを維持するためにprotectedにしています。
 	 */
-	MyApp() {
+	MyApp() 
+	: pDevice(NULL)
+	, pSprite(NULL)
+	{
 	};
 	/**
 	 * @brief デストラクタ
@@ -80,6 +84,25 @@ public:
 	 * ゲームで使用したリソースの解放処理を行います。
 	 */
 	void	ReleaseData();
+	/**
+	 * @brief D3Dスプライトを取得する
+	 *
+	 * D3Dスプライトを返します。
+	 *
+	 * @return D3Dスプライト
+	 */
+	ID3DXSprite* GetSprite() { return pSprite; }
+
+private:
+	HRESULT InitDirect3D();
+private:
+	HINSTANCE hInstance;		// インスタンスハンドル.
+	HWND hWnd;					// 表示ウィンドウ.
+
+	IDirect3D9* pD3D;		   // Direct3Dインスタンスオブジェクト.
+
+	IDirect3DDevice9* pDevice; // Direct3Dデバイスオブジェクト.
+	ID3DXSprite* pSprite;	   // スプライト.
 };
 
 #endif // !_MYAPP_H_

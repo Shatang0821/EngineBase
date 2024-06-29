@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "World.h"
 #include "Timer.h"
 
@@ -33,7 +34,7 @@ void World::Update(float DeltaTime)
 void World::Render()
 {
 	for (auto& obj : GameRenderers) {
-
+		obj->Render();
 	}
 }
 
