@@ -68,6 +68,7 @@ inline T* GameStatics::CreateObject(Vector2 pos)
 	//派生クラスを基底クラスにキャストするだけからstatic_castを使う
 	if (pObj && static_cast<Object*>(pObj)) {
 		mainWorld.GameObjects.insert(pObj);
+		pObj->BeginPlay();
 		pObj->SetLocalPosition(pos);
 		return pObj;
 	}

@@ -9,8 +9,7 @@
 #ifndef _TIMER_H_
 #define _TIMER_H_
 
-#include <functional>
-#include <chrono>
+
 
 #include "World.h"
 

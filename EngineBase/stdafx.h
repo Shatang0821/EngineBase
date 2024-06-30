@@ -19,7 +19,9 @@
 #include <windows.h>
 #include <stdio.h>
 #include <math.h>
+#include <functional>
 #include <vector>
+#include <chrono>
 #include <map>
 #include <stack>
 #include <set>

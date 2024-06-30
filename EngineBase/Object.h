@@ -60,7 +60,7 @@ public:
 	 * @return T* 生成されたコンポーネントへのポインタ
 	 */
 	template<typename T>
-	T* ConstructComponent(Vector2 pos = Vector2(0, 0));
+	T* ConstructComponent();
 
 	/**
 	 * @brief コンポーネントの取得
@@ -89,8 +89,13 @@ public:
 	 * @param pCom 解除するコンポーネントのポインタ
 	 */
 	void UnregisterComponent(Component* pCom);
-	
-
+	/**
+	 * @brief ゲームプレイの開始時に呼び出される純粋仮想関数
+	 *
+	 * この関数は、ゲームプレイが開始されるときに初期化処理を行うために呼び出されます。
+	 * 各派生クラスは、この関数をオーバーライドして独自の初期化処理を実装する必要があります。
+	 */
+	virtual void BeginPlay() = 0;
 	/**
 	* @brief 親オブジェクトの設定関数
 	*
@@ -189,11 +194,10 @@ public:
 };
 
 template<typename T>
-inline T* Object::ConstructComponent(Vector2 pos) {
+inline T* Object::ConstructComponent() {
 	T* pCom = new T();
 	//派生クラスを基底クラスにキャストするだけからstatic_castを使う
 	if (pCom && static_cast<Component*>(pCom)) {
-		pCom->SetLocalPosition(pos);
 		pCom->SetOwner(this);
 		RegisterComponent(pCom);
 		return pCom;

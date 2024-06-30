@@ -8,3 +8,7 @@ Controller::Controller()
 	camera->AttachTo(root);
 	camera->SetMainCamera();
 }
+
+void Controller::BeginPlay()
+{
+}
