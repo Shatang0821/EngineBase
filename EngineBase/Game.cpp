@@ -3,6 +3,7 @@
 #include "StaticMesh.h"
 #include "ResourceManager.h"
 #include "GameLevel.h"
+#include "GameController.h"
 
 // イベント処理コールバック（ウィンドウプロシージャ）.
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -70,6 +71,8 @@ public:
 		mainWorld.currentLevel = new GameLevel;
 		mainWorld.gameInstance = new GameInstance;
 
+		//mainWorld.mainController = new Controller;
+		mainWorld.mainController = GameStatics::CreateObject<GameController>();
 	}
 
 	/**
@@ -77,12 +80,53 @@ public:
 	 */
 	static void Tick()
 	{
+
+		// フレーム開始時のタイマーリセット
+		mainWorld.Timer.StartTimer();
+
+		// 入力処理
 		mainWorld.Input();
-		mainWorld.Update(0.016f);
+
+		// 固定時間ステップでの物理更新
+		mainWorld.fixedAccumulator += mainWorld.deltaTime;
+		while (mainWorld.fixedAccumulator >= FIXED_DELTA_TIME)
+		{
+			mainWorld.FixedUpdate();
+			mainWorld.fixedAccumulator -= FIXED_DELTA_TIME;
+		}
+
+		// ロジック更新
+		mainWorld.Update(mainWorld.deltaTime);
+
+		// 描画の準備
 		MyApp::Instance()->DrawStart();
+
+		// 描画処理
 		mainWorld.Render();
+
+		// 描画終了
 		MyApp::Instance()->DrawEnd();
+
+		// 更新処理後の時間計測
+		float updateTime;
+		mainWorld.Timer.GetPassTime(&updateTime);
+
+		// フレームレート制御 (例えば、60FPSを目指す場合)
+		if (updateTime < FRAME_TIME) {
+			DWORD sleepTime = static_cast<DWORD>((FRAME_TIME - updateTime) * 1000);
+			timeBeginPeriod(1);
+			Sleep(sleepTime);
+			timeEndPeriod(1);
+		}
+
+		// deltaTimeの計算
+		mainWorld.Timer.GetPassTime(&mainWorld.deltaTime);
+		// FPSの計算
+		mainWorld.fps = 1.0f / mainWorld.deltaTime;
+		std::cout << mainWorld.fps << std::endl;	
 	}
+
+
 
 	/**
 	 * @brief エンジン終了処理

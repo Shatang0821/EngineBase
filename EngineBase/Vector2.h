@@ -10,7 +10,7 @@
 #ifndef _VECTOR2_H_
 #define _VECTOR2_H_
 #include <iostream>
-
+#include <algorithm>
 /**
  * @struct Vector2
  * @brief 2Dベクトルを表す構造体
@@ -172,11 +172,14 @@ struct Vector2
     /**
      * @brief 2つのベクトル間の距離を計算します
      *
-     * @param v 距離を計算するベクトル
-     * @return float 距離
+     * この関数は、2つのベクトルstartとendの間のユークリッド距離を計算します。
+     *
+     * @param start 距離を計算する開始ベクトル
+     * @param end 距離を計算する終了ベクトル
+     * @return float 2つのベクトル間の距離
      */
-    float distance(const Vector2& v) const {
-        return std::sqrt((x - v.x) * (x - v.x) + (y - v.y) * (y - v.y));
+    static float Distance(const Vector2& start, const Vector2& end) {
+        return std::sqrt((start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y));
     }
 
     /**
@@ -192,14 +195,18 @@ struct Vector2
     }
 
     /**
-     * @brief ベクトルの線型補間を計算します
+     * @brief 2つのベクトル間の線形補間を計算します
      *
-     * @param v 補間するベクトル
+     * この関数は、開始ベクトルと終了ベクトルの間を補間係数`t`に基づいて線形補間します。
+     *
+     * @param start 補間の開始ベクトル
+     * @param end 補間の終了ベクトル
      * @param t 補間係数（0から1の範囲）
-     * @return Vector2 線型補間されたベクトル
+     * @return Vector2 線形補間されたベクトル
      */
-    Vector2 lerp(const Vector2& v, float t) const {
-        return *this + (v - *this) * t;
+    static Vector2 Lerp(const Vector2& start,const Vector2& end, float t) {
+        t = std::clamp(t, 0.001f, 0.1f);
+        return start + (end - start) * t;
     }
 
     /**

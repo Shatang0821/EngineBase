@@ -24,12 +24,17 @@
 #include <stack>
 #include <set>
 #include <string>
+#include <algorithm>
 #include <tchar.h>
 #include <locale.h>
 #include <assert.h>
 #include <d3d9.h>		// Direct3D9 (DirectX9 Graphics)に必要.
 #include <d3dx9core.h>	// DirectX スプライトに必要.
 #include <dsound.h>	// DirectSoundに必要.
+
+#include "Singleton.h"
+#include "Transform.h"
+#include "Vector2.h"
 
 #define DIRECTINPUT_VERSION 0x0800// これがないとビルド時に警告が出る.
 #include <dinput.h>	// DirectInputに必要.
@@ -43,9 +48,14 @@
 #define new  ::new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
+
 // 汎用的な定義など.
-#define WIDTH (512)	// 幅.
-#define HEIGHT (512)	// 高さ.
+#define WIDTH (1920)	// 幅.
+#define HEIGHT (1080)	// 高さ.
+
+#define TARGET_FPS 60					// fps
+#define FRAME_TIME (1.0f / TARGET_FPS)	// フレームタイム
+#define FIXED_DELTA_TIME 0.02f			// 固定間隔タイム
 
 #endif // !_STDAFX_H_
 

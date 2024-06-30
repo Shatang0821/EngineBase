@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "SpriteRenderer.h"
 #include "myApp.h"
-
+#include "Camera.h"
 
 void SpriteRenderer::Render()
 {
     auto pSprite = MyApp::Instance()->GetSprite();
-    auto p = GetWorldPosition();
+    auto p = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition();
     D3DXVECTOR3 position(p.x, p.y, 0);
     float rot = GetWorldRotation();
     Vector2 scale = GetWorldScale();

@@ -21,6 +21,7 @@
 class Timer final
 {
 public:
+	Timer() { lastTime = std::chrono::steady_clock::now(); }
 	~Timer() { mainWorld.GameTimers.erase(this); }
 	/**
 	 * @brief ˆ—‚ÌƒoƒCƒ“ƒh

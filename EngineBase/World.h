@@ -12,7 +12,9 @@
 #include "Level.h"
 #include "GameInstance.h"
 #include "VisualInterface.h"
-
+#include "CTimer.h"
+#include "Controller.h"
+#include "Camera.h"
  /**
   * @struct LayerSort
   * @brief LayerInterfaceポインタをソートするための比較ファンクタ
@@ -56,6 +58,8 @@ class World final
 	friend class GameStatics;
 	friend class Timer;
 	friend class LayerInterface;
+	friend class Camera;
+	friend class SpriteRenderer;
 
 	friend void Object::Destroy();
 private:
@@ -90,7 +94,21 @@ private:
 	class Controller* mainController = nullptr;
 	//! ゲームデータ管理
 	GameInstance* gameInstance = nullptr;
+	//! メインカメラ
+	class Camera* mainCamera = nullptr;
 
+	/*  FPS関連  */
+
+	float deltaTime = 0.016f;			// 前フレームからの経過時間.
+	float fixedDeltaTime = 0.02f;		// 固定間隔
+
+	float fixedAccumulator = 0;		//経過時間
+
+	UINT fps = 0;
+
+	CTimer Timer;			// 時間管理オブジェクト(Update用).
+
+private:
 	/* メインロジック */
 
 	/**
@@ -101,6 +119,14 @@ private:
 	 * @param DeltaTime 前フレームからの経過時間
 	 */
 	void Update(float DeltaTime);
+
+	/**
+	 * @brief ゲーム物理更新処理
+	 *
+	 * この関数は、ゲームの物理状態を更新します。
+	 *
+	 */
+	void FixedUpdate();
 
 	/**
 	 * @brief ゲーム描画更新処理
@@ -115,6 +141,7 @@ private:
 	 * この関数は、ゲームの入力を更新します。
 	 */
 	void Input();
+
 };
 
 extern World mainWorld;

@@ -6,7 +6,11 @@ World mainWorld;
 
 void World::Update(float DeltaTime)
 {
+	//レベルの更新
 	currentLevel->Update(DeltaTime);
+
+	//カメラの更新
+	mainCamera->Calculate();
 
 	//オブジェクトの更新
 	for (auto& obj : GameObjects) {
@@ -33,6 +37,11 @@ void World::Update(float DeltaTime)
 	}
 }
 
+void World::FixedUpdate()
+{
+
+}
+
 void World::Render()
 {
 
@@ -43,4 +52,5 @@ void World::Render()
 
 void World::Input()
 {
+	mainController->PickInfo();
 }
