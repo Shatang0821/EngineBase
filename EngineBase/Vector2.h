@@ -11,6 +11,7 @@
 #define _VECTOR2_H_
 #include <iostream>
 #include <algorithm>
+#include "Math.h"
 /**
  * @struct Vector2
  * @brief 2Dベクトルを表す構造体
@@ -139,6 +140,7 @@ struct Vector2
         return *this;
     }
 
+    
     /**
      * @brief ベクトルの大きさ（長さ）を計算します。
      *
@@ -205,7 +207,7 @@ struct Vector2
      * @return Vector2 線形補間されたベクトル
      */
     static Vector2 Lerp(const Vector2& start,const Vector2& end, float t) {
-        t = std::clamp(t, 0.001f, 0.1f);
+        t = Math::clamp(t, 0.001f, 0.1f);
         return start + (end - start) * t;
     }
 
@@ -225,6 +227,30 @@ struct Vector2
      */
     static Vector2 One() {
         return Vector2(1.0f, 1.0f);
+    }
+
+    /**
+     * @brief ベクトルの等値比較
+     *
+     * 2つのベクトルが等しいかを比較します。
+     *
+     * @param v 比較するベクトル
+     * @return bool 等しい場合はtrue、それ以外はfalse
+     */
+    bool operator==(const Vector2& v) const {
+        return x == v.x && y == v.y;
+    }
+
+    /**
+     * @brief ベクトルの非等値比較
+     *
+     * 2つのベクトルが等しくないかを比較します。
+     *
+     * @param v 比較するベクトル
+     * @return bool 等しくない場合はtrue、それ以外はfalse
+     */
+    bool operator!=(const Vector2& v) const {
+        return !(*this == v);
     }
 };
 

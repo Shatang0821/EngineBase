@@ -197,5 +197,8 @@
     <ClInclude Include="GameController.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Header Files\Core\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@ void ResourceManager::Initalize()
 {
 	auto myApp = MyApp::Instance();
 	auto device = myApp->GetDevice();
-	LoadTex(device, ResID::Tex_Bullet, _T("data/image/bullet.png"));
+	LoadTex(device, ResID::Tex_Bullet, _T("data/image/parallax-mountain-bg.png"));
 }
 
 MyTexture* ResourceManager::Fetch(ResID id)

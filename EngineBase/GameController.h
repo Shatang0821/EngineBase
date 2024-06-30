@@ -5,6 +5,11 @@
 class GameController : public Controller
 {
 	Timer OverallTimeHandle;
+	Timer ShakeTimeHandle;
 public:
+	GameController();
+
 	void Update(float DeltaTime) override;
+
+	void Shake();
 };

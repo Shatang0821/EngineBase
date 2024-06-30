@@ -5,7 +5,7 @@
 
 class Controller :public Object
 {
-private:
+protected:
 	class Camera* camera;
 public:
 	Controller();

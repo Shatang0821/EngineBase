@@ -9,25 +9,7 @@ float Camera::SmoothStep(float x)
 	return pow(x, float(smoothness) / 100);
 }
 
-void Camera::SetMainCamera()
-{
-	// このカメラをメインカメラとして設定
-	mainWorld.mainCamera = this;
-}
-
-void Camera::SetSmoothness(short smooth)
-{
-	// smooth値を0から100の範囲にクランプして設定
-	this->smoothness = std::clamp(smooth, (short)0.0, (short)100.0);
-}
-
-void Camera::SetDistanceThreshold(float threshold)
-{
-	// 距離しきい値を0.0から500.0の範囲にクランプして設定
-	this->distanceThreshold = std::clamp(threshold, 0.0f, 500.0f);
-}
-
-void Camera::Calculate()
+void Camera::Update(float DeltaTime)
 {
 	// 滑らかさが設定されている場合
 	if (smoothness) {
@@ -43,4 +25,57 @@ void Camera::Calculate()
 		transform_virtual.position = GetWorldPosition();
 	}
 
+	if (shakeFlag)
+	{
+		if (GetLocalPosition() == shakeCenter)
+		{
+			shakeSpeed.x = float(Math::RandInt(-2, 2));
+			shakeSpeed.y = float(Math::RandInt(-2, 2));
+			shakeIntensity -= float(shakeDecay) / 100;
+
+			if (shakeIntensity <= 0) {
+				shakeFlag = false;
+
+				return;
+			}
+		}
+
+		if (Vector2::Distance(GetLocalPosition(), shakeCenter) < shakeIntensity) {
+			AddPosition(shakeSpeed);
+			transform_virtual.position += shakeSpeed;
+		}
+		else {
+			shakeSpeed = shakeSpeed * -1;
+			AddPosition(shakeSpeed);
+			transform_virtual.position += shakeSpeed;
+		}
+	}
 }
+
+void Camera::SetMainCamera()
+{
+	// このカメラをメインカメラとして設定
+	mainWorld.mainCamera = this;
+}
+
+void Camera::SetSmoothness(short smooth)
+{
+	// smooth値を0から100の範囲にクランプして設定
+	this->smoothness = Math::clamp(smooth, (short)0.0, (short)100.0);
+}
+
+void Camera::SetDistanceThreshold(float threshold)
+{
+	// 距離しきい値を0.0から500.0の範囲にクランプして設定
+	this->distanceThreshold = Math::clamp(threshold, 0.0f, 500.0f);
+}
+
+void Camera::ShakeCamera(int intensity,int decay)
+{
+	intensity = Math::clamp(intensity, 0, 100);
+	shakeIntensity = (float)intensity;
+	shakeDecay = decay;
+	if (!shakeFlag) shakeCenter = GetLocalPosition();
+	shakeFlag = true; 
+}
+

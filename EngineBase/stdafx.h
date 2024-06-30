@@ -34,6 +34,7 @@
 
 #include "Singleton.h"
 #include "Transform.h"
+#include "Math.h"
 #include "Vector2.h"
 
 #define DIRECTINPUT_VERSION 0x0800// ‚±‚ê‚ª‚È‚¢‚Æƒrƒ‹ƒh‚ÉŒx‚ªo‚é.

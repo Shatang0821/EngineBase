@@ -123,7 +123,6 @@ public:
 		mainWorld.Timer.GetPassTime(&mainWorld.deltaTime);
 		// FPSの計算
 		mainWorld.fps = 1.0f / mainWorld.deltaTime;
-		std::cout << mainWorld.fps << std::endl;	
 	}
 
 
@@ -168,7 +167,10 @@ int main() {
 #ifdef MEMORY_LEAK
 	_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF);
 #endif
-
+	for (int i = 0; i < 10; i++) {
+		std::cout << Math::RandReal(0,10) << std::endl;
+	}
+	
 	Engine::Init();
 
 	ShowWindow(MyApp::Instance()->GetHWND(), SW_SHOWNORMAL);	// 作成したウィンドウを表示する.

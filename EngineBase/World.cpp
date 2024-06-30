@@ -9,9 +9,6 @@ void World::Update(float DeltaTime)
 	//レベルの更新
 	currentLevel->Update(DeltaTime);
 
-	//カメラの更新
-	mainCamera->Calculate();
-
 	//オブジェクトの更新
 	for (auto& obj : GameObjects) {
 		obj->Update(DeltaTime);

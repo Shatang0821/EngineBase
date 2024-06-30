@@ -31,6 +31,16 @@ class Camera :public SceneComponent
 	//! なめらかさ 0~100
 	short smoothness = 30;
 
+	//! カメラの揺れの強度 0~ 100
+	float shakeIntensity = 0.f;
+	//! カメラ揺れのフラグ
+	bool shakeFlag = false;
+	//! カメラ揺れの中心
+	Vector2 shakeCenter = Vector2::Zero();
+	//! カメラ揺れの速度
+	Vector2 shakeSpeed = Vector2(0.05f, 0.05f);
+	//!
+	int shakeDecay = 5;
 	/**
 	 * @brief SmoothStep関数
 	 *
@@ -42,6 +52,12 @@ class Camera :public SceneComponent
 	 */
 	float SmoothStep(float x);
 public:
+	/**
+	 * @brief カメラのロジック計算を行います
+	 *
+	 * この関数は、カメラの位置や動きを制御するための計算を行います。
+	 */
+	virtual void Update(float DeltaTime) override;
 	/**
 	 * @brief メインカメラの切り替え処理
 	 *
@@ -71,7 +87,6 @@ public:
 	 * @param smooth 設定する滑らかさの値（0〜100）
 	 */
 	void SetSmoothness(short smooth);
-
 	/**
 	 * @brief カメラの距離しきい値を設定します
 	 *
@@ -81,12 +96,8 @@ public:
 	 */
 	void SetDistanceThreshold(float threshold);
 
-	/**
-	 * @brief カメラのロジック計算を行います
-	 *
-	 * この関数は、カメラの位置や動きを制御するための計算を行います。
-	 */
-	void Calculate();
+
+	void ShakeCamera(int intensity,int decay = 20);
 };
 
 #endif // !_CAMERA_H_
