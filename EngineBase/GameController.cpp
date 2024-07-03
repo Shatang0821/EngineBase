@@ -21,5 +21,5 @@ void GameController::Update(float DeltaTime)
 
 void GameController::Shake()
 {
-	camera->ShakeCamera(5,1);
+	camera->ShakeCamera(5,60);
 }

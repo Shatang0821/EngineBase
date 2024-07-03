@@ -136,30 +136,6 @@ public:
 
 };
 
-class TestObject : public Object
-
-{
-private:
-	Timer TimeHandle;
-	Timer TimeHandle2;
-public:
-	TestObject() {
-		TimeHandle.Bind(0.5,this,&TestObject::Func,true);
-		TimeHandle2.Bind(2.0,this,&TestObject::Func2,true);
-	}
-
-private:
-	void Func()
-	{
-		std::cout << "Hello World" << std::endl;
-	}
-	void Func2()
-	{
-		std::cout << "By World" << std::endl;
-	}
-
-};
-
 
 int main() {
 	setlocale(LC_ALL, "Japanese");		// 日本語にロケールを設定.
@@ -167,10 +143,6 @@ int main() {
 #ifdef MEMORY_LEAK
 	_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF);
 #endif
-	for (int i = 0; i < 10; i++) {
-		std::cout << Math::RandReal(0,10) << std::endl;
-	}
-	
 	Engine::Init();
 
 	ShowWindow(MyApp::Instance()->GetHWND(), SW_SHOWNORMAL);	// 作成したウィンドウを表示する.

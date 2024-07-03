@@ -56,8 +56,6 @@ bool MyApp::InitApp()
 	// テクスチャを読み込む。エラー時にはLoadTextureは例外を発生させる.
 	// LoadTextureごとにif判定をするのは面倒なので、try～throw～catchを使う.
 	try {
-		// テストテクスチャの読み込み.
-
 	}
 	// catch句はtryの直後に記述する.
 	catch (HRESULT /*hr*/) {
