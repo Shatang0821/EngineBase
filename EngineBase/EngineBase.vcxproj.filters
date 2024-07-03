@@ -126,6 +126,9 @@
     <ClCompile Include="InputComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\Core\EngineCore\Main\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector2.h">
@@ -205,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="InputComponent.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files\Core\EngineCore\Main\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

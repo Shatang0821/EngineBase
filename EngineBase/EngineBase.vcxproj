@@ -150,6 +150,7 @@
     <ClCompile Include="GameLevel.cpp" />
     <ClCompile Include="GameStatics.cpp" />
     <ClCompile Include="InputComponent.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="myApp.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="GameLevel.h" />
     <ClInclude Include="GameStatics.h" />
     <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="myApp.h" />
