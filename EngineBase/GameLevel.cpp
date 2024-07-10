@@ -5,6 +5,8 @@ GameLevel::GameLevel()
 {
 	buttle = GameStatics::CreateObject<StaticMesh>(Vector2(256,256));
 	buttle->GetComponentByClass<SpriteRenderer>()->LoadSprite(ResID::Tex_Bullet);
+
+	player = GameStatics::CreateObject<Player>(Vector2(350, 256));
 }
 
 void GameLevel::Update(float DeltaTime)

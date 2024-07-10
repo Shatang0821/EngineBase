@@ -42,10 +42,9 @@ void ResourceManager::LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFn
 
     for (int i = 0; i < num; i++)
     {
-        //スプライトのインデックスを計算
-        int spriteIndex = i % (row * col);
-        int spriteRow = spriteIndex / col;
-        int spriteCol = spriteIndex % col;
+        // スプライトのインデックスを計算
+        int spriteRow = i / col; // 現在のスプライトが何行目にあるか
+        int spriteCol = i % col; // 現在のスプライトが何列目にあるか
 
         // スプライトのサイズを計算
         int spriteWidth = texWidth / col;

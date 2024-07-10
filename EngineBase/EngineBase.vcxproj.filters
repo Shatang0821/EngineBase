@@ -58,6 +58,12 @@
     <Filter Include="Source Files\Core\EngineCore\Main\Manager">
       <UniqueIdentifier>{5e066214-8b2a-46dc-9497-f1a733273544}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game\Character">
+      <UniqueIdentifier>{9a402e91-c188-44fa-a794-53b5f66f8362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Character">
+      <UniqueIdentifier>{8dee89af-e9f7-4b46-9e8c-4a0daaa7c971}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -128,6 +134,12 @@
     </ClCompile>
     <ClCompile Include="InputComponent.cpp">
       <Filter>Source Files\Core\EngineCore\Componentes</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Source Files\Core\EngineCore\Componentes</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Game\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +223,12 @@
     </ClInclude>
     <ClInclude Include="InputComponent.h">
       <Filter>Header Files\Core\EngineCore\Componentes</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Header Files\Core\EngineCore\Componentes</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Game\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -34,9 +34,8 @@ public:
 	 * @param repeat 呼び出しを繰り返すかどうか（デフォルトはfalse）
 	 */
 	template<typename T>
-	void Bind(double duration, T* obj,void(T::*func)(),bool repeat = false) {
+	void Bind(double duration, T* obj,void(T::*func)(),bool repeat = false, double firstDelay = -1.0) {
 		callback = std::bind(func, obj);
-		 
 		delay = std::chrono::duration<double>(duration);
 		lastTime = std::chrono::steady_clock::now();
 		bPersistent = repeat;
@@ -64,7 +63,7 @@ public:
 	 *
 	 * @return double 最後に記録された時間からの経過時間（秒）。
 	 */
-	double GetDelay();
+	double GetDelay(){ return getDelay().count(); }
 	/**
 	 * @brief 遅延時間を設定します。
 	 *
@@ -72,29 +71,40 @@ public:
 	 *
 	 * @param time 設定する遅延時間（秒）。
 	 */
-	void SetDelay(double time);
+	void SetDelay(double time){ delay = std::chrono::duration<double>(time); }
 	/**
 	 * @brief 最後の時間記録を現在の時間にリセットします。
 	 *
 	 * この関数は、`lastTime` を現在の時間にリセットします。
 	 */
-	void Reset();
+	void Reset(){ lastTime = std::chrono::steady_clock::now(); }
 	/**
 	 * @brief 遅延を停止します。
 	 *
 	 * この関数は、遅延時間を 0 にリセットし、遅延を停止します。
 	 */
-	void Stop();
+	void Stop() { bRunning = false; }
+
+	/**
+	 * @brief 遅延を再開します。
+	 *
+	 * この関数は、遅延を再開します。
+	 */
+	void Continue() { bRunning = true; }
 private:
 	//! バインドする関数ポインタ
 	std::function<void()> callback;
 	//! 重複トリガー
 	bool bPersistent = false;
+
+	bool bRunning = true;
+
 	//! 間隔
 	std::chrono::duration<double>delay = std::chrono::duration<double>(0);
 	//! 最後に記録した時間ポイント
 	std::chrono::time_point<std::chrono::steady_clock>lastTime;
 
+	std::chrono::time_point<std::chrono::steady_clock>stopTime;
 	/**
 	 * @brief 最後に記録された時間からの経過時間を返します。
 	 *

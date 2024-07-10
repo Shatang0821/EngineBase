@@ -5,9 +5,11 @@
 #include "StaticMesh.h"
 #include "SpriteRenderer.h"
 
+#include "Player.h"
 class GameLevel :public Level {
 	StaticMesh* buttle;
 
+	Player* player;
 public:
 	GameLevel();
 	virtual void Update(float DeltaTime) override;
