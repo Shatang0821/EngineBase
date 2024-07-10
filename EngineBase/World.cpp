@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "World.h"
 #include "Timer.h"
+#include "InputManager.h"
+#include "MyApp.h"
 
 World mainWorld;
 
@@ -49,5 +51,6 @@ void World::Render()
 
 void World::Input()
 {
-	mainController->PickInfo();
+	//mainController->PickInfo();
+	InputManager::Instance()->UpdateInput(MyApp::Instance()->GetHWND());
 }

@@ -10,7 +10,6 @@
 #ifndef _COMPONENT_H_
 #define _COMPONENT_H_
 
-#include "stdafx.h"
 #include "Base.h"
 
  /**

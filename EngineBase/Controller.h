@@ -1,13 +1,44 @@
+/**
+ * @file Controller.h
+ * @brief コントローラーを管理するクラス
+ *
+ * @author サトウ
+ * @date 2024/06/30
+ */
 #ifndef _CONTROLLER_H_
 #define _CONTROLLER_H_
 
 #include "Object.h"
+#include "InputComponent.h"
 
+ /**
+  * @class Controller
+  * @brief ゲームオブジェクトのコントローラークラス
+  *
+  * このクラスは、ゲームオブジェクトの入力処理やカメラ操作を管理します。
+  * Objectクラスを基底クラスとして継承しています。
+  */
 class Controller :public Object
 {
+private:
+	//! 入力コンポーネント
+	InputComponent* inputComponent;
 protected:
+	//! カメラオブジェクト
 	class Camera* camera;
+
+	/**
+	 * @brief 入力コンポーネントの設定を行う純粋仮想関数
+	 *
+	 * この関数は、派生クラスで入力コンポーネントの設定を行うために実装されます。
+	 */
+	virtual void SetUpInputComponent(InputComponent* inputComponent) { ; }
 public:
+	/**
+	 * @brief コンストラクタ
+	 *
+	 * Controllerクラスのインスタンスを初期化します。
+	 */
 	Controller();
 
 	/**
@@ -18,8 +49,8 @@ public:
 	 */
 	virtual void BeginPlay() override;
 
-	//入力処理
-	void PickInfo(){}
+	// 入力処理
+
 };
 
 #endif // !_CONTROLLER_H_

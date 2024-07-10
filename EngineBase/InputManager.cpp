@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "InputManager.h"
 
-constexpr int DI_DEVOBJ_CNT = 32;
+constexpr int DI_DEVOBJ_CNT = 64;
 
 // OSが認識しているジョイスティックを列挙し、２つまで使えるようにする.
 BOOL CALLBACK InputManager::EnumJoysticksCallback(const DIDEVICEINSTANCE* pdidInstance, VOID*/* pContext*/)

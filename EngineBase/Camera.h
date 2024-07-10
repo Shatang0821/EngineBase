@@ -26,10 +26,10 @@ class Camera :public SceneComponent
 	//! 変換情報のバッファ
 	Transform transform_virtual;
 
-	//! 距離しきい値 0~500
+	//! 距離しきい値 0.001~500
 	float distanceThreshold = 10.0f;
 	//! なめらかさ 0~100
-	short smoothness = 30;
+	short smoothness = 1;
 
 	//! カメラの揺れの強度 0~ 100
 	float shakeIntensity = 0.f;

@@ -3,7 +3,16 @@
 
 GameController::GameController()
 {
-	ShakeTimeHandle.Bind(2.0f, this, &GameController::Shake, false);
+	//ShakeTimeHandle.Bind(2.0f, this, &GameController::Shake, false);
+}
+
+void GameController::SetUpInputComponent(InputComponent* inputComponent)
+{
+	Controller::SetUpInputComponent(inputComponent);
+
+	//キーバインドと設定
+	inputComponent->SetMapping("Shake", DIK_SPACE);
+	inputComponent->BindAction("Shake", InputType::Released, this,&GameController::Shake);
 }
 
 void GameController::Update(float DeltaTime)
@@ -21,5 +30,6 @@ void GameController::Update(float DeltaTime)
 
 void GameController::Shake()
 {
-	camera->ShakeCamera(5,60);
+	//camera->ShakeCamera(5,60);
+	AddPosition(Vector2(100.0f, 0));
 }

@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "GameLevel.h"
 #include "GameController.h"
+#include "InputManager.h"
 
 // イベント処理コールバック（ウィンドウプロシージャ）.
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -66,7 +67,10 @@ public:
 		// ライブラリ初期化
 		MyApp::Instance()->InitApp();
 		//Engine初期化
+		//リソースマネージャ初期化
 		ResourceManager::Instance()->Initalize();
+		//入力マネージャ初期化
+		InputManager::Instance()->InitInput(MyApp::Instance()->GetHInstance(), MyApp::Instance()->GetHWND());
 		//ワールド初期化
 		mainWorld.currentLevel = new GameLevel;
 		mainWorld.gameInstance = new GameInstance;

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Component.h"
 #include "Object.h"
 void Component::Update(float DeltaTime)

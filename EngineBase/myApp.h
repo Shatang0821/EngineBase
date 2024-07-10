@@ -98,6 +98,7 @@ public:
 	ID3DXSprite* GetSprite() { return pSprite; }
 	IDirect3DDevice9* GetDevice() { return pDevice; }
 	HWND GetHWND() { return hWnd; }
+	HINSTANCE GetHInstance() { return hInstance; }
 private:
 	HRESULT InitDirect3D();
 private:
@@ -133,6 +134,3 @@ T* Cast(Base* pBase)
 
 
 #endif // !_MYAPP_H_
-
-
-
