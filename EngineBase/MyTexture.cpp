@@ -6,7 +6,25 @@ int MyTexture::sm_maxTexture = 0;
 
 HRESULT LoadTexture(IDirect3DDevice9* pDev, const TCHAR* pFname, IDirect3DTexture9** ppTex)
 {
-	HRESULT hr = D3DXCreateTextureFromFile(pDev, pFname, ppTex);
+    //パワーオブツー（2の累乗）に調整しているです
+	//HRESULT hr = D3DXCreateTextureFromFile(pDev, pFname, ppTex);
+    //非パワーオブツーテクスチャを読み込む
+    HRESULT hr = D3DXCreateTextureFromFileEx(
+        pDev,
+        pFname,
+        D3DX_DEFAULT_NONPOW2,
+        D3DX_DEFAULT_NONPOW2,
+        D3DX_DEFAULT,
+        0,
+        D3DFMT_UNKNOWN,
+        D3DPOOL_MANAGED,
+        D3DX_DEFAULT,
+        D3DX_DEFAULT,
+        0,
+        NULL,
+        NULL,
+        ppTex
+    );
 	if (FAILED(hr))
 	{
 		// 失敗したので一つ上のフォルダからテクスチャを探してみる.
@@ -14,7 +32,23 @@ HRESULT LoadTexture(IDirect3DDevice9* pDev, const TCHAR* pFname, IDirect3DTextur
 		_tprintf(_T("%s: 親ディレクトリから探索...\n"), pFname);
 		TCHAR* fn = new TCHAR[flen];
 		_stprintf_s(fn, flen, _T("..\\%s"), pFname);
-		hr = D3DXCreateTextureFromFile(pDev, fn, ppTex);
+		//hr = D3DXCreateTextureFromFile(pDev, fn, ppTex);
+        hr = D3DXCreateTextureFromFileEx(
+            pDev,
+            pFname,
+            D3DX_DEFAULT_NONPOW2,
+            D3DX_DEFAULT_NONPOW2,
+            D3DX_DEFAULT,
+            0,
+            D3DFMT_UNKNOWN,
+            D3DPOOL_MANAGED,
+            D3DX_DEFAULT,
+            D3DX_DEFAULT,
+            0,
+            NULL,
+            NULL,
+            ppTex
+        );
 		delete[] fn;
 		if (FAILED(hr))
 		{
