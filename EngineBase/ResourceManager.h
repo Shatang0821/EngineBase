@@ -23,6 +23,16 @@
 enum class ResID
 {
 	Tex_Bullet,//仮
+	Tex_Player,//プレイヤー仮
+};
+
+//アニメーションリソース
+struct AnimationResource
+{
+	//アトラス
+	std::vector<MyTexture*> texs;
+	//アニメーションのフレーム数
+	int num;
 };
 
 /**
@@ -35,6 +45,49 @@ enum class ResID
 class ResourceManager : public Singleton<ResourceManager>
 {
 	friend class Singleton<ResourceManager>;
+private:
+	//! 画像リソースのプール
+	std::unordered_map<ResID, MyTexture*>imagePool;
+	std::unordered_map<ResID, AnimationResource>animPool;
+	/**
+	 * @brief １枚画像リソースを読み込む
+	 *
+	 * 指定されたリソースIDとファイルパスに基づいて、画像リソースを読み込みます。
+	 *
+	 * @param pDev Direct3Dデバイス
+	 * @param id リソースID
+	 * @param pFname リソースファイルのパス
+	 */
+	void LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname);
+
+	/**
+	 * @brief 複数枚画像リソースを読み込む
+	 *
+	 * 指定されたリソースIDとファイルパスに基づいて、画像リソースを読み込みます。
+	 *
+	 * @param pDev Direct3Dデバイス
+	 * @param id リソースID
+	 * @param pFname リソースファイルのパス.pngを書かない
+	 * @param num 画像の枚数
+	 */
+	void LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname,int num);
+
+	/**
+	 * @brief スプライトシート画像リソースを読み込む
+	 *
+	 * 指定されたリソースIDとファイルパスに基づいて、画像リソースを読み込みます。
+	 *
+	 * @param pDev Direct3Dデバイス
+	 * @param id リソースID
+	 * @param pFname リソースファイルのパス
+	 * @param num 画像の枚数
+	 * @param row 画像の行数
+	 * @param col 画像の列数
+	 * @param texWidth 画像の幅
+	 * @param texHeight 画像の高さ
+	 */
+	void LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname, int num, int row, int col, int texWidth, int texHeight);
+	
 protected:
 	/**
 	 * @brief コンストラクタ
@@ -48,19 +101,7 @@ protected:
 	 * シングルトンパターンを維持するためにprotectedにしています。
 	 */
 	~ResourceManager() {};
-private:
-	//! 画像リソースのプール
-	std::map<ResID, MyTexture*>imagePool;
-	/**
-	 * @brief リソースを読み込む
-	 *
-	 * 指定されたリソースIDとファイルパスに基づいて、画像リソースを読み込みます。
-	 *
-	 * @param id リソースID
-	 * @param pFname リソースファイルのパス
-	 */
 
-	void LoadTex(IDirect3DDevice9* pDev,ResID id,const TCHAR* pFname);
 public:
 	/**
 	 * @brief リソースマネージャの初期化
@@ -78,6 +119,17 @@ public:
 	 * @return 指定されたリソースIDに対応するMyTextureオブジェクトのポインタ
 	 */
 	MyTexture* Fetch(ResID id);
+
+	/**
+	 * @brief 指定されたリソースIDに対応するアニメーションリソースを取得する
+	 *
+	 * 指定されたリソースIDに対応するアニメーションリソースを取得します。
+	 * リソースが存在しない場合はnullptrを返します。
+	 *
+	 * @param id リソースID
+	 * @return 指定されたリソースIDに対応するアニメーションリソース
+	 */
+	AnimationResource FetchAnim(ResID id);
 };
 
 #endif // !_RESOURCEMANAGER_H_

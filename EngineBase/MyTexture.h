@@ -108,6 +108,21 @@ public:
 	static MyTexture* LoadTexture(IDirect3DDevice9* pDev, const TCHAR* pFname);
 
 	/**
+	 * @brief スプライトを作成する
+	 *
+	 * スプライトシートから指定された領域のスプライトを作成します。
+	 *
+	 * @param pDev Direct3Dデバイス
+	 * @param pFname スプライトシートのファイル名
+	 * @param u1 スプライトの左上のU座標
+	 * @param v1 スプライトの左上のV座標
+	 * @param u2 スプライトの右下のU座標
+	 * @param v2 スプライトの右下のV座標
+	 * @return MyTextureオブジェクトのポインタ
+	 */
+	static MyTexture* CreateSprite(IDirect3DDevice9* pDev, const TCHAR* pFname, float u1, float v1, float u2, float v2);
+
+	/**
 	 * @brief 全てのテクスチャを破棄する
 	 *
 	 * 読み込んだ全てのテクスチャを破棄します。
