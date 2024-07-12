@@ -47,10 +47,35 @@ void World::Render()
 	for (auto& obj : GameRenderers) {
 		obj->Render();
 	}
+	Debug();
 }
 
 void World::Input()
 {
 	//mainController->PickInfo();
 	InputManager::Instance()->UpdateInput(MyApp::Instance()->GetHWND());
+}
+
+// テキストの描画
+void RenderText(IDirect3DDevice9* pDevice, int x, int y, const wchar_t* text)
+{
+	RECT rect;
+	SetRect(&rect, x, y, x + 300, y + 50); // テキストを描画する矩形範囲
+
+	// テキストの描画
+	MyApp::Instance()->GetFont()->DrawTextW(
+		NULL,            // スプライトオブジェクトへのポインタ（使用しないのでNULL）
+		text,            // 描画するテキスト
+		-1,              // テキストの長さ（-1はNULL終端まで）
+		&rect,           // 描画する矩形範囲
+		DT_LEFT | DT_TOP,// テキストの配置
+		D3DCOLOR_XRGB(255, 255, 255) // テキストのカラー
+	);
+}
+
+void World::Debug()
+{
+	wchar_t text[50];
+	swprintf(text, 50, L"%u", fps); // 数値を文字列に変換
+	RenderText(MyApp::Instance()->GetDevice(), 0, 0,text);
 }

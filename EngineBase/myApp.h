@@ -54,6 +54,7 @@ protected:
 	MyApp() 
 	: pDevice(NULL)
 	, pSprite(NULL)
+	, pFont(NULL)
 	{
 	};
 	/**
@@ -71,7 +72,7 @@ public:
 	 *
 	 * @return 成功した場合はtrue、失敗した場合はfalseを返します。
 	 */
-	bool	InitApp();
+	bool InitApp();
 	
 	bool DrawStart();
 	void DrawEnd();
@@ -95,12 +96,14 @@ public:
 	 * @return D3Dスプライト
 	 */
 
+	ID3DXFont* GetFont() { return pFont; }
 	ID3DXSprite* GetSprite() { return pSprite; }
 	IDirect3DDevice9* GetDevice() { return pDevice; }
 	HWND GetHWND() { return hWnd; }
 	HINSTANCE GetHInstance() { return hInstance; }
 private:
 	HRESULT InitDirect3D();
+	HRESULT InitFont();
 private:
 	HINSTANCE hInstance;		// インスタンスハンドル.
 	HWND hWnd;					// 表示ウィンドウ.
@@ -109,6 +112,8 @@ private:
 
 	IDirect3DDevice9* pDevice; // Direct3Dデバイスオブジェクト.
 	ID3DXSprite* pSprite;	   // スプライト.
+
+	ID3DXFont* pFont;		   // フォント.
 };
 
 /**

@@ -53,6 +53,13 @@ bool MyApp::InitApp()
 		return false;
 	}
 
+	hr = InitFont();
+	if(FAILED(hr))
+	{
+		MessageBox(NULL, D3DErrStr(hr), _T("フォント作成失敗"), MB_OK);
+		return false;
+	}
+
 	// テクスチャを読み込む。エラー時にはLoadTextureは例外を発生させる.
 	// LoadTextureごとにif判定をするのは面倒なので、try～throw～catchを使う.
 	try {
@@ -121,6 +128,7 @@ void MyApp::ReleaseData()
 	MyTexture::ReleaseAll();
 	
 	// DirectXデバイスの開放.
+	RELEASE(pFont)
 	RELEASE(pSprite);
 	RELEASE(pDevice);
 	RELEASE(pD3D);
@@ -190,5 +198,24 @@ HRESULT MyApp::InitDirect3D()
 		_tprintf(_T("REF & SOFT\n"));
 		return hr;
 	}
+	return hr;
+}
+
+HRESULT MyApp::InitFont()
+{
+	HRESULT hr = D3DXCreateFont(
+		pDevice,           // Direct3Dデバイス
+		30,                // フォントの高さ
+		0,                 // フォントの幅
+		FW_BOLD,           // フォントの太さ
+		1,                 // ミップレベル
+		FALSE,             // イタリック
+		DEFAULT_CHARSET,   // 文字セット
+		OUT_DEFAULT_PRECIS,// 出力精度
+		DEFAULT_QUALITY,   // 出力品質
+		DEFAULT_PITCH | FF_DONTCARE, // ピッチとファミリー
+		TEXT("Arial"),     // フォント名
+		&pFont             // フォントオブジェクトへのポインタ
+	);
 	return hr;
 }

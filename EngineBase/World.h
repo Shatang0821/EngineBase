@@ -142,6 +142,13 @@ private:
 	 */
 	void Input();
 
+	/**
+	 * @brief デバッグ機能
+	 *
+	 * この関数は、デバッグ機能を提供します。
+	 */
+	void Debug();
+
 };
 
 extern World mainWorld;

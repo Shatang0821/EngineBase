@@ -4,7 +4,7 @@
 Player::Player()
 {
 	//レイヤの設定
-	auto spriteRenderer = ConstructComponent<SpriteRenderer>();
+	auto spriteRenderer = GetComponentByClass<SpriteRenderer>();
 	spriteRenderer->SetLayer(1);
 
 	//アニメーターの生成と設定
