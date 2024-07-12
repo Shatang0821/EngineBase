@@ -80,11 +80,25 @@ public:
 	 * @param DeltaTime フレーム間の経過時間
 	 */
 	virtual void Update(float DeltaTime) override;
+
+	/**
+	 * @brief マウスの座標を取得する
+	 *
+	 * マウスの座標を取得します。
+	 *
+	 * @return マウスの座標
+	 */
+	Vector2 GetMousePos() { return mousePos; }
 private:
 	//! 入力マッピング
 	std::map<std::string, BYTE>mappings;
 	//! 入力に対するコールバック
 	std::map<std::string, KeyBindInfo>callbacks;
+
+	//! マウスの座標
+	Vector2 mousePos;
+	//! マウス座標変換のため
+	LONG lx, ly;
 };
 
 #endif // !_INPUTCOMPONENT_H_

@@ -29,7 +29,9 @@ class Camera :public SceneComponent
 	//! 距離しきい値 0.001~500
 	float distanceThreshold = 10.0f;
 	//! なめらかさ 0~100
-	short smoothness = 1;
+	short smoothness = 30;
+
+	/* カメラシェーク */
 
 	//! カメラの揺れの強度 0~ 100
 	float shakeIntensity = 0.f;
@@ -39,8 +41,21 @@ class Camera :public SceneComponent
 	Vector2 shakeCenter = Vector2::Zero();
 	//! カメラ揺れの速度
 	Vector2 shakeSpeed = Vector2(0.05f, 0.05f);
-	//!
+	//! カメラ揺れの減衰値
 	int shakeDecay = 5;
+
+public:
+	/* カメラズーム */
+	
+	//! ばねの長さ 1~10000
+	float springArmLength = 20.0f;
+
+	//! ばねの長さの仮想値
+	float springArmLength_virtual = 5.0f;
+
+	//! ばねの滑らかさ0~100
+	float smoothnessForSpringArm = 20.0f;
+
 	/**
 	 * @brief SmoothStep関数
 	 *

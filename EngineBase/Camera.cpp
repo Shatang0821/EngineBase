@@ -11,6 +11,14 @@ float Camera::SmoothStep(float x)
 
 void Camera::Update(float DeltaTime)
 {
+	/*static bool first = true;
+	if (first) {
+		transform_virtual.position = GetWorldPosition();
+		transform_virtual.rotation = GetWorldRotation();
+		springArmLength_virtual = springArmLength;
+		first = false;
+	}*/
+
 	// 滑らかさが設定されている場合
 	if (smoothness) {
 		// カメラの現在位置と目標位置の距離を計算し、距離しきい値で正規化
@@ -24,6 +32,12 @@ void Camera::Update(float DeltaTime)
 		// 滑らかさが0の場合、直接目標位置に設定
 		transform_virtual.position = GetWorldPosition();
 	}
+
+	//滑らかズーム
+	if (smoothnessForSpringArm) {
+		springArmLength_virtual = Math::Lerp(springArmLength_virtual, springArmLength, 0.1f / smoothnessForSpringArm);
+	}
+	else springArmLength_virtual = springArmLength;
 
 	if (shakeFlag)
 	{

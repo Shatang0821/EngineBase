@@ -18,7 +18,7 @@ void SpriteRenderer::Render()
 
         // スケーリング行列を初期化
         D3DXMATRIX matScale;
-        D3DXMatrixScaling(&matScale, scale.x, scale.y, 1.0f);
+        D3DXMatrixScaling(&matScale, scale.x * mainWorld.mainCamera->springArmLength_virtual, scale.y * mainWorld.mainCamera->springArmLength_virtual, 1.0f);
 
         // 回転行列を初期化
         D3DXMATRIX matRotation;
@@ -33,6 +33,12 @@ void SpriteRenderer::Render()
 
         // スプライトに変換行列を設定
         pSprite->SetTransform(&matTransform);
+
+        // フィルターモードを「Point」に設定
+        auto pDevice = MyApp::Instance()->GetDevice();
+        pDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+        pDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+        pDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 
         // スプライトを描画
         pSprite->Draw(sprite->GetTexture(), NULL, &center, NULL, D3DCOLOR_XRGB(255, 255, 255));

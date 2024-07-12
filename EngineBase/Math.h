@@ -83,18 +83,23 @@ public:
 		return std::generate_canonical<double, 10>(gen);
 	}
 
+	
+	static float Lerp(float a, float b, float t) {
+		t = clamp(t, 0.001f, 0.1f);
+		return a + (b - a) * t;
+	}
+
 	/**
- * @brief 値を指定された範囲内にクランプするテンプレート関数
- *
- * この関数は、指定された値を最小値と最大値の範囲内にクランプします。
- * 値が最小値より小さい場合は最小値を、最大値より大きい場合は最大値を返します。
- *
- * @tparam T 値の型
- * @param value クランプする値
- * @param min 最小値
- * @param max 最大値
- * @return T クランプされた値
- */
+	 * @brief 指定された値を指定された範囲内にクランプします
+	 *
+	 * この関数は、指定された値 value を範囲 [min, max] 内にクランプします。
+	 * value が min より小さい場合は min に、max より大きい場合は max に設定されます。
+	 *
+	 * @param value クランプする値
+	 * @param min 範囲の下限
+	 * @param max 範囲の上限
+	 * @return T クランプされた値
+	 */
 	template<typename T>
 	static T clamp(T value, T min, T max) {
 		if (value < min) {

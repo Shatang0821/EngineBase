@@ -9,6 +9,10 @@ void InputComponent::SetMapping(std::string mappingName, BYTE code)
 
 void InputComponent::Update(float DeltaTime)
 {
+	InputManager::Instance()->GetMousePos(&lx, &ly);
+	mousePos.x = static_cast<float>(lx);
+	mousePos.y = static_cast<float>(ly);
+
 	for (auto& mapping : mappings) {
 		KeyBindInfo& info = callbacks[mapping.first];
 
