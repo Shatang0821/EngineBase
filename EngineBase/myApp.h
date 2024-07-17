@@ -141,26 +141,5 @@ private:
 	ID3DXFont* pFont;		   // フォント.
 };
 
-/**
- * @brief 動的キャストを行うテンプレート関数
- *
- * この関数は、与えられたBaseクラスのポインタを指定された型に対して動的キャストを行います。
- * キャストが成功した場合、指定された型のポインタを返します。失敗した場合はnullptrを返します。
- *
- * @tparam T キャストする型
- * @param pBase キャスト対象のBaseクラスのポインタ
- * @return T* キャストされた型のポインタ。キャストが失敗した場合はnullptr。
- */
-template<typename T>
-T* Cast(Base* pBase)
-{
-	// pBaseが有効であれば動的キャストを行い、結果を返す
-	if (pBase) {
-		return dynamic_cast<T*>(pBase);
-	}
-	// pBaseがnullptrの場合はnullptrを返す
-	return nullptr;
-}
-
 
 #endif // !_MYAPP_H_

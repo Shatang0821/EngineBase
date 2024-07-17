@@ -30,6 +30,8 @@ class Animation
 private:
 	//! アニメーションのフレームレート
 	int num = 0;
+	//! アニメーションのオフセット
+	POINT offset = { 0,0 };
 	//! アニメーションのインデックス
 	int index = 0;
 	//! アニメーションの配列
@@ -45,7 +47,7 @@ private:
 public:
 	Animation() { clock.Bind(0, this, &Animation::UpdateIndex, true); }
 
-	void Load(ResID id, Vector2 delta = Vector2::Zero());
+	void Load(ResID id, POINT delta = {0,0});
 
 	/**
 	 * @brief アニメーションの更新間隔を設定します

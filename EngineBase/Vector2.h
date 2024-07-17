@@ -140,6 +140,33 @@ struct Vector2
         return *this;
     }
 
+    /**
+	 * @brief ベクトルの除算
+	 *
+	 * 2つのベクトルを除算します。
+	 *
+	 * @param v 除算するベクトル
+	 * @return Vector2 除算結果
+	 */
+    Vector2 operator/(const Vector2& v) const {
+		return Vector2(x / v.x, y / v.y);
+	}
+
+    
+    /**
+	 * @brief ベクトルの除算と代入
+	 *
+	 * ベクトルを除算し、その結果を代入します。
+	 *
+	 * @param v 除算するベクトル
+	 * @return Vector2& 除算結果
+	 */
+    Vector2& operator/=(const Vector2& v) {
+    		x /= v.x;
+            y /= v.y;
+            return *this;
+    }
+
     
     /**
      * @brief ベクトルの大きさ（長さ）を計算します。

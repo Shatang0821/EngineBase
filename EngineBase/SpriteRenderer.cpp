@@ -34,7 +34,8 @@ void SpriteRenderer::Render()
         pDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 
         // スプライトを描画
-        pSprite->Draw(sprite->GetTexture(), NULL, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
+        // 透明、フィールドの色を反映するためにD3DCOLOR_RGBA(255, 255, 255, 255)を使用今後変数にする
+        pSprite->Draw(sprite->GetTexture(), NULL, NULL, NULL, D3DCOLOR_RGBA(255, 255, 255,255));
 
         // スプライトの変換行列をリセット（他の描画に影響を与えないようにするため）
         pSprite->SetTransform(nullptr);

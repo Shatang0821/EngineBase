@@ -25,15 +25,16 @@ class Object : public Base
 protected:
 
 	//! オブジェクトの子要素を管理します。頻繁に削除や追加が行われるため、setを使用しています。
-	std::set<Object*>children;
+	std::unordered_set<Object*>children;
 	//! オブジェクトの親要素を指します。削除追加しやすいため
 	Object* parent = nullptr;
+
 	//! オブジェクトのルートとなるTransformを示すシーンコンポーネントを指します
 	SceneComponent * const root = new SceneComponent;
 	//! オブジェクトに所属するコンポーネントを管理します。
-	std::set<Component*>components;
+	std::unordered_set<Component*>components;
 	//! コンポーネントのイテレータ 追加削除予定のコンポーネントを管理します。
-	std::set<Component*>::iterator components_iter;
+	std::unordered_set<Component*>::iterator components_iter;
 public:
 	/**
 	 * @brief コンストラクタ

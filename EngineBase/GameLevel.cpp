@@ -12,4 +12,5 @@ void GameLevel::Update(float DeltaTime)
 {
 	//buttle->AddRotation(DeltaTime * 15);
 	//buttle->AddPosition(DeltaTime * 60);
+	//player->AddRotation(DeltaTime * 15);
 }

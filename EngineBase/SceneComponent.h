@@ -37,7 +37,7 @@ protected:
     Transform transform;
 
     //! コンポーネントの子要素を管理します。頻繁に削除や追加が行われるため、setを使用しています。
-    std::set<SceneComponent*>children;
+    std::unordered_set<SceneComponent*>children;
 
     //! コンポーネントの親要素を指します。削除追加しやすいため
     SceneComponent* parent = nullptr;

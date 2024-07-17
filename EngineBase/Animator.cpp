@@ -2,21 +2,25 @@
 #include "Animator.h"
 #include "ResourceManager.h"
 
-void Animation::Load(ResID id, Vector2 delta)
+void Animation::Load(ResID id, POINT delta)
 {
 	AnimationResource aniRes = ResourceManager::Instance()->FetchAnim(id);
 	num = aniRes.num;
 	textures = aniRes.texs;
+	offset = delta;
 }
 
 void Animator::Update(float DeltaTime)
 {
+	//アニメーションの更新
 	if (!rendererAttached) {
 		rendererAttached = pOwner->GetComponentByClass<SpriteRenderer>();
 		rendererAttached->sprite = aniNode->textures[aniNode->index];
 	}
 	else if(aniNode) {
+		//アニメーションの更新
 		rendererAttached->sprite = aniNode->textures[aniNode->index];
+		rendererAttached->spriteInfo.offset = aniNode->offset;
 	}
 		
 }
@@ -37,3 +41,5 @@ void Animator::SetCalled(bool called)
 {
 	called ? aniNode->clock.Continue() : aniNode->clock.Stop();
 }
+
+

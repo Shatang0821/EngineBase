@@ -77,6 +77,11 @@ class ImageInterface
 public:
 	//! テクスチャポインタ
 	MyTexture* sprite = nullptr;
+	struct SpriteInfo
+	{
+		POINT offset = { 0,0 };
+	}spriteInfo;//補充情報
+
 	//! 透明度
 	float alpha = 1;
 

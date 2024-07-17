@@ -60,30 +60,31 @@ class World final
 	friend class LayerInterface;
 	friend class Camera;
 	friend class SpriteRenderer;
+	friend class Collider;
 
 	friend void Object::Destroy();
 private:
 	/* シーンオブジェクト、UI、タイマーコンテナ*/
 
 	//! オブジェクトコンテナ
-	std::set<class Object*>GameObjects;
+	std::unordered_set<class Object*>GameObjects;
 	//! 削除予定のオブジェクトコンテナ
-	std::set<class Object*>GameObjects_to_delete;
+	std::unordered_set<class Object*>GameObjects_to_delete;
 
 	//! UIコンテナ
-	std::set<class UserInterface*>GameUIs;
+	std::unordered_set<class UserInterface*>GameUIs;
 	//! 削除予定のUIコンテナ
-	std::set<class UserInterface*>GameUIs_to_delete;
+	std::unordered_set<class UserInterface*>GameUIs_to_delete;
 
 	//! タイマーコンテナ
-	std::set<class Timer*>GameTimers;
+	std::unordered_set<class Timer*>GameTimers;
 
 	/* レンダラー、コライダーコンテナ*/
 
 	//! レンダラーコンテナ
 	std::set<class LayerInterface*,LayerSort>GameRenderers;
 	//! コライダーコンテナ
-	std::set<class BoxCollider*>GameColliders;	//まずボックスだけで
+	std::unordered_set<class Collider*>GameColliders;	//まずボックスだけで
 	//             Circle実装予定
 
 	/*ゲームシングルトンオブジェクト*/
@@ -152,6 +153,28 @@ private:
 };
 
 extern World mainWorld;
+
+/**
+ * @brief 動的キャストを行うテンプレート関数
+ *
+ * この関数は、与えられたBaseクラスのポインタを指定された型に対して動的キャストを行います。
+ * キャストが成功した場合、指定された型のポインタを返します。失敗した場合はnullptrを返します。
+ *
+ * @tparam T キャストする型
+ * @param pBase キャスト対象のBaseクラスのポインタ
+ * @return T* キャストされた型のポインタ。キャストが失敗した場合はnullptr。
+ */
+template<typename T>
+T* Cast(Base* pBase)
+{
+	// pBaseが有効であれば動的キャストを行い、結果を返す
+	if (pBase) {
+		return dynamic_cast<T*>(pBase);
+	}
+	// pBaseがnullptrの場合はnullptrを返す
+	std::cout << "Cast failed" << std::endl;
+	return nullptr;
+}
 #endif // !_WORLD_H_
 
 

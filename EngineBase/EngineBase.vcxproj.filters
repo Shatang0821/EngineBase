@@ -141,6 +141,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Game\Character</Filter>
     </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Source Files\Core\EngineCore\Componentes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector2.h">
@@ -182,9 +185,6 @@
     <ClInclude Include="Object.h">
       <Filter>Header Files\Core\EngineCore\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files\Core\EngineCore\Main</Filter>
-    </ClInclude>
     <ClInclude Include="VisualInterface.h">
       <Filter>Header Files\Core\EngineCore\Main</Filter>
     </ClInclude>
@@ -206,9 +206,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Core\EngineCore\Componentes</Filter>
     </ClInclude>
-    <ClInclude Include="CTimer.h">
-      <Filter>Header Files\Core\EngineCore\Main</Filter>
-    </ClInclude>
     <ClInclude Include="GameController.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -229,6 +226,15 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files\Game\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimer.h">
+      <Filter>Header Files\Core\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Core\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\Core\EngineCore\Componentes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
