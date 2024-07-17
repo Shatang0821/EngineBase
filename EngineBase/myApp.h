@@ -74,7 +74,32 @@ public:
 	 */
 	bool InitApp();
 	
+
+	/**
+	 * @brief ウィンドウのリサイズ処理
+	 *
+	 * ウィンドウのリサイズ処理を行います。
+	 *
+	 * @param width ウィンドウの幅
+	 * @param height ウィンドウの高さ
+	 */
+	void ResizeWindow(int, int);
+
+
+	/**
+	 * @brief 描画開始処理
+	 *
+	 * 描画処理を開始します。
+	 *
+	 * @return 成功した場合はtrue、失敗した場合はfalseを返します。
+	 */
 	bool DrawStart();
+
+	/**
+	 * @brief 描画終了処理
+	 *
+	 * 描画処理を終了します。
+	 */
 	void DrawEnd();
 	/**
 	 * @brief メインループを実行する

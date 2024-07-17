@@ -26,6 +26,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
+	case WM_SIZE:
+		if (wParam != SIZE_MINIMIZED)
+		{
+			int width = LOWORD(lParam);
+			int height = HIWORD(lParam);
+			MyApp::Instance()->ResizeWindow(width, height);
+		}
+		break;
 	default: {
 		break;
 	}

@@ -36,7 +36,7 @@ bool MyApp::InitApp()
 	_tprintf(_T("rc: %d, %d -- %d, %d\n"), rc.left, rc.top, rc.right, rc.bottom);
 
 	// ウィンドウを作成する.
-	hWnd = CreateWindow(APP_NAME, version, WS_OVERLAPPEDWINDOW, 0, 0, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInstance, NULL);
+	hWnd = CreateWindow(APP_NAME, version, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, 0, 0, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInstance, NULL);
 	assert(hWnd != NULL);
 
 	// Direct3Dを初期化する.
@@ -199,6 +199,42 @@ HRESULT MyApp::InitDirect3D()
 		return hr;
 	}
 	return hr;
+}
+
+void MyApp::ResizeWindow(int width, int height)
+{
+	if (pDevice)
+	{
+		// ビューポートの設定
+		D3DVIEWPORT9 vp;
+		float aspectRatio = 16.0f / 9.0f;
+		int newWidth = width;
+		int newHeight = height;
+
+		if ((float)width / height > aspectRatio) {
+			// ウィンドウが広すぎる場合、高さに合わせて幅を調整
+			newWidth = static_cast<int>(height * aspectRatio);
+			newHeight = height;
+		}
+		else {
+			// ウィンドウが高すぎる場合、幅に合わせて高さを調整
+			newWidth = width;
+			newHeight = static_cast<int>(width / aspectRatio);
+		}
+
+		vp.X = (width - newWidth) / 2; // 中央揃え
+		vp.Y = (height - newHeight) / 2; // 中央揃え
+		vp.Width = newWidth;
+		vp.Height = newHeight;
+		vp.MinZ = 0.0f;
+		vp.MaxZ = 1.0f;
+		pDevice->SetViewport(&vp);
+
+		// 投影行列の再設定
+		D3DXMATRIX projMatrix;
+		D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI / 4, aspectRatio, 0.1f, 100.0f);
+		pDevice->SetTransform(D3DTS_PROJECTION, &projMatrix);
+	}
 }
 
 HRESULT MyApp::InitFont()

@@ -4,32 +4,25 @@
 #include "Camera.h"
 
 void SpriteRenderer::Render()
-{
+{    
     if (sprite) {
         auto pSprite = MyApp::Instance()->GetSprite();
         auto p = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition();
-        D3DXVECTOR3 position(p.x, p.y, 0);
-        float rot = GetWorldRotation();
-        Vector2 scale = GetWorldScale();
+        D3DXVECTOR2 position(p.x, p.y);
+        // 角度の取得ラジアン
+        float rot = D3DXToRadian(GetWorldRotation());
 
+        Vector2 scaleVec = GetWorldScale();
+        // 2.0fはスプライトのサイズを画面サイズに合わせるための係数
+        D3DXVECTOR2 scale(scaleVec.x * 2.0f / mainWorld.mainCamera->springArmLength_virtual, scaleVec.y * 2.0f / mainWorld.mainCamera->springArmLength_virtual);
+        //D3DXVECTOR2 scale(scaleVec.x * 2, scaleVec.y * 2);
 
         // 中心点の計算
-        D3DXVECTOR3 center(sprite->GetWidth() / 2, sprite->GetHeight() / 2, 0.0f);
+        D3DXVECTOR2 center(sprite->GetWidth() / 2, sprite->GetHeight() / 2);
 
-        // スケーリング行列を初期化
-        D3DXMATRIX matScale;
-        D3DXMatrixScaling(&matScale, scale.x * mainWorld.mainCamera->springArmLength_virtual, scale.y * mainWorld.mainCamera->springArmLength_virtual, 1.0f);
-
-        // 回転行列を初期化
-        D3DXMATRIX matRotation;
-        D3DXMatrixRotationZ(&matRotation, D3DXToRadian(rot));
-
-        // 平行移動行列を初期化
-        D3DXMATRIX matTranslation;
-        D3DXMatrixTranslation(&matTranslation, position.x, position.y, 0.0f);
-
-        // スケーリング、回転、平行移動行列を組み合わせる
-        D3DXMATRIX matTransform = matScale * matRotation * matTranslation;
+        // 変換行列の計算
+        D3DXMATRIX matTransform;
+        D3DXMatrixTransformation2D(&matTransform, &center, 0, &scale, &center, rot, &position);
 
         // スプライトに変換行列を設定
         pSprite->SetTransform(&matTransform);
@@ -41,10 +34,9 @@ void SpriteRenderer::Render()
         pDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 
         // スプライトを描画
-        pSprite->Draw(sprite->GetTexture(), NULL, &center, NULL, D3DCOLOR_XRGB(255, 255, 255));
+        pSprite->Draw(sprite->GetTexture(), NULL, NULL, NULL, D3DCOLOR_XRGB(255, 255, 255));
 
         // スプライトの変換行列をリセット（他の描画に影響を与えないようにするため）
-        D3DXMatrixIdentity(&matTransform);
-        pSprite->SetTransform(&matTransform);
-    }  
+        pSprite->SetTransform(nullptr);
+    }
 }

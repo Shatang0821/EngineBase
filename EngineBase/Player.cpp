@@ -14,4 +14,5 @@ Player::Player()
 
 	animator->Insert("idle", ani);
 	animator->SetNode("idle");
+
 }

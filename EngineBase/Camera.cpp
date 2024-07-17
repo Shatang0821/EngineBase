@@ -11,13 +11,13 @@ float Camera::SmoothStep(float x)
 
 void Camera::Update(float DeltaTime)
 {
-	/*static bool first = true;
+	static bool first = true;
 	if (first) {
 		transform_virtual.position = GetWorldPosition();
 		transform_virtual.rotation = GetWorldRotation();
 		springArmLength_virtual = springArmLength;
 		first = false;
-	}*/
+	}
 
 	// ŠŠ‚ç‚©‚³‚ªÝ’è‚³‚ê‚Ä‚¢‚éê‡
 	if (smoothness) {
@@ -82,6 +82,16 @@ void Camera::SetDistanceThreshold(float threshold)
 {
 	// ‹——£‚µ‚«‚¢’l‚ð0.0‚©‚ç500.0‚Ì”ÍˆÍ‚ÉƒNƒ‰ƒ“ƒv‚µ‚ÄÝ’è
 	this->distanceThreshold = Math::clamp(threshold, 0.0f, 500.0f);
+}
+
+void Camera::SetSpringArmLength(float length)
+{
+	this->springArmLength = Math::clamp(length, 0.5f, 10000.f);
+}
+
+void Camera::SetSpringArmSmoothness(int smooth)
+{
+	this->smoothnessForSpringArm = Math::clamp(smooth, 0, 100);
 }
 
 void Camera::ShakeCamera(int intensity,int decay)

@@ -79,6 +79,8 @@ public:
 	MyTexture* sprite = nullptr;
 	//! 透明度
 	float alpha = 1;
+
+	float angle = 0;
 public:
 	/**
 	 * @brief 透過度を取得する

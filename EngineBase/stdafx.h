@@ -54,8 +54,8 @@
 
 
 // 汎用的な定義など.
-#define WIDTH (1920)	// 幅.
-#define HEIGHT (1080)	// 高さ.
+#define WIDTH (1280)	// 幅.
+#define HEIGHT (720)	// 高さ.
 
 #define TARGET_FPS 60					// fps
 #define FRAME_TIME (1.0f / TARGET_FPS)	// フレームタイム

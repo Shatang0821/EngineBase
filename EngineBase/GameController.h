@@ -24,6 +24,14 @@ public:
 	void Update(float DeltaTime) override;
 
 	void Shake();
+private:
+	//! カメラのスプリングアームの長さ
+	float armLength = 1;
+
+	void ZoomIn();
+	void ZoomOut();
+
+
 };
 
 #endif // !_GAMECONTROLLER_H_

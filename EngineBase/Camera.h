@@ -48,13 +48,13 @@ public:
 	/* カメラズーム */
 	
 	//! ばねの長さ 1~10000
-	float springArmLength = 20.0f;
+	float springArmLength = 1.0f;
 
 	//! ばねの長さの仮想値
 	float springArmLength_virtual = 5.0f;
 
 	//! ばねの滑らかさ0~100
-	float smoothnessForSpringArm = 20.0f;
+	float smoothnessForSpringArm = 1.0f;
 
 	/**
 	 * @brief SmoothStep関数
@@ -111,6 +111,9 @@ public:
 	 */
 	void SetDistanceThreshold(float threshold);
 
+	void SetSpringArmLength(float length);
+
+	void SetSpringArmSmoothness(int smooth);
 
 	void ShakeCamera(int intensity,int decay = 20);
 };
