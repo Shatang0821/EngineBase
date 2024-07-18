@@ -10,6 +10,8 @@ class Player : public StaticMesh
 	Animator* animator;
 public :
 	Player();
+
+	void Update(float DeltaTime) override;
 };
 
 

@@ -14,5 +14,11 @@ Player::Player()
 
 	animator->Insert("idle", ani);
 	animator->SetNode("idle");
+}
+
+void Player::Update(float DeltaTime)
+{
+	StaticMesh::Update(DeltaTime);
+
 
 }
