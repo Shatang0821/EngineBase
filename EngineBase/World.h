@@ -15,6 +15,8 @@
 #include "CTimer.h"
 #include "Controller.h"
 #include "Camera.h"
+
+
  /**
   * @struct LayerSort
   * @brief LayerInterfaceポインタをソートするための比較ファンクタ
@@ -41,6 +43,11 @@ struct LayerSort
 		else
 			return a->GetLayer() < b->GetLayer();
 	}
+};
+
+struct ColliderSort
+{
+	bool operator()(const class Collider* a, const class Collider* b) const;
 };
 
 
@@ -84,8 +91,8 @@ private:
 	//! レンダラーコンテナ
 	std::set<class LayerInterface*,LayerSort>GameRenderers;
 	//! コライダーコンテナ
-	std::unordered_set<class Collider*>GameColliders;	//まずボックスだけで
-	//             Circle実装予定
+	std::unordered_set<class Collider*>GameColliders;
+	std::set<class Collider*, ColliderSort>ColliderZones[8][6];
 
 	/*ゲームシングルトンオブジェクト*/
 

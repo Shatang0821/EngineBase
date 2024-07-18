@@ -35,8 +35,7 @@ private:
 
 	//! レイヤ
 	int layer = 0;
-
-	//! 毎フレーム衝突しているコライダー
+	//! 毎フレーム自身と衝突しているコライダー
 	std::unordered_set<Collider*> collisions;
 	//! 衝突しているオブジェクト
 	std::vector<Object*>aims;
@@ -50,6 +49,21 @@ public:
 	virtual ~Collider(){mainWorld.GameColliders.erase(this);}
 
 	const std::vector<Object*>& GetCollisions(std::string type);
+
+
+	/**
+	 * @brief この関数は、レイヤーを取得します。
+	 * 
+	 * @return レイヤー
+	 */
+	int GetLayer()const{ return layer; }
+
+	/**
+	 * @brief この関数は、レイヤーを設定します。
+	 * 
+	 * @param l レイヤー
+	 */
+	void SetLayer(int l) { layer = l; }
 
 	/**
 	 * @brief この関数は、コライダーのタイプを取得します。
@@ -68,7 +82,16 @@ public:
 	ColliderShape GetShape() { return shape; }
 
 	/**
+	 * @brief この関数は、コンテナの中身をクリアします。
+	 * 
+	 */
+	void Clear(){collisions.clear(); }
+
+	/**
 	 * @brief この関数は、衝突しているコライダーを集めている
+	 * 
+	 * 引数との当たり判定を行い、衝突しているコライダーを
+	 * collisionsに追加します。
 	 * 
 	 * @param another 衝突しているコライダー
 	 */
@@ -91,12 +114,13 @@ private:
 	//! 半径
 	float radius = 0.0f;
 	float radius_init = 0.0f;
+
 	virtual bool CollisionJudge(Collider* another) override;
 public:
 	CircleCollider(){shape = COLLIDER_SHAPE_CIRCLE; }
 
 	virtual void Update(float DeltaTime) override;
-	//virtual void DrawDebugLine() override;
+	virtual void DrawDebugLine() override;
 
 	float GetRadius()const { return radius; }
 	void SetRadius(float r) { radius = r; radius_init = r / sqrtf(GetWorldScale().x * GetWorldScale().y); }
@@ -121,7 +145,7 @@ public:
 	BoxCollider(){shape = COLLIDER_SHAPE_BOX; }
 
 	virtual void Update(float DeltaTime) override;
-	//virtual void DrawDebugLine() override;
+	virtual void DrawDebugLine() override;
 
 	const Vector2& GetSize()const { return size; }
 	void SetSize(const Vector2& s) { size = s; size_init = s / GetWorldScale(); }

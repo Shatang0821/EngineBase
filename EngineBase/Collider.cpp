@@ -143,6 +143,25 @@ bool BoxCollider::CollisionJudge(Collider* another)
 	return false;
 }
 
+void CircleCollider::Update(float DeltaTime)
+{
+}
+
+void CircleCollider::DrawDebugLine()
+{
+
+}
+
+
+
+void BoxCollider::Update(float DeltaTime)
+{
+}
+
+void BoxCollider::DrawDebugLine()
+{
+}
+
 const std::vector<Object*>& Collider::GetCollisions(std::string type)
 {
 	aims.clear();
