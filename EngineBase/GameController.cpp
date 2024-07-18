@@ -19,6 +19,8 @@ void GameController::SetUpInputComponent(InputComponent* inputComponent)
 
 	inputComponent->SetMapping("ZoomOut", DIK_E);
 	inputComponent->BindAction("ZoomOut", InputType::Holding, this, &GameController::ZoomOut);
+
+
 }
 
 void GameController::Update(float DeltaTime)

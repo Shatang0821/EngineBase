@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "InputManager.h"
 
 Player::Player()
 {
@@ -20,5 +21,20 @@ void Player::Update(float DeltaTime)
 {
 	StaticMesh::Update(DeltaTime);
 
-
+	if (InputManager::Instance()->IsPushKey(DIK_W))
+	{
+		AddPosition(Vector2(0, -100) * DeltaTime);
+	}
+	if (InputManager::Instance()->IsPushKey(DIK_S))
+	{
+		AddPosition(Vector2(0, 100) * DeltaTime);
+	}
+	if (InputManager::Instance()->IsPushKey(DIK_A))
+	{
+		AddPosition(Vector2(-100, 0)* DeltaTime);
+	}
+	if (InputManager::Instance()->IsPushKey(DIK_D))
+	{
+		AddPosition(Vector2(100, 0) * DeltaTime);
+	}
 }
