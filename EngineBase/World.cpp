@@ -157,6 +157,11 @@ void World::Debug()
 	wchar_t text[50];
 	swprintf(text, 50, L"%u", fps); // ”’l‚ð•¶Žš—ñ‚É•ÏŠ·
 	RenderText(MyApp::Instance()->GetDevice(), 0, 0,text);
+
+	for (auto& obj : GameColliders) {
+		obj->DrawDebugLine();
+	}
+
 }
 
 bool ColliderSort::operator()(const Collider* a, const Collider* b) const

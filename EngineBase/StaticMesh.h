@@ -14,7 +14,7 @@
 
 #include "Object.h"
 #include "SpriteRenderer.h"
-
+#include "Collider.h"
  /**
   * @class StaticMesh
   * @brief 静的メッシュオブジェクトを表すクラス

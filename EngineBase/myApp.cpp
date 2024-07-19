@@ -308,9 +308,9 @@ void MyApp::Render()
 	mainWorld.Render();
 
 	
-	Debug::DrawBox(Vector2(WIDTH / 2, HEIGHT / 2), Vector2(32, 32) * (2 / mainWorld.mainCamera->springArmLength_virtual), D3DCOLOR_XRGB(255, 0, 0));
+	/*Debug::DrawBox(Vector2(WIDTH / 2, HEIGHT / 2), Vector2(32, 32) * (2 / mainWorld.mainCamera->springArmLength_virtual), D3DCOLOR_XRGB(255, 0, 0));
 	Debug::DrawCircle(Vector2(0, 0), 50, 32, D3DCOLOR_XRGB(0, 255, 0));
-	Debug::DrawLine(Vector2(0, 0), Vector2(WIDTH, HEIGHT), D3DCOLOR_XRGB(0, 0, 255));
+	Debug::DrawLine(Vector2(0, 0), Vector2(WIDTH, HEIGHT), D3DCOLOR_XRGB(0, 0, 255));*/
 	
 	DrawEnd();
 }

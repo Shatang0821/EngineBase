@@ -145,11 +145,13 @@ bool BoxCollider::CollisionJudge(Collider* another)
 
 void CircleCollider::Update(float DeltaTime)
 {
+	//半径はオブジェクトのスケールに沿って更新する
+	radius = radius_init * sqrtf(GetWorldScale().x * GetWorldScale().y);
 }
 
 void CircleCollider::DrawDebugLine()
 {
-	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH,HEIGHT);
+	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH / 2,HEIGHT / 2);
 
 	Debug::DrawCircle(pos, int(radius * (2 / mainWorld.mainCamera->springArmLength_virtual)), 32, D3DCOLOR_XRGB(0, 255, 0));
 }
@@ -158,13 +160,15 @@ void CircleCollider::DrawDebugLine()
 
 void BoxCollider::Update(float DeltaTime)
 {
+	//サイズがオブジェクトのスケールに沿って更新する
+	size = size_init * GetWorldScale(); 
 }
 
 void BoxCollider::DrawDebugLine()
 {
-	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH, HEIGHT);
+	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
 
-	Debug::DrawBox(pos - size / 2, size * (2 / mainWorld.mainCamera->springArmLength_virtual), D3DCOLOR_XRGB(255, 0, 0));
+	Debug::DrawBox(pos, size * (2 / mainWorld.mainCamera->springArmLength_virtual), D3DCOLOR_XRGB(255, 0, 0));
 }
 
 const std::vector<Object*>& Collider::GetCollisions(std::string type)

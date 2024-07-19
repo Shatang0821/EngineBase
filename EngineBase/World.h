@@ -1,6 +1,9 @@
 /**
  * @file World.h
- * @brief ゲーム全般を管理するクラス
+ * @brief ゲーム全般を管理するWorldクラスの定義を含むヘッダファイル。
+ *
+ * Worldクラスは、ゲーム内のオブジェクト、UI、タイマー、レンダラー、コライダーなどを管理します。
+ * また、ゲームのメインループにおける更新、物理処理、描画処理を担当します。
  *
  * @author サトウ
  * @date 2024/06/21
@@ -44,20 +47,27 @@ struct LayerSort
 	}
 };
 
+/**
+ * @struct ColliderSort
+ * @brief Colliderオブジェクトをソートするための比較ファンクタ。
+ *
+ * Colliderオブジェクトをレイヤーに基づいてソートするために使用されます。
+ * 同じレイヤーの場合は、ポインタのアドレスで比較します。
+ */
 struct ColliderSort
 {
 	bool operator()(const class Collider* a, const class Collider* b) const;
 };
 
 
- /**
-  * @class World
-  * @brief ゲームを管理するクラス
-  *
-  * @details このクラスは、
-  * ゲーム内のタイマー、UI、シーンオブジェクトを管理するクラス
-  * 
-  */
+/**
+* @class World
+* @brief ゲームのメインループとオブジェクト管理を担当するクラス。
+*
+* ゲーム内のオブジェクト、UI、タイマー、レンダラー、コライダーの管理を行います。
+* Initで初期化を行い、Updateでゲームの状態を更新、FixedUpdateで物理処理を行い、
+* Renderで描画処理を行います。Inputで入力処理を行い、Debugでデバッグ情報を表示します。
+*/
 class World final
 {
 	friend class MyApp;
