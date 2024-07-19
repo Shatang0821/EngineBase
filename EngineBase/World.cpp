@@ -5,7 +5,22 @@
 #include "MyApp.h"
 #include "Collider.h"
 
+#include "GameLevel.h"
+#include "GameController.h"
+
 World mainWorld;
+
+bool World::Init()
+{
+	//ƒ[ƒ‹ƒh‰Šú‰»
+	mainWorld.currentLevel = new GameLevel;
+	mainWorld.gameInstance = new GameInstance;
+
+	//mainWorld.mainController = new Controller;
+	mainWorld.mainController = GameStatics::CreateObject<GameController>();
+
+	return true;
+}
 
 void World::Update(float DeltaTime)
 {

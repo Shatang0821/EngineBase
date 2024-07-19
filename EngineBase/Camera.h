@@ -23,6 +23,11 @@
   */
 class Camera :public SceneComponent
 {
+	friend class MyApp;
+	friend class SpriteRenderer;
+	friend class CircleCollider;
+	friend class BoxCollider;
+private:
 	//! 変換情報のバッファ
 	Transform transform_virtual;
 
@@ -44,9 +49,8 @@ class Camera :public SceneComponent
 	//! カメラ揺れの減衰値
 	int shakeDecay = 5;
 
-public:
 	/* カメラズーム */
-	
+
 	//! ばねの長さ 1~10000
 	float springArmLength = 1.0f;
 
@@ -56,6 +60,7 @@ public:
 	//! ばねの滑らかさ0~100
 	float smoothnessForSpringArm = 1.0f;
 
+private:
 	/**
 	 * @brief SmoothStep関数
 	 *

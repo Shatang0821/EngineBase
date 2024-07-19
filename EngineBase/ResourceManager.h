@@ -58,7 +58,7 @@ private:
 	 * @param id リソースID
 	 * @param pFname リソースファイルのパス
 	 */
-	void LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname);
+	bool LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname);
 
 	/**
 	 * @brief 複数枚画像リソースを読み込む
@@ -70,7 +70,7 @@ private:
 	 * @param pFname リソースファイルのパス.pngを書かない
 	 * @param num 画像の枚数
 	 */
-	void LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname,int num);
+	bool LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname,int num);
 
 	/**
 	 * @brief スプライトシート画像リソースを読み込む
@@ -86,7 +86,7 @@ private:
 	 * @param texWidth 画像の幅
 	 * @param texHeight 画像の高さ
 	 */
-	void LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname, int num, int row, int col, int texWidth, int texHeight);
+	bool LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname, int num, int row, int col, int texWidth, int texHeight);
 	
 protected:
 	/**
@@ -107,8 +107,10 @@ public:
 	 * @brief リソースマネージャの初期化
 	 *
 	 * 必要なリソースをすべて初期化し、読み込みます。
+	 * 
+	 * @return 成功した場合はtrue、失敗した場合はfalseを返します。
 	 */
-	void Initalize();
+	bool Initalize();
 	/**
 	 * @brief 指定されたリソースIDに対応するテクスチャを取得する
 	 *

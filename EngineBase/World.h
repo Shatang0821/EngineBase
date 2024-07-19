@@ -9,7 +9,6 @@
 #define _WORLD_H_
 
 #include "Object.h"
-#include "Level.h"
 #include "GameInstance.h"
 #include "VisualInterface.h"
 #include "CTimer.h"
@@ -61,13 +60,16 @@ struct ColliderSort
   */
 class World final
 {
-	friend class Engine;
+	friend class MyApp;
+	friend class Debug;
 	friend class GameStatics;
 	friend class Timer;
 	friend class LayerInterface;
 	friend class Camera;
 	friend class SpriteRenderer;
 	friend class Collider;
+	friend class CircleCollider;
+	friend class BoxCollider;
 
 	friend void Object::Destroy();
 private:
@@ -97,7 +99,7 @@ private:
 	/*ゲームシングルトンオブジェクト*/
 
 	//! シーンを指すインスタンス
-	Level* currentLevel = nullptr;
+	class Level* currentLevel = nullptr;
 	//! 入力と出力管理
 	class Controller* mainController = nullptr;
 	//! ゲームデータ管理
@@ -119,6 +121,13 @@ private:
 private:
 	/* メインロジック */
 
+
+	/**
+	 * @brief ゲーム初期化処理
+	 * 
+	 */
+	bool Init();
+	
 	/**
 	 * @brief ゲーム更新処理
 	 *

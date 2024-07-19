@@ -111,6 +111,20 @@ public:
 	 * @param id 素材id
 	 */
 	void LoadSprite(ResID id);
+
+	/**
+	 * @brief 画像の幅を取得する
+	 *
+	 * @return 画像の幅
+	 */
+	int GetSpriteWidth() { return sprite->GetWidth(); }
+	
+	/**
+	 * @brief 画像の高さを取得する
+	 *
+	 * @return 画像の高さ
+	 */
+	int GetSpriteHeight() { return sprite->GetHeight(); }
 };
 
 #endif // !_VISUALINTERFACE_H_

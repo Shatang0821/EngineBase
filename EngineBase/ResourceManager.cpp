@@ -2,7 +2,7 @@
 #include "ResourceManager.h"
 #include "myApp.h"
 
-void ResourceManager::LoadTex(IDirect3DDevice9* pDev,ResID id, const TCHAR* pFname)
+bool ResourceManager::LoadTex(IDirect3DDevice9* pDev,ResID id, const TCHAR* pFname)
 {
 	//テクスチャの取得
 	auto tex = MyTexture::LoadTexture(pDev, pFname);
@@ -10,14 +10,13 @@ void ResourceManager::LoadTex(IDirect3DDevice9* pDev,ResID id, const TCHAR* pFna
 	{
 		//プールに差し込む
 		imagePool.insert(std::pair<ResID, MyTexture*>(id, tex));
+        return true;
 	}
-	else {
-		printf("テクスチャの読み込みに失敗しました\n");
-	}
+    return false;
 	
 }
 
-void ResourceManager::LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname, int num)
+bool ResourceManager::LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname, int num)
 {
 	std::vector<MyTexture*> texs;
 
@@ -31,12 +30,16 @@ void ResourceManager::LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFn
 		if (tex) {
 			texs.push_back(tex);
 		}
+        else {
+            return false;
+        }
     }
     //プールに差し込む
     animPool.insert({id,{texs,num}});
+    return true;
 }
 
-void ResourceManager::LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname, int num, int row, int col,int texWidth,int texHeight)
+bool ResourceManager::LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFname, int num, int row, int col,int texWidth,int texHeight)
 {
     std::vector<MyTexture*> texs;
 
@@ -61,18 +64,30 @@ void ResourceManager::LoadTex(IDirect3DDevice9* pDev, ResID id, const TCHAR* pFn
         if (tex) {
             texs.push_back(tex);
         }
+        else {
+            return false;
+        }
     }
 
     // Insert the sprite sheet into the animation pool
     animPool.insert({ id,{texs,num} });
+    return true;
 }
 
-void ResourceManager::Initalize()
+bool ResourceManager::Initalize()
 {
 	auto myApp = MyApp::Instance();
 	auto device = myApp->GetDevice();
-	LoadTex(device, ResID::Tex_Bullet, _T("data/image/parallax-mountain-bg.png"));
-    LoadTex(device, ResID::Tex_Player, _T("data/image/Virtual Guy/Idle (32x32).png"),11,1,11,352,32);
+
+    if (!LoadTex(device, ResID::Tex_Bullet, _T("data/image/parallax-mountain-bg.png"))) {
+        		return false;
+    }
+    
+    if (!LoadTex(device, ResID::Tex_Player, _T("data/image/Virtual Guy/Idle (32x32).png"), 11, 1, 11, 352, 32)) {
+		return false;
+	}
+
+    return true;
 }
 
 MyTexture* ResourceManager::Fetch(ResID id)

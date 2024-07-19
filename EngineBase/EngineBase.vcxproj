@@ -151,6 +151,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="CTimer.cpp" />
+    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GameInstance.cpp" />
     <ClCompile Include="GameLevel.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="CTimer.h" />
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameInstance.h" />
     <ClInclude Include="GameLevel.h" />

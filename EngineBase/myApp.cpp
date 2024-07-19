@@ -1,6 +1,8 @@
 ﻿#include "stdafx.h"
 #include "myApp.h"
-#include "SpriteRenderer.h"
+#include "Debug.h"
+#include "InputManager.h"
+#include "World.h"
 
 //#define FULLSCREEN
 
@@ -14,7 +16,8 @@ static const TCHAR* version = WDATE(__DATE__, __TIME__);
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 const TCHAR* D3DErrStr(HRESULT res);
 
-bool MyApp::InitApp()
+
+bool MyApp::InitDirectX()
 {
 	// このプログラムが実行されるときのインスタンスハンドルを取得.
 	hInstance = GetModuleHandle(NULL);
@@ -45,7 +48,7 @@ bool MyApp::InitApp()
 		MessageBox(NULL, D3DErrStr(hr), _T("Direct3D初期化失敗"), MB_OK);
 		return false;
 	}
-	
+
 	// スプライトの作成.
 	hr = D3DXCreateSprite(pDevice, &(pSprite));
 	if (FAILED(hr)) {
@@ -54,63 +57,38 @@ bool MyApp::InitApp()
 	}
 
 	hr = InitFont();
-	if(FAILED(hr))
+	if (FAILED(hr))
 	{
 		MessageBox(NULL, D3DErrStr(hr), _T("フォント作成失敗"), MB_OK);
 		return false;
 	}
 
-	// テクスチャを読み込む。エラー時にはLoadTextureは例外を発生させる.
-	// LoadTextureごとにif判定をするのは面倒なので、try～throw～catchを使う.
-	try {
-	}
-	// catch句はtryの直後に記述する.
-	catch (HRESULT /*hr*/) {
-		return false;
-	}
-
 	return true;
 }
 
-bool MyApp::DrawStart()
+bool MyApp::InitGame()
 {
-	auto myApp = MyApp::Instance();
-	D3DCOLOR rgb = D3DCOLOR_XRGB(10, 10, 80);
-	HRESULT hr = myApp->GetDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, rgb, 1.0f, 0);
+	// リソースマネージャ初期化
+	if (!ResourceManager::Instance()->Initalize()) {
+		MessageBox(NULL, _T("ResourceManager初期化失敗"), _T("エラー"), MB_OK);
+		return false;
+	}
+
+	// 入力マネージャ初期化
+	HRESULT hr = InputManager::Instance()->InitInput(MyApp::Instance()->GetHInstance(), MyApp::Instance()->GetHWND());
 	if (FAILED(hr)) {
-		_tprintf(D3DErrStr(hr));
+		MessageBox(NULL, D3DErrStr(hr), _T("InputManager初期化失敗"), MB_OK);
 		return false;
 	}
 
-	// 描画を開始（シーン描画の開始）.
-	if (FAILED(myApp->GetDevice()->BeginScene())) {
+	if (!mainWorld.Init()) {
+		MessageBox(NULL, _T("World初期化失敗"), _T("エラー"), MB_OK);
 		return false;
 	}
 
-	if (FAILED(myApp->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND)))
-	{
-		return false;
-	}
 	return true;
 }
 
-void MyApp::DrawEnd()
-{
-	auto myApp = MyApp::Instance();
-	myApp->GetSprite()->End();
-	myApp->GetDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	// 描画を終了（シーン描画の終了）.
-	myApp->GetDevice()->EndScene();
-
-	// 実際に画面に表示。バックバッファからフロントバッファへの転送.
-	// デバイス生成時のフラグ指定により、ここでVSYNCを待つ.
-	myApp->GetDevice()->Present(NULL, NULL, NULL, NULL);
-}
-
-void MyApp::MainLoop()
-{
-	
-}
 
 // マクロを複数行で書きたいときは\を行末に付けることで可能.
 #define RELEASE(__xx__)    \
@@ -254,4 +232,120 @@ HRESULT MyApp::InitFont()
 		&pFont             // フォントオブジェクトへのポインタ
 	);
 	return hr;
+}
+
+
+
+
+void MyApp::MainLoop()
+{
+	// イベントループ.
+	// ブロック型関数GetMessageではなくノンブロック型関数のPeekMessageを使う.
+	MSG msg;
+	bool flag = true;
+	while (flag) {
+		// メッセージがあるかどうか確認する.
+		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
+			// メッセージがあるので処理する.
+			if (GetMessage(&msg, NULL, 0, 0) != 0) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			else {
+				flag = 0;
+			}
+		}
+		else {
+			// フレーム開始時のタイマーリセット
+			mainWorld.Timer.StartTimer();
+			HandleInput();
+			Update();
+			Render();
+
+			// 更新処理後の時間計測
+			float updateTime;
+			mainWorld.Timer.GetPassTime(&updateTime);
+			// フレームレート制御 (例えば、60FPSを目指す場合)
+			if (updateTime < FRAME_TIME) {
+				DWORD sleepTime = static_cast<DWORD>((FRAME_TIME - updateTime) * 1000);
+				timeBeginPeriod(1);
+				Sleep(sleepTime);
+				timeEndPeriod(1);
+			}
+
+			// deltaTimeの計算
+			mainWorld.Timer.GetPassTime(&mainWorld.deltaTime);
+			// FPSの計算
+			mainWorld.fps = 1.0f / mainWorld.deltaTime;
+		}
+	}
+}
+
+
+void MyApp::HandleInput()
+{
+	mainWorld.Input();
+}
+
+void MyApp::Update()
+{
+	// 固定時間ステップでの物理更新
+	mainWorld.fixedAccumulator += mainWorld.deltaTime;
+	while (mainWorld.fixedAccumulator >= FIXED_DELTA_TIME)
+	{
+		mainWorld.FixedUpdate();
+		mainWorld.fixedAccumulator -= FIXED_DELTA_TIME;
+	}
+
+	// ロジック更新
+	mainWorld.Update(mainWorld.deltaTime);
+}
+
+void MyApp::Render()
+{
+	DrawStart();
+
+	mainWorld.Render();
+
+	
+	Debug::DrawBox(Vector2(WIDTH / 2, HEIGHT / 2), Vector2(32, 32) * (2 / mainWorld.mainCamera->springArmLength_virtual), D3DCOLOR_XRGB(255, 0, 0));
+	Debug::DrawCircle(Vector2(0, 0), 50, 32, D3DCOLOR_XRGB(0, 255, 0));
+	Debug::DrawLine(Vector2(0, 0), Vector2(WIDTH, HEIGHT), D3DCOLOR_XRGB(0, 0, 255));
+	
+	DrawEnd();
+}
+
+bool MyApp::DrawStart()
+{
+	auto myApp = MyApp::Instance();
+	D3DCOLOR rgb = D3DCOLOR_XRGB(10, 10, 80);
+	HRESULT hr = myApp->GetDevice()->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, rgb, 1.0f, 0);
+	if (FAILED(hr)) {
+		_tprintf(D3DErrStr(hr));
+		return false;
+	}
+
+	// 描画を開始（シーン描画の開始）.
+	if (FAILED(myApp->GetDevice()->BeginScene())) {
+		return false;
+	}
+
+	if (FAILED(myApp->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND)))
+	{
+		return false;
+	}
+	return true;
+}
+
+void MyApp::DrawEnd()
+{
+	auto myApp = MyApp::Instance();
+	myApp->GetSprite()->End();
+	myApp->GetDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	// 描画を終了（シーン描画の終了）.
+	myApp->GetDevice()->EndScene();
+
+	// 実際に画面に表示。バックバッファからフロントバッファへの転送.
+	// デバイス生成時のフラグ指定により、ここでVSYNCを待つ.
+	myApp->GetDevice()->Present(NULL, NULL, NULL, NULL);
 }

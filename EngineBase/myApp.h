@@ -65,15 +65,24 @@ protected:
 	~MyApp() {};
 
 public:
+
 	/**
 	 * @brief アプリケーションを初期化する
+	 *
+	 * DirectX9の初期化を行います。
+	 *
+	 * @return 成功した場合はtrue、失敗した場合はfalseを返します。
+	 */
+	bool InitDirectX();
+
+	/**
+	 * @brief ゲームを初期化する
 	 *
 	 * ゲームの初期化処理を行います。
 	 *
 	 * @return 成功した場合はtrue、失敗した場合はfalseを返します。
 	 */
-	bool InitApp();
-	
+	bool InitGame();
 
 	/**
 	 * @brief ウィンドウのリサイズ処理
@@ -85,22 +94,6 @@ public:
 	 */
 	void ResizeWindow(int, int);
 
-
-	/**
-	 * @brief 描画開始処理
-	 *
-	 * 描画処理を開始します。
-	 *
-	 * @return 成功した場合はtrue、失敗した場合はfalseを返します。
-	 */
-	bool DrawStart();
-
-	/**
-	 * @brief 描画終了処理
-	 *
-	 * 描画処理を終了します。
-	 */
-	void DrawEnd();
 	/**
 	 * @brief メインループを実行する
 	 *
@@ -129,6 +122,42 @@ public:
 private:
 	HRESULT InitDirect3D();
 	HRESULT InitFont();
+
+	/**
+	 * @brief 入力の更新処理
+	 *
+	 */
+	void HandleInput();
+
+	/**
+	 * @brief ゲームの状態を更新する
+	 *
+	 * ゲームの状態を更新します。
+	 */
+	void Update();
+
+	/**
+	 * @brief ゲームの描画処理を行う
+	 *
+	 * ゲームの描画処理を行います。
+	 */
+	void Render();
+
+	/**
+	 * @brief 描画開始処理
+	 *
+	 * 描画処理を開始します。
+	 *
+	 * @return 成功した場合はtrue、失敗した場合はfalseを返します。
+	 */
+	bool DrawStart();
+
+	/**
+	 * @brief 描画終了処理
+	 *
+	 * 描画処理を終了します。
+	 */
+	void DrawEnd();
 private:
 	HINSTANCE hInstance;		// インスタンスハンドル.
 	HWND hWnd;					// 表示ウィンドウ.

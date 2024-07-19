@@ -7,20 +7,20 @@ void SpriteRenderer::Render()
 {    
     if (sprite) {
         auto pSprite = MyApp::Instance()->GetSprite();
-        auto p = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition();
-        D3DXVECTOR2 position(p.x, p.y);
+        auto p = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH / 2,HEIGHT / 2);
+        auto size = Vector2(GetSpriteWidth(), GetSpriteHeight());
+        D3DXVECTOR2 position(p.x - size.x / 2, p.y - size.y /2);
         // 角度の取得ラジアン
         float rot = D3DXToRadian(GetWorldRotation());
 
         Vector2 scaleVec = GetWorldScale();
         // 2.0fはスプライトのサイズを画面サイズに合わせるための係数
         D3DXVECTOR2 scale(scaleVec.x * 2.0f / mainWorld.mainCamera->springArmLength_virtual, scaleVec.y * 2.0f / mainWorld.mainCamera->springArmLength_virtual);
-        //D3DXVECTOR2 scale(scaleVec.x * 2, scaleVec.y * 2);
 
         // 中心点の計算
         D3DXVECTOR2 center(sprite->GetWidth() / 2, sprite->GetHeight() / 2);
 
-        // 変換行列の計算
+        // 変換行列の計算  
         D3DXMATRIX matTransform;
         D3DXMatrixTransformation2D(&matTransform, &center, 0, &scale, &center, rot, &position);
 

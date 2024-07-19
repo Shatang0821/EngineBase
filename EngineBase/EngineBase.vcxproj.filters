@@ -64,6 +64,9 @@
     <Filter Include="Source Files\Game\Character">
       <UniqueIdentifier>{8dee89af-e9f7-4b46-9e8c-4a0daaa7c971}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Core\Utility">
+      <UniqueIdentifier>{51f57d07-9eed-420b-8f43-c10094ca9a31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -143,6 +146,9 @@
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>Source Files\Core\EngineCore\Componentes</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>Source Files\Core\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>Header Files\Core\EngineCore\Componentes</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Header Files\Core\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

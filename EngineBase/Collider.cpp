@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Collider.h"
-
+#include "Debug.h"
 #include "SceneComponent.h"
 
 bool CircleCollider::CollisionJudge(Collider* another)
@@ -149,7 +149,9 @@ void CircleCollider::Update(float DeltaTime)
 
 void CircleCollider::DrawDebugLine()
 {
+	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH,HEIGHT);
 
+	Debug::DrawCircle(pos, int(radius * (2 / mainWorld.mainCamera->springArmLength_virtual)), 32, D3DCOLOR_XRGB(0, 255, 0));
 }
 
 
@@ -160,6 +162,9 @@ void BoxCollider::Update(float DeltaTime)
 
 void BoxCollider::DrawDebugLine()
 {
+	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH, HEIGHT);
+
+	Debug::DrawBox(pos - size / 2, size * (2 / mainWorld.mainCamera->springArmLength_virtual), D3DCOLOR_XRGB(255, 0, 0));
 }
 
 const std::vector<Object*>& Collider::GetCollisions(std::string type)
