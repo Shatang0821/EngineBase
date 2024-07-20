@@ -49,6 +49,24 @@ public:
 	 */
 	virtual void BeginPlay() override;
 
+	/**
+	 * @brief マウスの位置を取得するメソッド
+	 *
+	 * マウスの位置を取得して返します。
+	 *
+	 * @return マウスの位置
+	 */
+	Vector2 GetMousePosition() const;
+
+	/**
+	 * @brief マウスカーソル下のオブジェクトを取得するメソッド
+	 *
+	 * オブジェクトがコライダーがアタッチされている場合、マウスカーソル下のオブジェクトを取得して返します。
+	 *
+	 * @return オブジェクト
+	 */
+	Object* GetObjectUnderCursor();
+
 	// 入力処理
 
 };

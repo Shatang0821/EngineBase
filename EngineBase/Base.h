@@ -27,6 +27,15 @@ public:
      * @param DeltaTime 前フレームからの経過時間
      */
     virtual void Update(float DeltaTime) = 0;
+
+    /**
+	 * @brief 固定更新処理の純粋仮想関数
+	 *
+	 * すべての派生クラスで実装する必要がある固定更新処理です。
+	 *
+	 * @param fixedDeltaTime 固定経過時間
+	 */
+    virtual void FixedUpdate(float fixedDeltaTime) = 0;
 };
 
 #endif // !_BASE_H_

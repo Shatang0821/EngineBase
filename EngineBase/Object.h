@@ -123,6 +123,15 @@ public:
 	 * @param DeltaTime 前フレームからの経過時間
 	 */
 	virtual void Update(float DeltaTime) override;
+
+	/**
+	 * @brief 物理演算更新処理
+	 *
+	 * この関数は、オブジェクトの物理演算を更新します。
+	 *
+	 * @param fixedDeltaTime 固定フレーム時間
+	 */
+	virtual void FixedUpdate(float fixedDeltaTime) override;
 public:
 
 	/**

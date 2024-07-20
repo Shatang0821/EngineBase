@@ -4,3 +4,7 @@
 void Level::Update(float DeltaTime)
 {
 }
+
+void Level::FixedUpdate(float fixedDeltaTime)
+{
+}

@@ -41,6 +41,17 @@ void Object::Update(float DeltaTime)
 	}
 }
 
+void Object::FixedUpdate(float fixedDeltaTime)
+{
+	components_iter = components.begin();
+	while (components_iter != components.end()) {
+		(*components_iter)->FixedUpdate(fixedDeltaTime);
+		//end‚ğ’´‚¦‚È‚¢‚æ‚¤‚É§Œä‚·‚é
+		if (components_iter == components.end()) break;
+		components_iter++;
+	}
+}
+
 void Object::Destroy()
 {
 	if (parent) parent->children.erase(this);

@@ -17,6 +17,7 @@ class Player : public StaticMesh
 	Animator* animator; ///< アニメーションを管理するAnimator
 	BoxCollider* boxCollider; ///< プレイヤーのボックスコライダー
 	CircleCollider* circleCollider; ///< プレイヤーのサークルコライダー
+	class RigidBody* rigidBody; ///< プレイヤーの剛体コンポーネント
 public:
 	Player(); ///< コンストラクタ
 

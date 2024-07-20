@@ -24,6 +24,7 @@
    */
 class Collider : public SceneComponent
 {
+	friend class Controller;
 public:
 	enum ColliderShape {
 		COLLIDER_SHAPE_CIRCLE,
@@ -43,7 +44,21 @@ private:
 protected:
 	ColliderShape shape = COLLIDER_SHAPE_CIRCLE;
 
+	/**
+	 * @brief この関数は、当たり判定を行います。
+	 *
+	 * @param another 衝突しているコライダー
+	 * 
+	 * @return 衝突しているかどうか
+	 */
 	virtual bool CollisionJudge(Collider* another) = 0;
+
+	/**
+	 * @brief この関数は、マウスとの当たり判定を行います。
+	 * 
+	 * @return 衝突しているかどうか
+	 */
+	virtual bool IsMouseOver() = 0;
 public:
 	Collider(){mainWorld.GameColliders.insert(this);}
 	virtual ~Collider(){mainWorld.GameColliders.erase(this);}
@@ -97,6 +112,7 @@ public:
 	 */
 	void Inser(Collider* another);
 
+
 	virtual void DrawDebugLine() = 0;
 };
 
@@ -116,14 +132,32 @@ private:
 	float radius_init = 0.0f;
 
 	virtual bool CollisionJudge(Collider* another) override;
+
 public:
 	CircleCollider(){shape = COLLIDER_SHAPE_CIRCLE; }
 
+	/**
+	 * @brief この関数は、更新処理を行います。
+	 *
+	 * @param DeltaTime 前のフレームからの経過時間
+	 */
 	virtual void Update(float DeltaTime) override;
+
+	/**
+	 * @brief この関数は、デバッグラインを描画します。
+	 * 
+	 */
 	virtual void DrawDebugLine() override;
+	/**
+	 * @brief この関数は、マウスとの当たり判定を行います。
+	 * 
+	 * @return 衝突しているかどうか
+	 */
+	virtual bool IsMouseOver() override;
 
 	float GetRadius()const { return radius; }
 	void SetRadius(float r) { radius = r; radius_init = r / sqrtf(GetWorldScale().x * GetWorldScale().y); }
+
 };
 
 /**
@@ -144,8 +178,23 @@ private:
 public:
 	BoxCollider(){shape = COLLIDER_SHAPE_BOX; }
 
+	/**
+	 * @brief この関数は、更新処理を行います。
+	 * 
+	 * @param DeltaTime 前のフレームからの経過時間
+	 */
 	virtual void Update(float DeltaTime) override;
+	/**
+	 * @brief この関数は、デバッグラインを描画します。
+	 * 
+	 */
 	virtual void DrawDebugLine() override;
+	/**
+	 * @brief この関数は、マウスとの当たり判定を行います。
+	 * 
+	 * @return 衝突しているかどうか
+	 */
+	virtual bool IsMouseOver() override;
 
 	const Vector2& GetSize()const { return size; }
 	void SetSize(const Vector2& s) { size = s; size_init = s / GetWorldScale(); }

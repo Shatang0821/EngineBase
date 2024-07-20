@@ -52,8 +52,13 @@ void World::Update(float DeltaTime)
 	}
 }
 
-void World::FixedUpdate()
+void World::FixedUpdate(float fixedDeltaTime)
 {
+	//物理更新
+	for(auto& obj : GameObjects)
+	{
+		obj->FixedUpdate(fixedDeltaTime);
+	}
 	//レベルの物理更新
 	for (auto& arr_i : ColliderZones)
 		for (auto& arr_j : arr_i)
@@ -162,6 +167,34 @@ void World::Debug()
 		obj->DrawDebugLine();
 	}
 
+}
+
+void World::ReleaseData()
+{
+	//オブジェクトの解放
+	for (auto obj : GameObjects) {
+		delete obj;
+	}
+	//コンテナをクリア
+	GameObjects.clear();
+
+	////UIの解放
+	//for (auto& obj : GameUIs) {
+	//	obj->Destroy();
+	//}
+	//GameUIs.clear();
+
+	//タイマーの解放
+	for (auto obj : GameTimers) {
+		delete obj;
+	}
+	GameTimers.clear();
+
+	//削除予定のオブジェクトを削除する
+	for (auto obj : GameObjects_to_delete) {
+		delete obj;
+	}
+	GameObjects_to_delete.clear();
 }
 
 bool ColliderSort::operator()(const Collider* a, const Collider* b) const

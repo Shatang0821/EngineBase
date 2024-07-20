@@ -23,7 +23,7 @@ class Component : public Base
     friend class Object;
 protected:
     //! コンポーネントの所有者（親オブジェクト）を指します。
-    class Object* pOwner = nullptr;
+    Object* pOwner = nullptr;
     
 public:
     /**
@@ -33,7 +33,16 @@ public:
       *
       * @param DeltaTime 前フレームからの経過時間
       */
-    virtual void Update(float DeltaTime) override;
+    virtual void Update(float deltaTime) override;
+
+    /**
+	 * @brief 物理演算更新処理
+	 *
+	 * この関数は、コンポーネントの物理演算を更新します。
+	 *
+	 * @param fixedDeltaTime 固定フレーム時間
+	 */
+    virtual void FixedUpdate(float fixedeltaTime) {};
     /**
      * @brief 削除処理
      *

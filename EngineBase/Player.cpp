@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "InputManager.h"
-
+#include "RigidBody.h"
 /**
  * @brief Playerのコンストラクタ。
  *
@@ -30,6 +30,11 @@ Player::Player()
 	circleCollider = ConstructComponent<CircleCollider>();
 	circleCollider->AttachTo(root);
 	circleCollider->SetRadius(16);
+
+	// 剛体コンポーネントの設定
+	rigidBody = ConstructComponent<RigidBody>();
+	
+	rigidBody->AddForce({ 0,-100 });
 }
 
 /**

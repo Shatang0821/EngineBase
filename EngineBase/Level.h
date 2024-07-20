@@ -21,6 +21,7 @@ class Level : public Base
 {
 public:
 	virtual void Update(float DeltaTime) override;
+	virtual void FixedUpdate(float fixedDeltaTime) override;
 };
 
 #endif // !_LEVEL_H_

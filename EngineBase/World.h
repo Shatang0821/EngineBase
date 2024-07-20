@@ -74,6 +74,7 @@ class World final
 	friend class Debug;
 	friend class GameStatics;
 	friend class Timer;
+	friend class Controller;
 	friend class LayerInterface;
 	friend class Camera;
 	friend class SpriteRenderer;
@@ -153,7 +154,7 @@ private:
 	 * この関数は、ゲームの物理状態を更新します。
 	 *
 	 */
-	void FixedUpdate();
+	void FixedUpdate(float fixedDeltaTime);
 
 	/**
 	 * @brief ゲーム描画更新処理
@@ -175,6 +176,13 @@ private:
 	 * この関数は、デバッグ機能を提供します。
 	 */
 	void Debug();
+	
+	/**
+	 * @brief リソース解放処理
+	 *
+	 * この関数は、ゲームで使用したリソースを解放します。
+	 */
+	void ReleaseData();
 
 };
 

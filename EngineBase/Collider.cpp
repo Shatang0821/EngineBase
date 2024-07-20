@@ -156,6 +156,11 @@ void CircleCollider::DrawDebugLine()
 	Debug::DrawCircle(pos, int(radius * (2 / mainWorld.mainCamera->springArmLength_virtual)), 32, D3DCOLOR_XRGB(0, 255, 0));
 }
 
+bool CircleCollider::IsMouseOver()
+{
+	return Vector2::Distance(GetWorldPosition(), mainWorld.mainController->GetMousePosition()) <= radius;
+}
+
 
 
 void BoxCollider::Update(float DeltaTime)
@@ -169,6 +174,16 @@ void BoxCollider::DrawDebugLine()
 	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
 
 	Debug::DrawBox(pos, size * (2 / mainWorld.mainCamera->springArmLength_virtual), D3DCOLOR_XRGB(255, 0, 0));
+}
+
+bool BoxCollider::IsMouseOver()
+{
+	Vector2 pos = GetWorldPosition();
+	Vector2 mousePos = mainWorld.mainController->GetMousePosition();
+
+	//矩形の上下左右の座標を計算
+	return (mousePos.x >= pos.x - size.x / 2 && mousePos.x <= pos.x + size.x / 2
+		&& mousePos.y >= pos.y - size.y / 2 && mousePos.y <= pos.y + size.y / 2);
 }
 
 const std::vector<Object*>& Collider::GetCollisions(std::string type)
