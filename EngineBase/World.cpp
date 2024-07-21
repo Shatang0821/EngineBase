@@ -29,10 +29,12 @@ void World::Update(float DeltaTime)
 
 	//オブジェクトの更新
 	for (auto& obj : GameObjects) {
-		obj->Update(DeltaTime);
+		if(obj != nullptr)
+			obj->Update(DeltaTime);
 	}
 	//削除予定のオブジェクトを削除する
 	for (auto& obj : GameObjects_to_delete) {
+		delete obj;
 		GameObjects.erase(obj);
 	}
 	//コンテナをクリア
@@ -173,10 +175,16 @@ void World::ReleaseData()
 {
 	//オブジェクトの解放
 	for (auto obj : GameObjects) {
-		delete obj;
+		obj->Destroy();
+
 	}
 	//コンテナをクリア
 	GameObjects.clear();
+
+	for (auto obj : GameObjects_to_delete) {
+		delete obj;
+	}
+	GameObjects_to_delete.clear();
 
 	////UIの解放
 	//for (auto& obj : GameUIs) {

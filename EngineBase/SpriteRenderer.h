@@ -26,6 +26,7 @@
 class SpriteRenderer final: public SceneComponent,public LayerInterface,public ImageInterface
 {
 public:
+    virtual ~SpriteRenderer() {};
     /**
      * @brief スプライトを描画する
      *

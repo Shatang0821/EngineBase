@@ -61,7 +61,12 @@ protected:
 	virtual bool IsMouseOver() = 0;
 public:
 	Collider(){mainWorld.GameColliders.insert(this);}
-	virtual ~Collider(){mainWorld.GameColliders.erase(this);}
+	virtual ~Collider(){
+		//コライダーを削除するときに、衝突しているコライダーコンテナをクリアする
+		collisions.clear();
+		aims.clear();
+		mainWorld.GameColliders.erase(this);
+	}
 
 	const std::vector<Object*>& GetCollisions(std::string type);
 

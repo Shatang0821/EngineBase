@@ -293,7 +293,8 @@ void MyApp::Update()
 	mainWorld.fixedAccumulator += mainWorld.deltaTime;
 	while (mainWorld.fixedAccumulator >= FIXED_DELTA_TIME)
 	{
-		std::cout<< "FixedUpdate : " << mainWorld.fixedAccumulator << std::endl;
+		if(mainWorld.fixedAccumulator > 0.1f)
+			std::cout<< "FixedUpdate : " << mainWorld.fixedAccumulator << std::endl;
 		mainWorld.FixedUpdate(mainWorld.fixedAccumulator);
 		mainWorld.fixedAccumulator -= FIXED_DELTA_TIME;
 	}

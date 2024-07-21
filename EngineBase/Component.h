@@ -26,6 +26,7 @@ protected:
     Object* pOwner = nullptr;
     
 public:
+    virtual ~Component() {};
     /**
       * @brief コンポーネントの更新処理
       *

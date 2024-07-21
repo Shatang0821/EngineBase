@@ -48,7 +48,16 @@ public:
 	 * コンポーネントをすべて削除する
 	 */
 	virtual ~Object() {
-		for (auto& com : components) delete com;
+
+		components_iter = components.begin();
+		while (components_iter != components.end()) {
+			(*components_iter)->Destruct();
+			//endを超えないように制御する
+			if (components_iter == components.end()) break;
+		}
+
+		components.clear();
+
 		delete root;
 	}
 
