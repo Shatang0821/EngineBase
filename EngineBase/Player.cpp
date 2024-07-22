@@ -2,12 +2,22 @@
 #include "Player.h"
 #include "InputManager.h"
 #include "RigidBody.h"
+#include "Debug.h"
 /**
  * @brief Playerのコンストラクタ。
  *
  * プレイヤーの初期設定を行います。
  */
 Player::Player()
+	: anchorPoint({ 0,0 })
+	, length(100)
+	, angle(D3DX_PI / 2)
+	, angularVelocity(0)
+	, angularAcceleration(0)
+	, animator(nullptr)
+	, boxCollider(nullptr)
+	, circleCollider(nullptr)
+	, rigidBody(nullptr)
 {
 	// レイヤーの設定
 	auto spriteRenderer = GetComponentByClass<SpriteRenderer>();
@@ -33,9 +43,15 @@ Player::Player()
 
 	// 剛体コンポーネントの設定
 	rigidBody = ConstructComponent<RigidBody>();
-	
-	rigidBody->AddForce({ 0,-100 });
+	rigidBody->SetGravity(9.8f);
+	//rigidBody->SetGravityEnabled(false);
+
+	//初期位置の設定
+	//固定点から長さと角度を使って初期位置を計算
+	auto newPos = anchorPoint + Vector2(0, length);
+	SetLocalPosition(newPos);
 }
+
 
 /**
  * @brief プレイヤーの更新処理。
@@ -50,21 +66,72 @@ void Player::Update(float DeltaTime)
 	// Wキーで上に移動
 	if (InputManager::Instance()->IsPushKey(DIK_W))
 	{
-		AddPosition(Vector2(0, -100) * DeltaTime);
+		anchorPoint += Vector2(0, -100) * DeltaTime;
 	}
 	// Sキーで下に移動
 	if (InputManager::Instance()->IsPushKey(DIK_S))
 	{
-		AddPosition(Vector2(0, 100) * DeltaTime);
+		anchorPoint += Vector2(0, 100) * DeltaTime;
 	}
 	// Aキーで左に移動
 	if (InputManager::Instance()->IsPushKey(DIK_A))
 	{
-		AddPosition(Vector2(-100, 0) * DeltaTime);
+		anchorPoint += Vector2(-100, 0) * DeltaTime;
 	}
 	// Dキーで右に移動
 	if (InputManager::Instance()->IsPushKey(DIK_D))
 	{
-		AddPosition(Vector2(100, 0) * DeltaTime);
+		anchorPoint += Vector2(100, 0) * DeltaTime;
 	}
 }
+
+void Player::FixedUpdate(float fixedDeltaTime)
+{
+	//重力の取得
+	auto g = rigidBody->GetGravity();
+
+	//固定点とのなす角の計算
+	Vector2 gravity = { 0,rigidBody->GetGravity() };
+	Vector2 direction = GetLocalPosition() - anchorPoint;
+	direction = direction.normalized();
+
+	angle = acos(gravity.dot(direction) / (gravity.Length() * direction.Length()));
+
+	auto xForce = (g * sin(angle) * -1) * direction.x;
+	auto yForce = (g * cos(angle) * -1) * direction.y;
+
+	if (gravity.cross(direction) > 0)
+	{
+		rigidBody->AddForce({ xForce,yForce });
+	}
+	else
+	{
+		rigidBody->AddForce({ xForce,yForce });
+	}
+	
+
+	std::cout << yForce << std::endl;
+	//anchorPoint.angleBetween(GetLocalPosition());
+	//std::cout << angle << std::endl;
+	//std::cout << gravity.cross(direction) << std::endl;
+
+	StaticMesh::FixedUpdate(fixedDeltaTime);
+
+	
+}
+
+void Player::DrawDebug()
+{
+	wchar_t text[50];
+	swprintf(text, 50, L"Velocity : %.1f,%.1f", rigidBody->GetVelocity().x, rigidBody->GetVelocity().y); // 数値を文字列に変換
+	Debug::RenderText(MyApp::Instance()->GetDevice(), 0, 20, text);
+	swprintf(text, 50, L"LocalPos : %.1f,%.1f", GetLocalPosition().x, GetLocalPosition().y); // 数値を文字列に変換
+	Debug::RenderText(MyApp::Instance()->GetDevice(), 0, 40, text);
+	
+	auto startPos= anchorPoint - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
+	auto endPos = GetWorldPosition() - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
+	
+	Debug::DrawLine(startPos, endPos, D3DCOLOR_XRGB(0, 255, 0));
+}
+
+

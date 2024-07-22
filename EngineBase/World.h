@@ -184,6 +184,9 @@ private:
 	 */
 	void ReleaseData();
 
+public:
+
+	class Camera* GetMainCamera() { return mainCamera; }
 };
 
 extern World mainWorld;

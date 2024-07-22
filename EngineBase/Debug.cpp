@@ -57,3 +57,19 @@ void Debug::DrawCircle(Vector2 pos, float radius,int segments, D3DCOLOR color)
     pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, segments, vertices.data(), sizeof(Vertex));
 
 }
+
+void Debug::RenderText(IDirect3DDevice9* pDevice, int x, int y, const wchar_t* text)
+{
+    RECT rect;
+    SetRect(&rect, x, y, x + 300, y + 50); // テキストを描画する矩形範囲
+
+    // テキストの描画
+    MyApp::Instance()->GetFont()->DrawTextW(
+        NULL,            // スプライトオブジェクトへのポインタ（使用しないのでNULL）
+        text,            // 描画するテキスト
+        -1,              // テキストの長さ（-1はNULL終端まで）
+        &rect,           // 描画する矩形範囲
+        DT_LEFT | DT_TOP,// テキストの配置
+        D3DCOLOR_XRGB(255, 255, 255) // テキストのカラー
+    );
+}

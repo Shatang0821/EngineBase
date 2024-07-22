@@ -44,11 +44,13 @@ public:
         , angularAcceleration(0)
         , torque(0)
         , bRotatable(true)
-        , force(Vector2::One())
-        , gravity(1) 
+        , force(Vector2::Zero())
+        , gravity(9.8) 
         , bGravityEnabled(true)
     {};
     virtual void FixedUpdate(float fixedDeltaTime) override;
+
+
 
     /**
      * @brief 物理移動可能かどうかを設定する。
@@ -58,11 +60,25 @@ public:
     void SetMoveable(bool b) { bMoveable = b; }
 
     /**
+     * @brief 重力を取得する
+     *
+     * @return  重力の値
+    */
+    float GetGravity() const { return gravity; }
+
+    /**
 	 * @brief 重力を設定する。
      * 
      * @param g 重力の値
 	 */
     void SetGravity(float g) { gravity = g; }
+
+    /**
+	 * @brief 速度を取得する。
+	 *
+	 * @return 速度の値
+	 */
+    Vector2 GetVelocity() const { return velocity; }
     
     /**
      * @brief 速度を設定する。
@@ -72,6 +88,27 @@ public:
     void SetVelocity(Vector2 v) { velocity = v; }
 
     /**
+	 * @brief 重力の計算をするかどうかを設定する。
+	 *
+	 * @param b 計算するか
+	 */
+    void SetGravityEnabled(bool b) { bGravityEnabled = b; }
+        
+    /**
+	 * @brief 回転の計算をするかどうかを設定する。。
+	 *
+	 * @param b 計算するか
+	 */
+    void SetRotatable(bool b) { bRotatable = b; }
+
+    /**
+     * @brief 角速度を取得する。
+     *
+     * @return 角速度の値
+     */
+    float GetAngularVelocity() const { return angularVelocity; }
+
+    /**
 	 * @brief 角速度を設定する。
 	 *
 	 * @param v 角速度の値
@@ -79,18 +116,11 @@ public:
     void SetAngularVelocity(float v) { angularVelocity = v; }
 
     /**
-	 * @brief 重力の計算をするかどうかを設定する。
-	 *
-	 * @param b 計算するか
-	 */
-    void SetGravityEnabled(bool b) { bGravityEnabled = b; }
-    
-    /**
-	 * @brief 回転の計算をするかどうかを設定する。。
-	 *
-	 * @param b 計算するか
-	 */
-    void SetRotatable(bool b) { bRotatable = b; }
+     * @brief トルクを設定する。
+     *
+     * @param t トルクの値
+     */
+    void SetTorque(float t) { torque = t; }
 
     /**
      * @brief 力を加える。

@@ -141,6 +141,13 @@ public:
 	 * @param fixedDeltaTime 固定フレーム時間
 	 */
 	virtual void FixedUpdate(float fixedDeltaTime) override;
+
+	/**
+	 * @brief Debug描画更新処理
+	 *
+	 * この関数は、オブジェクトのDebug描画を更新します。
+	 */
+	virtual void DrawDebug();
 public:
 
 	/**

@@ -13,22 +13,25 @@ void RigidBody::FixedUpdate(float fixedDeltaTime)
 				acceleration.y += gravity;
 			}
 
-			acceleration += force * fixedDeltaTime;
-
+			acceleration += force;
+			
 			velocity += acceleration * fixedDeltaTime;
-			pOwner->AddPosition(velocity);
+			pOwner->AddPosition(velocity * fixedDeltaTime);
+
+			acceleration = Vector2::Zero();
 		}
 		
 		//âÒì]èàóù
 		if (bRotatable) {
-			/*angularAcceleration = torque;
-			angularVelocity += angularAcceleration * fixedDeltaTime;*/
+			angularAcceleration = torque;
+			angularVelocity += angularAcceleration * fixedDeltaTime;
 
+			std::cout << angularVelocity << std::endl;
 			pOwner->AddRotation(angularVelocity);
+
+			torque = 0;
 		}
 
 		force = Vector2::Zero();
-		acceleration = Vector2::Zero();
-		torque = 0;
 	}
 }

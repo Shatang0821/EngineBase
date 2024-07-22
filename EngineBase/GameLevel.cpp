@@ -4,13 +4,14 @@
 
 GameLevel::GameLevel()
 {
-	buttle = GameStatics::CreateObject<StaticMesh>(Vector2(256,256));
-	buttle->GetComponentByClass<SpriteRenderer>()->LoadSprite(ResID::Tex_Bullet);
+	//buttle = GameStatics::CreateObject<StaticMesh>(Vector2(256,256));
+	//buttle->GetComponentByClass<SpriteRenderer>()->LoadSprite(ResID::Tex_Bullet);
 
-	buttle->Destroy();
+	//buttle->Destroy();
 	player = GameStatics::CreateObject<Player>(Vector2(0, 0));
 
-	player->Destroy();
+	
+	//player->Destroy();
 }
 
 void GameLevel::Update(float DeltaTime)

@@ -43,6 +43,9 @@ public:
 	 * @brief デバッグ用の円を描画します
 	 */
 	static void DrawCircle(Vector2 pos, float radius, int segments, D3DCOLOR color);
+
+	 // テキストの描画
+	static void RenderText(IDirect3DDevice9* pDevice, int x, int y, const wchar_t* text);
 };
 
 

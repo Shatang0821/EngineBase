@@ -52,6 +52,10 @@ void Object::FixedUpdate(float fixedDeltaTime)
 	}
 }
 
+void Object::DrawDebug()
+{
+}
+
 void Object::Destroy()
 {
 	if (parent) parent->children.erase(this);

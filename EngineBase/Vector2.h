@@ -173,7 +173,7 @@ struct Vector2
      *
      * @return float ベクトルの大きさ
      */
-    float magnitude() const {
+    float Length() const {
         return std::sqrt(x * x + y * y);
     }
 
@@ -183,7 +183,7 @@ struct Vector2
      * @return Vector2 正規化されたベクトル
      */
     Vector2 normalized() const {
-        float mag = magnitude();
+        float mag = Length();
         if (mag == 0) return Vector2(0, 0);
         return Vector2(x / mag, y / mag);
     }
@@ -197,6 +197,16 @@ struct Vector2
     float dot(const Vector2& v) const {
         return x * v.x + y * v.y;
     }
+
+    /**
+	 * @brief ベクトルの外積を計算します
+	 *
+	 * @param v 外積を計算するベクトル
+	 * @return float 外積
+	 */
+    float cross(const Vector2& v) const {
+		return x * v.y - y * v.x;
+	}
 
     /**
      * @brief 2つのベクトル間の距離を計算します
@@ -219,7 +229,7 @@ struct Vector2
      */
     float angleBetween(const Vector2& v) const {
         float dotProd = dot(v);
-        float magProd = magnitude() * v.magnitude();
+        float magProd = Length() * v.Length();
         return std::acos(dotProd / magProd); // ラジアン単位の角度
     }
 

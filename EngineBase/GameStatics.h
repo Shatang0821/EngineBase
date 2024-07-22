@@ -69,7 +69,7 @@ inline T* GameStatics::CreateObject(Vector2 pos)
 	if (pObj && static_cast<Object*>(pObj)) {
 		mainWorld.GameObjects.insert(pObj);
 		pObj->BeginPlay();
-		pObj->SetLocalPosition(pos);
+		//pObj->SetLocalPosition(pos);
 		return pObj;
 	}
 	//Ž¸”s‚µ‚½‚çnull‚ð•Ô‚·
