@@ -14,6 +14,19 @@
 
 #include "World.h"
 
+//当たり判定の形状
+enum class ColliderShape:UINT8 {
+	COLLIDER_SHAPE_CIRCLE,
+	COLLIDER_SHAPE_BOX,
+};
+
+//当たり判定のモード
+enum class CollisionMode :UINT8 {
+	NONE,
+	TRIGGER,
+	COLLISION,
+};
+
  /**
    * @class Collider
    * @brief コライダークラス
@@ -25,24 +38,22 @@
 class Collider : public SceneComponent
 {
 	friend class Controller;
-public:
-	enum ColliderShape {
-		COLLIDER_SHAPE_CIRCLE,
-		COLLIDER_SHAPE_BOX,
-	};
 private:
 	//! コライダーのタイプ タイプを使って当たり判定の処理が必要な同士を判別する
 	std::string type = "Default";
-
+	//! 当たり判定のモード
+	CollisionMode collisionMode = CollisionMode::TRIGGER;
 	//! レイヤ
 	int layer = 0;
 	//! 毎フレーム自身と衝突しているコライダー
 	std::unordered_set<Collider*> collisions;
 	//! 衝突しているオブジェクト
 	std::vector<Object*>aims;
+	//! コライダーを削除するためのコンテナ
+	std::vector<Collider*>collisions_to_erase;
 
 protected:
-	ColliderShape shape = COLLIDER_SHAPE_CIRCLE;
+	ColliderShape shape = ColliderShape::COLLIDER_SHAPE_CIRCLE;
 
 	/**
 	 * @brief この関数は、当たり判定を行います。
@@ -62,10 +73,8 @@ protected:
 public:
 	Collider(){mainWorld.GameColliders.insert(this);}
 	virtual ~Collider(){
-		//コライダーを削除するときに、衝突しているコライダーコンテナをクリアする
-		collisions.clear();
-		aims.clear();
 		mainWorld.GameColliders.erase(this);
+		Clear();
 	}
 
 	const std::vector<Object*>& GetCollisions(std::string type);
@@ -99,13 +108,32 @@ public:
 	 */
 	void SetType(std::string type) { this->type = type; }
 
+	/**
+	 * @brief この関数は、コライダーの形状を取得します。
+	 * 
+	 * @return コライダーの形状
+	 */
 	ColliderShape GetShape() { return shape; }
+	
+	/**
+	 * @brief この関数は、コライダーの当たり判定のモードを設定します。
+	 * 
+	 * @param mode 当たり判定のモード
+	 */
+	void SetCollisionMode(CollisionMode mode) { collisionMode = mode; }
+
+	/**
+	 * @brief この関数は、コライダーの当たり判定のモードを取得します。
+	 * 
+	 * @return 当たり判定のモード
+	 */
+	CollisionMode GetCollisionMode() { return collisionMode; }
 
 	/**
 	 * @brief この関数は、コンテナの中身をクリアします。
 	 * 
 	 */
-	void Clear(){collisions.clear(); }
+	void Clear();
 
 	/**
 	 * @brief この関数は、衝突しているコライダーを集めている
@@ -116,6 +144,12 @@ public:
 	 * @param another 衝突しているコライダー
 	 */
 	void Inser(Collider* another);
+
+	/**
+	 * @brief この関数は、衝突してないコライダーを削除します。
+	 * 
+	 */
+	void Erase();
 
 
 	virtual void DrawDebugLine() = 0;
@@ -139,7 +173,7 @@ private:
 	virtual bool CollisionJudge(Collider* another) override;
 
 public:
-	CircleCollider(){shape = COLLIDER_SHAPE_CIRCLE; }
+	CircleCollider(){shape = ColliderShape::COLLIDER_SHAPE_CIRCLE; }
 
 	/**
 	 * @brief この関数は、更新処理を行います。
@@ -147,7 +181,6 @@ public:
 	 * @param DeltaTime 前のフレームからの経過時間
 	 */
 	virtual void Update(float DeltaTime) override;
-
 	/**
 	 * @brief この関数は、デバッグラインを描画します。
 	 * 
@@ -181,7 +214,7 @@ private:
 	
 	virtual bool CollisionJudge(Collider* another) override;
 public:
-	BoxCollider(){shape = COLLIDER_SHAPE_BOX; }
+	BoxCollider(){shape = ColliderShape::COLLIDER_SHAPE_BOX; }
 
 	/**
 	 * @brief この関数は、更新処理を行います。

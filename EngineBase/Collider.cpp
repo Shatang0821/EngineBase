@@ -1,16 +1,73 @@
 #include "stdafx.h"
 #include "Collider.h"
+#include "CollisionManager.h"
 #include "Debug.h"
 #include "SceneComponent.h"
 
+
+const std::vector<Object*>& Collider::GetCollisions(std::string type)
+{
+	aims.clear();
+	//衝突しているコライダーが空でない場合
+	if (!collisions.empty()) {
+		for (auto it = collisions.begin(); it != collisions.end(); it++) {
+			//コライダーのタイプがtypeと一致する場合
+			if ((*it)->GetType() == type)
+				//aimsにコライダーのオーナー(Object)を追加
+				aims.push_back((*it)->pOwner);
+		}
+	}
+
+	return aims;
+}
+
+void Collider::Clear()
+{
+	//衝突しているコライダーのコンテナから自分をクリアする
+	for (auto& another : collisions) {
+		another->collisions.erase(this);
+	}
+	//コライダーを削除するときに、衝突しているコライダーコンテナをクリアする
+	collisions.clear();
+}
+
+void Collider::Inser(Collider* another)
+{
+	//タイプのマッピングが存在し、衝突しているコライダーがまだ衝突リストにない、かつ当たり判定がtrueの場合
+	if (CollisionManager::Instance()->FindMapping(type, another->GetType())
+		&& collisions.find(another) == collisions.end()
+		&& CollisionJudge(another))
+	{
+		//衝突しているコライダーを追加
+		collisions.insert(another);
+		//anotherのcollisionsに自身を追加
+		another->collisions.insert(this);
+	}
+}
+
+void Collider::Erase()
+{
+	collisions_to_erase.clear();
+	for (auto& another : collisions) {
+
+		if(!CollisionJudge(another))
+			another->collisions.erase(this);
+			collisions_to_erase.push_back(another);
+	}
+
+	for(auto& another : collisions_to_erase)
+		collisions.erase(another);
+}
+
+
 bool CircleCollider::CollisionJudge(Collider* another)
 {
-	if (another->GetShape() == COLLIDER_SHAPE_CIRCLE) {
+	if (another->GetShape() == ColliderShape::COLLIDER_SHAPE_CIRCLE) {
 		//円と円の当たり判定
 		CircleCollider* circle = Cast<CircleCollider>(another);
 		return Vector2::Distance(GetWorldPosition(),circle->GetWorldPosition()) <= radius + circle->GetRadius();
 	}
-	else if (another->GetShape() == COLLIDER_SHAPE_BOX) {
+	else if (another->GetShape() == ColliderShape::COLLIDER_SHAPE_BOX) {
 		//円と矩形の当たり判定
 		BoxCollider* box = Cast<BoxCollider>(another);
 		//円の中心座標と矩形の中心座標
@@ -68,9 +125,29 @@ bool CircleCollider::CollisionJudge(Collider* another)
 	return false;
 }
 
+void CircleCollider::Update(float DeltaTime)
+{
+	//半径はオブジェクトのスケールに沿って更新する
+	radius = radius_init * sqrtf(GetWorldScale().x * GetWorldScale().y);
+}
+
+void CircleCollider::DrawDebugLine()
+{
+	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH / 2,HEIGHT / 2);
+
+	Debug::DrawCircle(pos, int(radius * (2 / mainWorld.mainCamera->springArmLength_virtual)), 32, D3DCOLOR_XRGB(0, 255, 0));
+}
+
+bool CircleCollider::IsMouseOver()
+{
+	return Vector2::Distance(GetWorldPosition(), mainWorld.mainController->GetMousePosition()) <= radius;
+}
+
+
+
 bool BoxCollider::CollisionJudge(Collider* another)
 {
-	if (another->GetShape() == COLLIDER_SHAPE_CIRCLE) {
+	if (another->GetShape() == ColliderShape::COLLIDER_SHAPE_CIRCLE) {
 		//矩形と円の当たり判定
 		CircleCollider* circle = Cast<CircleCollider>(another);
 		//矩形の中心座標
@@ -143,26 +220,6 @@ bool BoxCollider::CollisionJudge(Collider* another)
 	return false;
 }
 
-void CircleCollider::Update(float DeltaTime)
-{
-	//半径はオブジェクトのスケールに沿って更新する
-	radius = radius_init * sqrtf(GetWorldScale().x * GetWorldScale().y);
-}
-
-void CircleCollider::DrawDebugLine()
-{
-	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH / 2,HEIGHT / 2);
-
-	Debug::DrawCircle(pos, int(radius * (2 / mainWorld.mainCamera->springArmLength_virtual)), 32, D3DCOLOR_XRGB(0, 255, 0));
-}
-
-bool CircleCollider::IsMouseOver()
-{
-	return Vector2::Distance(GetWorldPosition(), mainWorld.mainController->GetMousePosition()) <= radius;
-}
-
-
-
 void BoxCollider::Update(float DeltaTime)
 {
 	//サイズがオブジェクトのスケールに沿って更新する
@@ -186,29 +243,3 @@ bool BoxCollider::IsMouseOver()
 		&& mousePos.y >= pos.y - size.y / 2 && mousePos.y <= pos.y + size.y / 2);
 }
 
-const std::vector<Object*>& Collider::GetCollisions(std::string type)
-{
-	aims.clear();
-	//衝突しているコライダーが空でない場合
-	if (!collisions.empty()) {
-		for (auto it = collisions.begin(); it != collisions.end(); it++) {
-			//コライダーのタイプがtypeと一致する場合
-			if ((*it)->GetType() == type)
-				//aimsにコライダーのオーナー(Object)を追加
-				aims.push_back((*it)->pOwner);
-		}
-	}
-
-	return aims;
-}
-
-void Collider::Inser(Collider* another)
-{
-	//collisionsにanotherが含まれていない場合、かつCollisionJudgeがtrueの場合
-	if (collisions.find(another) == collisions.end() && CollisionJudge(another)) {
-		//衝突しているコライダーを追加
-		collisions.insert(another);
-		//anotherのcollisionsに自身を追加
-		another->collisions.insert(this);
-	}
-}

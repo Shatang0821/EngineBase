@@ -1,7 +1,10 @@
 ﻿#include "stdafx.h"
 #include "myApp.h"
 #include "Debug.h"
+
 #include "InputManager.h"
+#include "CollisionManager.h"
+
 #include "World.h"
 
 //#define FULLSCREEN
@@ -73,6 +76,8 @@ bool MyApp::InitGame()
 		MessageBox(NULL, _T("ResourceManager初期化失敗"), _T("エラー"), MB_OK);
 		return false;
 	}
+	// 当たり判定マネージャ初期化
+	CollisionManager::Instance()->Initialize();
 
 	// 入力マネージャ初期化
 	HRESULT hr = InputManager::Instance()->InitInput(MyApp::Instance()->GetHInstance(), MyApp::Instance()->GetHWND());
@@ -82,7 +87,7 @@ bool MyApp::InitGame()
 	}
 
 	if (!mainWorld.Init()) {
-		MessageBox(NULL, _T("World初期化失敗"), _T("エラー"), MB_OK);
+		MessageBox(NULL, _T("World初期化失敗"), _T("エラー"), MB_OK);	
 		return false;
 	}
 
@@ -219,7 +224,7 @@ HRESULT MyApp::InitFont()
 {
 	HRESULT hr = D3DXCreateFont(
 		pDevice,           // Direct3Dデバイス
-		30,                // フォントの高さ
+		15,                // フォントの高さ
 		0,                 // フォントの幅
 		FW_BOLD,           // フォントの太さ
 		1,                 // ミップレベル

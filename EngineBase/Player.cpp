@@ -122,11 +122,10 @@ void Player::FixedUpdate(float fixedDeltaTime)
 
 void Player::DrawDebug()
 {
+	auto pos = GetWorldPosition() - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
 	wchar_t text[50];
-	swprintf(text, 50, L"Velocity : %.1f,%.1f", rigidBody->GetVelocity().x, rigidBody->GetVelocity().y); // ”’l‚ð•¶Žš—ñ‚É•ÏŠ·
-	Debug::RenderText(MyApp::Instance()->GetDevice(), 0, 20, text);
-	swprintf(text, 50, L"LocalPos : %.1f,%.1f", GetLocalPosition().x, GetLocalPosition().y); // ”’l‚ð•¶Žš—ñ‚É•ÏŠ·
-	Debug::RenderText(MyApp::Instance()->GetDevice(), 0, 40, text);
+	swprintf(text, 50, L" %.1f,%.1f", GetLocalPosition().x, GetLocalPosition().y); // ”’l‚ð•¶Žš—ñ‚É•ÏŠ·
+	Debug::RenderText(MyApp::Instance()->GetDevice(), pos.x, pos.y, text);
 	
 	auto startPos= anchorPoint - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
 	auto endPos = GetWorldPosition() - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);

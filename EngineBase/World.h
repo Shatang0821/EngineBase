@@ -157,6 +157,12 @@ private:
 	void FixedUpdate(float fixedDeltaTime);
 
 	/**
+	 * @brief 物理計算処理
+	 *
+	 */
+	void ProcessColliderZones();
+
+	/**
 	 * @brief ゲーム描画更新処理
 	 *
 	 * この関数は、ゲームの描画を更新します。

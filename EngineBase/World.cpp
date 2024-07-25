@@ -62,30 +62,39 @@ void World::FixedUpdate(float fixedDeltaTime)
 	{
 		obj->FixedUpdate(fixedDeltaTime);
 	}
+
+	ProcessColliderZones();
+	
+}
+
+void World::ProcessColliderZones()
+{
 	//レベルの物理更新
+	//1フレームごとにコライダーの衝突エリアをクリア
 	for (auto& arr_i : ColliderZones)
 		for (auto& arr_j : arr_i)
 			arr_j.clear();
 
-	for(auto it = GameColliders.begin(); it != GameColliders.end(); ++it)
-	{
-		//前フレームの衝突情報をクリア
-		(*it)->Clear();
+	for (auto& it : GameColliders) {
+
+		if (it->GetCollisionMode() == CollisionMode::NONE) continue;
 
 		//コライダー半分情報を取得
 		Vector2 half;
-		if((*it)->GetShape() == Collider::COLLIDER_SHAPE_CIRCLE)
+		if (it->GetShape() == ColliderShape::COLLIDER_SHAPE_CIRCLE)
 		{
-			float r = Cast<CircleCollider>(*it)->GetRadius();
+			float r = Cast<CircleCollider>(it)->GetRadius();
 			half = Vector2(r, r);
 		}
-		else if((*it)->GetShape() == Collider::COLLIDER_SHAPE_BOX)
+		else if (it->GetShape() == ColliderShape::COLLIDER_SHAPE_BOX)
 		{
-			half = Cast<BoxCollider>(*it)->GetSize() / 2;
+			half = Cast<BoxCollider>(it)->GetSize() / 2;
 		}
 
+		// 8*6のエリアにコライダーを振り分ける
+
 		//左上の座標を取得
-		Vector2 pos = (*it)->GetWorldPosition();
+		Vector2 pos = it->GetWorldPosition();
 		pos -= half;
 
 		int x = int(pos.x) / 100; x = Math::clamp(x, 0, 7);
@@ -96,14 +105,15 @@ void World::FixedUpdate(float fixedDeltaTime)
 		int x_1 = int(pos.x) / 100; x_1 = Math::clamp(x_1, 0, 7);
 		int y_1 = int(pos.y) / 100; y_1 = Math::clamp(y_1, 0, 5);
 
-		for(int i = x; i <= x_1; ++i)
+		for (int i = x; i <= x_1; ++i)
 		{
-			for(int j = y; j <= y_1; ++j)
+			for (int j = y; j <= y_1; ++j)
 			{
-				ColliderZones[i][j].insert(*it);
+				ColliderZones[i][j].insert(it);
 			}
 		}
 	}
+
 
 	//コライダーの物理更新
 	for (auto& arr_i : ColliderZones) {
@@ -126,6 +136,11 @@ void World::FixedUpdate(float fixedDeltaTime)
 			}
 		}
 	}
+
+	for (auto& it : GameColliders)
+	{
+		it->Erase();
+	}
 }
 
 void World::Render()
@@ -133,6 +148,7 @@ void World::Render()
 	for (auto& obj : GameRenderers) {
 		obj->Render();
 	}
+
 	Debug();
 }
 
