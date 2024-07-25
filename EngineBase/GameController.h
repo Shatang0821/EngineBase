@@ -23,13 +23,13 @@ public:
 
 	void Update(float DeltaTime) override;
 
-	void Shake();
+	void Shake(BYTE);
 private:
 	//! カメラのスプリングアームの長さ
 	float armLength = 1;
 
-	void ZoomIn();
-	void ZoomOut();
+	void ZoomIn(BYTE);
+	void ZoomOut(BYTE);
 
 
 };

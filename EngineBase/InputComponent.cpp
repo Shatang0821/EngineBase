@@ -19,16 +19,16 @@ void InputComponent::Update(float DeltaTime)
 		if(InputManager::Instance()->IsPushKey(mapping.second)) {
 			// 入力が押された瞬間かつ、1フレーム前に押されていない場合
 			if (info.type == InputType::Pressed && !info.isPressed) {
-				info.func();
+				info.func(mapping.second);
 			}
-			if (info.type == InputType::Holding) info.func();
+			if (info.type == InputType::Holding) info.func(mapping.second);
 			// 押されるトリガーをtrueにする
 			info.isPressed = true;
 		}
 		else if(info.isPressed) {
 			if(info.type == InputType::Pressed) info.isPressed = false;
 			else if(info.type == Released) {
-				info.func();
+				info.func(mapping.second);
 				info.isPressed = false;
 			}
 

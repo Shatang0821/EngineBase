@@ -36,22 +36,20 @@ void GameController::Update(float DeltaTime)
 	}*/
 }
 
-void GameController::Shake()
+void GameController::Shake(BYTE key)
 {
 	//camera->ShakeCamera(5,60);
 	AddPosition(Vector2(100.0f, 0));
 }
 
-void GameController::ZoomIn()
+void GameController::ZoomIn(BYTE key)
 {
-	std::cout << "ZoomIn" << std::endl;
 	armLength = Math::clamp(armLength - 0.05f, 0.5f, 10000.f);
 	camera->SetSpringArmLength(armLength);
 }
 
-void GameController::ZoomOut()
+void GameController::ZoomOut(BYTE key)
 {
-	std::cout << "ZoomOut" << std::endl;
 	armLength = Math::clamp(armLength + 0.05f, 0.5f, 10000.f);
 	camera->SetSpringArmLength(armLength);
 }

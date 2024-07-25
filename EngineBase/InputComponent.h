@@ -31,7 +31,7 @@ enum InputType
  */
 struct KeyBindInfo
 {
-	std::function<void()> func; ///< コールバック関数
+	std::function<void(BYTE)> func; ///< コールバック関数
 	InputType type; ///< 入力の種類
 	bool isPressed = false; ///< 入力が押されているかどうかの状態
 };
@@ -67,9 +67,9 @@ public:
 	 * @param func バインドするメンバ関数
 	 */
 	template<typename T>
-	void BindAction(std::string actionName, InputType type,T*obj,void(T::*func)()) {
+	void BindAction(std::string actionName, InputType type,T*obj,void(T::*func)(BYTE)) {
 		if (mappings.find(actionName) != mappings.end()) {
-			callbacks.insert({ actionName,KeyBindInfo{std::bind(func,obj),type ,false} });
+			callbacks.insert({ actionName,KeyBindInfo{std::bind(func,obj,std::placeholders::_1),type ,false} });
 		}
 	}
 	/**

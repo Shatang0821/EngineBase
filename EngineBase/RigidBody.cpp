@@ -26,7 +26,6 @@ void RigidBody::FixedUpdate(float fixedDeltaTime)
 			angularAcceleration = torque;
 			angularVelocity += angularAcceleration * fixedDeltaTime;
 
-			std::cout << angularVelocity << std::endl;
 			pOwner->AddRotation(angularVelocity);
 
 			torque = 0;

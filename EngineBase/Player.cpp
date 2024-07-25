@@ -87,36 +87,7 @@ void Player::Update(float DeltaTime)
 
 void Player::FixedUpdate(float fixedDeltaTime)
 {
-	//d—Í‚ÌŽæ“¾
-	auto g = rigidBody->GetGravity();
-
-	//ŒÅ’è“_‚Æ‚Ì‚È‚·Šp‚ÌŒvŽZ
-	Vector2 gravity = { 0,rigidBody->GetGravity() };
-	Vector2 direction = GetLocalPosition() - anchorPoint;
-	direction = direction.normalized();
-
-	angle = acos(gravity.dot(direction) / (gravity.Length() * direction.Length()));
-
-	auto xForce = (g * sin(angle) * -1) * direction.x;
-	auto yForce = (g * cos(angle) * -1) * direction.y;
-
-	if (gravity.cross(direction) > 0)
-	{
-		rigidBody->AddForce({ xForce,yForce });
-	}
-	else
-	{
-		rigidBody->AddForce({ xForce,yForce });
-	}
-	
-
-	std::cout << yForce << std::endl;
-	//anchorPoint.angleBetween(GetLocalPosition());
-	//std::cout << angle << std::endl;
-	//std::cout << gravity.cross(direction) << std::endl;
-
 	StaticMesh::FixedUpdate(fixedDeltaTime);
-
 	
 }
 
