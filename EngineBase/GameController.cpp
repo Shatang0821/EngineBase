@@ -44,6 +44,7 @@ void GameController::Shake(BYTE key)
 
 void GameController::ZoomIn(BYTE key)
 {
+
 	armLength = Math::clamp(armLength - 0.05f, 0.5f, 10000.f);
 	camera->SetSpringArmLength(armLength);
 }

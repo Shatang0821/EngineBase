@@ -39,13 +39,8 @@ private:
 	//! 時計
 	Timer clock;
 
-	void UpdateIndex() {
-		//インデックスを更新
-		index = (index + 1) % num;
-	}
-
 public:
-	Animation() { clock.Bind(0, this, &Animation::UpdateIndex, true); }
+	Animation() { clock.Bind(0, [this]() {index = (index + 1) % num; }, true); }
 
 	void Load(ResID id, POINT delta = {0,0});
 

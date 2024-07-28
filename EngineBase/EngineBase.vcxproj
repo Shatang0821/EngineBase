@@ -164,6 +164,7 @@
     <ClCompile Include="myApp.cpp" />
     <ClCompile Include="MyTexture.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RigidBody.cpp" />
@@ -177,6 +178,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VisualInterface.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -200,6 +202,7 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="myApp.h" />
     <ClInclude Include="MyTexture.h" />
+    <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RigidBody.h" />

@@ -34,8 +34,16 @@ public:
 	 * @param repeat 呼び出しを繰り返すかどうか（デフォルトはfalse）
 	 */
 	template<typename T>
-	void Bind(double duration, T* obj,void(T::*func)(),bool repeat = false, double firstDelay = -1.0) {
+	void Bind(double duration, T* obj,void(T::*func)(),bool repeat = false) {
 		callback = std::bind(func, obj);
+		delay = std::chrono::duration<double>(duration);
+		lastTime = std::chrono::steady_clock::now();
+		bPersistent = repeat;
+		mainWorld.GameTimers.insert(this);
+	}
+
+	void Bind(double duration, std::function<void()>func, bool repeat = false) {
+		callback = func;
 		delay = std::chrono::duration<double>(duration);
 		lastTime = std::chrono::steady_clock::now();
 		bPersistent = repeat;

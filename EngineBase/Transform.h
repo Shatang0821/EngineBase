@@ -53,6 +53,26 @@ struct Transform
     Transform Identity() const {
         return Transform(Vector2::Zero(), 0, Vector2::One());
     }
+
+    /**
+	 * @brief ワールド座標をカメラ座標に変換する関数
+	 *
+	 * ワールド座標をカメラ座標に変換します。
+	 *
+	 * @param worldPos ワールド位置座標
+	 * @return Vector2 カメラ座標
+	 */
+    static Vector2 WorldToCamera(const Vector2& worldPos);
+
+    /**
+     * @brief ワールド座標をビュー座標に変換する関数
+     *
+     * ワールド座標をビュー座標に変換します。
+     *
+     * @param worldPos ワールド位置座標
+     * @return Vector2 ビュー座標
+     */
+    static Vector2 WordToScreen(const Vector2& worldPos);
 };
 
 #endif // !_TRANSFORM_H_

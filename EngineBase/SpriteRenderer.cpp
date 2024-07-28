@@ -7,7 +7,11 @@ void SpriteRenderer::Render()
 {    
     if (sprite) {
         auto pSprite = MyApp::Instance()->GetSprite();
-        auto p = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH / 2,HEIGHT / 2);
+
+        //プレイヤーの位置をスクリーン座標に変換
+        auto p = Transform::WordToScreen(GetWorldPosition());
+
+
         auto size = Vector2(GetSpriteWidth(), GetSpriteHeight());
         D3DXVECTOR2 position(p.x - size.x / 2, p.y - size.y /2);
         // 角度の取得ラジアン

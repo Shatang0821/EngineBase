@@ -16,7 +16,7 @@ Player::Player()
 	, angularAcceleration(0)
 	, animator(nullptr)
 	, boxCollider(nullptr)
-	, circleCollider(nullptr)
+	//, circleCollider(nullptr)
 	, rigidBody(nullptr)
 {
 	// レイヤーの設定
@@ -34,22 +34,25 @@ Player::Player()
 	// ボックスコライダーの設定
 	boxCollider = ConstructComponent<BoxCollider>();
 	boxCollider->AttachTo(root);
-	boxCollider->SetSize(Vector2(32, 32));
+	boxCollider->SetSize(Vector2(64, 64));
+
+	boxCollider->OnComponentBeginOverlap.AddDynamic(this, &Player::BeginOverlap);
+	boxCollider->OnComponentEndOverlap.AddDynamic(this, &Player::EndOverlap);
 
 	// サークルコライダーの設定
-	circleCollider = ConstructComponent<CircleCollider>();
-	circleCollider->AttachTo(root);
-	circleCollider->SetRadius(16);
+	//circleCollider = ConstructComponent<CircleCollider>();
+	//circleCollider->AttachTo(root);
+	//circleCollider->SetRadius(16);
 
 	// 剛体コンポーネントの設定
 	rigidBody = ConstructComponent<RigidBody>();
 	rigidBody->SetGravity(9.8f);
-	//rigidBody->SetGravityEnabled(false);
+	rigidBody->SetGravityEnabled(false);
 
 	//初期位置の設定
 	//固定点から長さと角度を使って初期位置を計算
 	auto newPos = anchorPoint + Vector2(0, length);
-	SetLocalPosition(newPos);
+	//SetLocalPosition(newPos);
 }
 
 
@@ -66,22 +69,32 @@ void Player::Update(float DeltaTime)
 	// Wキーで上に移動
 	if (InputManager::Instance()->IsPushKey(DIK_W))
 	{
-		anchorPoint += Vector2(0, -100) * DeltaTime;
+		//Localpo += Vector2(0, -100) * DeltaTime;
+		rigidBody->SetVelocity(Vector2(0, -100));
 	}
 	// Sキーで下に移動
-	if (InputManager::Instance()->IsPushKey(DIK_S))
+	else if (InputManager::Instance()->IsPushKey(DIK_S))
 	{
-		anchorPoint += Vector2(0, 100) * DeltaTime;
+		//anchorPoint += Vector2(0, 100) * DeltaTime;
+		rigidBody->SetVelocity(Vector2(0, 100));
+	}
+	else {
+		rigidBody->SetVelocity({ rigidBody->GetVelocity().x, 0 });
 	}
 	// Aキーで左に移動
 	if (InputManager::Instance()->IsPushKey(DIK_A))
 	{
-		anchorPoint += Vector2(-100, 0) * DeltaTime;
+		//anchorPoint += Vector2(-100, 0) * DeltaTime;
+		rigidBody->SetVelocity(Vector2(-100, 0));
 	}
 	// Dキーで右に移動
-	if (InputManager::Instance()->IsPushKey(DIK_D))
+	else if (InputManager::Instance()->IsPushKey(DIK_D))
 	{
-		anchorPoint += Vector2(100, 0) * DeltaTime;
+		//anchorPoint += Vector2(100, 0) * DeltaTime;
+		rigidBody->SetVelocity(Vector2(100, 0));
+	}
+	else{
+		rigidBody->SetVelocity({ 0, rigidBody->GetVelocity().y });
 	}
 }
 
@@ -95,13 +108,24 @@ void Player::DrawDebug()
 {
 	auto pos = GetWorldPosition() - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
 	wchar_t text[50];
-	swprintf(text, 50, L" %.1f,%.1f", GetLocalPosition().x, GetLocalPosition().y); // 数値を文字列に変換
-	Debug::RenderText(MyApp::Instance()->GetDevice(), pos.x, pos.y, text);
+	swprintf(text, 50, L" %.1f,%.1f", GetWorldPosition().x, GetWorldPosition().y); // 数値を文字列に変換
+	Debug::RenderText(MyApp::Instance()->GetDevice(), pos.x + 16, pos.y + 16, text);
 	
 	auto startPos= anchorPoint - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
 	auto endPos = GetWorldPosition() - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
 	
 	Debug::DrawLine(startPos, endPos, D3DCOLOR_XRGB(0, 255, 0));
+}
+
+void Player::BeginOverlap(Collider* OverlapCpm, Object* OverlapActor)
+{
+	std::cout << "hello" << std::endl;
+	std::cout << OverlapCpm->GetWorldPosition() << std::endl;
+}
+
+void Player::EndOverlap(Collider* OverlapCpm, Object* OverlapActor)
+{
+	std::cout << "goodbye" << std::endl;
 }
 
 

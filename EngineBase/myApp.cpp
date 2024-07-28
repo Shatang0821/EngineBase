@@ -153,6 +153,8 @@ HRESULT MyApp::InitDirect3D()
 	d3dpp.EnableAutoDepthStencil = TRUE;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 
+	
+
 	// D3Dデバイスオブジェクトの作成。HAL&HARD.
 	HRESULT hr = pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &(d3dpp), &(pDevice));
 	if (hr == D3D_OK)

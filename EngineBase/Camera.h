@@ -99,6 +99,8 @@ public:
 		}
 		return transform_virtual.position; 
 	}
+
+	float GetZoomFactor() { return springArmLength_virtual; }
 	/**
 	 * @brief カメラの滑らかさを設定します
 	 *

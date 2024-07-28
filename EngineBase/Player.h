@@ -3,7 +3,7 @@
 
 #include "StaticMesh.h"
 #include "Animator.h"
-
+#include "Collider.h"
 /**
  * @class Player
  * @brief ゲーム内のプレイヤーキャラクターを表すクラス。
@@ -17,7 +17,7 @@ private:
 	Animation ani; ///< プレイヤーのアニメーション
 	Animator* animator; ///< アニメーションを管理するAnimator
 	BoxCollider* boxCollider; ///< プレイヤーのボックスコライダー
-	CircleCollider* circleCollider; ///< プレイヤーのサークルコライダー
+	//CircleCollider* circleCollider; ///< プレイヤーのサークルコライダー
 	class RigidBody* rigidBody; ///< プレイヤーの剛体コンポーネント
 
 private:
@@ -33,6 +33,9 @@ public:
 	void FixedUpdate(float fixedDeltaTime) override; ///< 物理更新処理
 
 	void DrawDebug() override; ///< デバッグ描画処理
+private:
+	void BeginOverlap(Collider* OverlapCpm, Object* OverlapActor);
+	void EndOverlap(Collider* OverlapCpm, Object* OverlapActor);
 };
 
 

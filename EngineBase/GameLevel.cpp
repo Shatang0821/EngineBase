@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameLevel.h"
 #include "myApp.h"
+#include "Platform.h"
 
 GameLevel::GameLevel()
 {
@@ -9,7 +10,7 @@ GameLevel::GameLevel()
 
 	//buttle->Destroy();
 	player = GameStatics::CreateObject<Player>(Vector2(0, 0));
-
+	GameStatics::CreateObject<Platform>(Vector2(0, 0));
 	
 	//player->Destroy();
 }

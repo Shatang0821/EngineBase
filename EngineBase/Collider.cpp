@@ -26,6 +26,8 @@ void Collider::Clear()
 	//衝突しているコライダーのコンテナから自分をクリアする
 	for (auto& another : collisions) {
 		another->collisions.erase(this);
+		OnComponentEndOverlap.BroadCast(another, another->pOwner);
+		another->OnComponentEndOverlap.BroadCast(this, pOwner);
 	}
 	//コライダーを削除するときに、衝突しているコライダーコンテナをクリアする
 	collisions.clear();
@@ -42,6 +44,9 @@ void Collider::Inser(Collider* another)
 		collisions.insert(another);
 		//anotherのcollisionsに自身を追加
 		another->collisions.insert(this);
+		//デリケート関数を呼び出す
+		OnComponentBeginOverlap.BroadCast(another, another->pOwner);
+		another->OnComponentBeginOverlap.BroadCast(this, pOwner);
 	}
 }
 
@@ -50,9 +55,13 @@ void Collider::Erase()
 	collisions_to_erase.clear();
 	for (auto& another : collisions) {
 
-		if(!CollisionJudge(another))
+		if (!CollisionJudge(another)) {
 			another->collisions.erase(this);
 			collisions_to_erase.push_back(another);
+			//デリケート関数を呼び出す
+			OnComponentEndOverlap.BroadCast(another, another->pOwner);
+			another->OnComponentEndOverlap.BroadCast(this, pOwner);
+		}
 	}
 
 	for(auto& another : collisions_to_erase)
@@ -133,9 +142,9 @@ void CircleCollider::Update(float DeltaTime)
 
 void CircleCollider::DrawDebugLine()
 {
-	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH / 2,HEIGHT / 2);
+	auto pos = Transform::WordToScreen(GetWorldPosition());// mainWorld.mainCamera->GetCameraPosition()) / mainWorld.mainCamera->GetZoomFactor() + Vector2(WIDTH / 2, HEIGHT / 2);
 
-	Debug::DrawCircle(pos, int(radius * (2 / mainWorld.mainCamera->springArmLength_virtual)), 32, D3DCOLOR_XRGB(0, 255, 0));
+	Debug::DrawCircle(pos, int(radius / mainWorld.mainCamera->springArmLength_virtual), 32, D3DCOLOR_XRGB(0, 255, 0));
 }
 
 bool CircleCollider::IsMouseOver()
@@ -213,10 +222,17 @@ bool BoxCollider::CollisionJudge(Collider* another)
 		//anotherの左上の座標
 		Vector2 anotherPos = box->GetWorldPosition() - box->GetSize() / 2;
 
-		//自身とanotherの矩形が重なっている場合
-		return(pos.x <= anotherPos.x + box->GetSize().x && pos.x + size.x >= anotherPos.x &&
-			pos.y <= anotherPos.y + box->GetSize().y && pos.y + size.y >= anotherPos.y);
-	}
+		//自身の右下の座標
+		Vector2 posBottomRight = pos + size;
+		//anotherの右下の座標
+		Vector2 anotherPosBottomRight = anotherPos + box->GetSize();
+
+		//自身とanotherの矩形が重なっている場合のコードを書いて
+
+		return (pos.x < anotherPosBottomRight.x && posBottomRight.x > anotherPos.x &&
+				pos.y < anotherPosBottomRight.y && posBottomRight.y > anotherPos.y);
+		
+	}	
 	return false;
 }
 
@@ -228,9 +244,9 @@ void BoxCollider::Update(float DeltaTime)
 
 void BoxCollider::DrawDebugLine()
 {
-	auto pos = GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
+	auto pos = Transform::WordToScreen(GetWorldPosition());// (GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition()) / mainWorld.mainCamera->GetZoomFactor() + Vector2(WIDTH / 2, HEIGHT / 2);
 
-	Debug::DrawBox(pos, size * (2 / mainWorld.mainCamera->springArmLength_virtual), D3DCOLOR_XRGB(255, 0, 0));
+	Debug::DrawBox(pos, size / mainWorld.mainCamera->springArmLength_virtual, D3DCOLOR_XRGB(255, 0, 0));
 }
 
 bool BoxCollider::IsMouseOver()
@@ -243,3 +259,11 @@ bool BoxCollider::IsMouseOver()
 		&& mousePos.y >= pos.y - size.y / 2 && mousePos.y <= pos.y + size.y / 2);
 }
 
+void CollisionDelegate::BroadCast(Collider* OverlapCollider, Object* OverlapActor)
+{
+	//コールバック関数を呼び出す
+	for (auto& callback : callbacks)
+	{
+		callback(OverlapCollider, OverlapActor);
+	}
+}

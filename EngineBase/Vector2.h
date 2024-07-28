@@ -167,6 +167,18 @@ struct Vector2
             return *this;
     }
 
+    /**
+     * @brief スカラー除算
+     *
+     * ベクトルにスカラーを除算します。
+     *
+     * @param scalar 除算するスカラー値
+     * @return Vector2 除算結果
+     */
+    Vector2 operator/(const float scalar) const {
+        return Vector2(x / scalar, y / scalar);
+    }
+
     
     /**
      * @brief ベクトルの大きさ（長さ）を計算します。
