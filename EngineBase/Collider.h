@@ -14,15 +14,16 @@
 
 #include "World.h"
 #include "Delegate.h"
+#include "CollisionManager.h"
 
 //当たり判定の形状
-enum class ColliderShape:UINT8 {
+enum class ColliderShape:uint8_t {
 	COLLIDER_SHAPE_CIRCLE,
 	COLLIDER_SHAPE_BOX,
 };
 
 //当たり判定のモード
-enum class CollisionMode :UINT8 {
+enum class CollisionMode :uint8_t {
 	NONE,
 	TRIGGER,
 	COLLISION,
@@ -37,91 +38,6 @@ class Collider;
 DECLARE_MULTI_PARAM_MULTICAST_DELEGATE_CLASS(CollisionOverlapDelegate, Collider*, Collider*, Object*);
 
 
-//
-///**
-// * @class CollisionDelegate
-// * @brief 衝突時の処理を行うためのデリゲートクラス
-// *
-// * @details このクラスは、
-// * 衝突時の処理を行うためのデリゲートクラスです。
-// *
-// */
-//class CollisionDelegate 
-//{
-//private:
-//	//! 衝突時の処理を行う関数
-//	std::vector<std::function<void(Collider*,Object*)>> callbacks;
-//public:
-//	/**
-//	 * @brief この関数は、コールバック関数を追加します。
-//	 * 
-//	 * @param obj コールバック関数を持つオブジェクト
-//	 * @param func コールバック関数
-//	 */
-//	template<typename T>
-//	void Add(T* obj,void(T::*func)(Collider*,Object*)) {
-//		callbacks.push_back(std::bind(func,obj,std::placeholders::_1,std::placeholders::_2));
-//	}
-//
-//	/**
-//	 * @brief この関数は、コールバック関数を追加します。
-//	 * 
-//	 * @param func コールバック関数(ラムダ式)
-//	 */
-//	void Add(std::function<void(Collider*,Object*)>func)
-//	{
-//		callbacks.push_back(func);
-//	}
-//
-//	/**
-//	 * @brief この関数は、コールバックを削除します。
-//	 * 
-//	 * @param obje コールバック関数を持つオブジェクト
-//	 * @param func コールバック関数
-//	 */
-//	template<typename T>
-//	void Remove(T* obje, void(T::* func)(Collider*, Object*))
-//	{
-//		std::function<void(Collider*, Object*)>targetFunc = std::bind(func, obje, std::placeholders::_1, std::placeholders::_2);
-//		for (auto it = callbacks.begin(); it != callbacks.end(); it++)
-//		{
-//			if (it->target<void(Collider*, Object*)>() == targetFunc.target<void(Collider*, Object*)>())
-//			{
-//				callbacks.erase(it);
-//				break;
-//			}
-//		}
-//	}
-//
-//	/**
-//	 * @brief この関数は、コールバックを削除します。
-//	 * 
-//	 * @param func コールバック関数(ラムダ式)
-//	 */
-//	void Remove(std::function<void(Collider*, Object*)>func)
-//	{
-//		for (auto it = callbacks.begin(); it != callbacks.end(); it++)
-//		{
-//			if (it->target<void(Collider*, Object*)>() == func.target<void(Collider*, Object*)>())
-//			{
-//				callbacks.erase(it);
-//				break;
-//			}
-//		}
-//	}
-//
-//	/**
-//	 * @brief この関数は、コールバックを実行します。
-//	 * 
-//	 * @param OverlapCollider 衝突しているコライダー
-//	 * @param OverlapActor 衝突しているオブジェクト
-//	 */
-//	void BroadCast(Collider* OverlapCollider, Object* OverlapActor);
-//
-//#define AddDynamic Add
-//#define RemoveDynamic Remove
-//};
-
  /**
    * @class Collider
    * @brief コライダークラス
@@ -135,9 +51,13 @@ class Collider : public SceneComponent
 	friend class Controller;
 private:
 	//! コライダーのタイプ タイプを使って当たり判定の処理が必要な同士を判別する
-	std::string type = "Default";
+	CollisionType type = CollisionType::Default;
 	//! 当たり判定のモード
 	CollisionMode collisionMode = CollisionMode::TRIGGER;
+	
+	//! 衝突しているコライダー範囲を表す
+	Pair point{-1,-1},point_1{-1,-1};
+
 	//! レイヤ
 	int layer = 0;
 	//! 毎フレーム自身と衝突しているコライダー
@@ -172,7 +92,16 @@ public:
 		Clear();
 	}
 
-	const std::vector<Object*>& GetCollisions(std::string type);
+	/**
+	 * @brief この関数は、更新処理を行います。
+	 *
+	 * @param DeltaTime 前のフレームからの経過時間
+	 */
+	void Update(float DeltaTime) override;
+	
+	
+
+	const std::vector<Object*>& GetCollisions(CollisionType type);
 
 
 	/**
@@ -194,14 +123,14 @@ public:
 	 * 
 	 * @return コライダーのタイプ
 	 */
-	const std::string& GetType() { return type; }
+	const CollisionType GetType() { return type; }
 
 	/**
 	 * @brief この関数は、コライダーのタイプを設定します。
 	 * 
 	 * @param type コライダーのタイプ
 	 */
-	void SetType(std::string type) { this->type = type; }
+	void SetType(CollisionType type) { this->type = type; }
 
 	/**
 	 * @brief この関数は、コライダーの形状を取得します。
@@ -238,7 +167,7 @@ public:
 	 * 
 	 * @param another 衝突しているコライダー
 	 */
-	void Inser(Collider* another);
+	void Insert(Collider* another);
 
 	/**
 	 * @brief この関数は、衝突してないコライダーを削除します。
@@ -278,7 +207,7 @@ public:
 	 *
 	 * @param DeltaTime 前のフレームからの経過時間
 	 */
-	virtual void Update(float DeltaTime) override;
+	void Update(float DeltaTime) override;
 	/**
 	 * @brief この関数は、デバッグラインを描画します。
 	 * 
@@ -319,7 +248,7 @@ public:
 	 * 
 	 * @param DeltaTime 前のフレームからの経過時間
 	 */
-	virtual void Update(float DeltaTime) override;
+	void Update(float DeltaTime) override;
 	/**
 	 * @brief この関数は、デバッグラインを描画します。
 	 * 

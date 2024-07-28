@@ -1,11 +1,53 @@
 #include "stdafx.h"
 #include "Collider.h"
-#include "CollisionManager.h"
 #include "Debug.h"
 #include "SceneComponent.h"
 
 
-const std::vector<Object*>& Collider::GetCollisions(std::string type)
+void Collider::Update(float DeltaTime)
+{
+	SceneComponent::Update(DeltaTime);
+
+	if(collisionMode == CollisionMode::NONE) return;
+
+	//衝突エリアの左上の座標の計算
+	Vector2 half;
+	if (shape == ColliderShape::COLLIDER_SHAPE_CIRCLE) {
+		float a = Cast<CircleCollider>(this)->GetRadius();
+		half = Vector2(a, a);
+	}
+	else if (shape == ColliderShape::COLLIDER_SHAPE_BOX) {
+		half = Cast<BoxCollider>(this)->GetSize() / 2;
+	}
+
+	//衝突エリアの左上の座標
+	Vector2 pos = GetWorldPosition() - half;
+	Pair newPoint(Math::clamp(int(pos.x) / 100, 0, 7), Math::clamp(int(pos.y) / 100, 0, 5));
+	pos += half * 2;
+	Pair newPoint_1(Math::clamp(int(pos.x) / 100, 0, 7), Math::clamp(int(pos.y) / 100, 0, 5));
+	//衝突エリアが変更されていない場合
+	if(newPoint == point && newPoint_1 == point_1) return;
+
+	//衝突エリアをクリア
+	if (point != Pair(-1, -1)) {
+		for (int i = point.x; i <= point_1.x; i++) {
+			for (int j = point.y; j <= point_1.y; j++) {
+				mainWorld.ColliderZones[i][j].erase(this);
+			}
+		}
+	}
+
+	//衝突エリアを更新
+	point = newPoint;
+	point_1 = newPoint_1;
+	for(int i = point.x; i <= point_1.x; i++) {
+		for(int j = point.y; j <= point_1.y; j++) {
+			mainWorld.ColliderZones[i][j].insert(this);
+		}
+	}
+}
+
+const std::vector<Object*>& Collider::GetCollisions(CollisionType type)
 {
 	aims.clear();
 	//衝突しているコライダーが空でない場合
@@ -33,7 +75,7 @@ void Collider::Clear()
 	collisions.clear();
 }
 
-void Collider::Inser(Collider* another)
+void Collider::Insert(Collider* another)
 {
 	//タイプのマッピングが存在し、衝突しているコライダーがまだ衝突リストにない、かつ当たり判定がtrueの場合
 	if (CollisionManager::Instance()->FindMapping(type, another->GetType())
@@ -136,6 +178,7 @@ bool CircleCollider::CollisionJudge(Collider* another)
 
 void CircleCollider::Update(float DeltaTime)
 {
+	Collider::Update(DeltaTime);
 	//半径はオブジェクトのスケールに沿って更新する
 	radius = radius_init * sqrtf(GetWorldScale().x * GetWorldScale().y);
 }
@@ -238,6 +281,7 @@ bool BoxCollider::CollisionJudge(Collider* another)
 
 void BoxCollider::Update(float DeltaTime)
 {
+	Collider::Update(DeltaTime);
 	//サイズがオブジェクトのスケールに沿って更新する
 	size = size_init * GetWorldScale(); 
 }

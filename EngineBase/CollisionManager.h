@@ -12,40 +12,45 @@
 
 #include "Singleton.h"
 
+enum class CollisionType : uint8_t
+{
+	Default,
+	Player
+};
+
 class CollisionManager : public Singleton<CollisionManager>
 {
 	friend class Singleton<CollisionManager>;
 private:
-	// unordered_mapは、当たり判定をするオブジェクトのタイプをキーで
-	// そのオブジェクトと判定をするオブジェクトを値で持つ
-	std::unordered_map<std::string, std::unordered_set<std::string>>collisionMap;
+	std::unordered_set<int>collisionMap;
 public:
 	/**
 	 * @brief Defaultは、全てのオブジェクトと当たり判定を行う
 	 *
 	 */
-	CollisionManager() { collisionMap.insert({ "Default",std::unordered_set<std::string>{"Default"} }); }
+	CollisionManager() { 
+		collisionMap.insert({int(CollisionType::Default) * int(CollisionType::Default) + int(CollisionType::Default) * int(CollisionType::Default) });
+	}
 
 	void Initialize();
 
 	/**
-	 * @brief この関数は、キーが存在するかどうかを調べます。
+	 * @brief この関数は、当たり判定を行うかどうかを判定します。
 	 *
-	 * @param key1 キー1
-	 * @param key2 キー2
+	 * @param type1 オブジェクト1の当たり判定タイプ
+	 * @param type2 オブジェクト2の当たり判定タイプ
 	 *
-	 * @return キーが存在するかどうか
+	 * @return bool 当たり判定を行う場合はtrue、行わない場合はfalse
 	 */
-	bool FindMapping(const std::string& key1, const std::string& key2);
+	bool FindMapping(CollisionType type1, CollisionType type2);
 
 	/**
-	 * @brief この関数は、キーを追加します。
+	 * @brief この関数は、当たり判定を行うかどうかを設定します。
 	 *
-	 * @param key1 キー1
-	 * @param key2 キー2
-	 *
+	 * @param type1 オブジェクト1の当たり判定タイプ
+	 * @param type2 オブジェクト2の当たり判定タイプ
 	 */
-	void AddMapping(const std::string& key1, const std::string& key2);
+	void AddMapping(CollisionType type1, CollisionType type2);
 
 };
 

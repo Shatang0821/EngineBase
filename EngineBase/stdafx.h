@@ -40,6 +40,7 @@
 #include "Transform.h"
 #include "Math.h"
 #include "Vector2.h"
+#include "Pair.h"
 
 #define DIRECTINPUT_VERSION 0x0800// これがないとビルド時に警告が出る.
 #include <dinput.h>	// DirectInputに必要.

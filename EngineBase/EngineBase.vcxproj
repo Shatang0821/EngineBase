@@ -203,6 +203,7 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="myApp.h" />
     <ClInclude Include="MyTexture.h" />
+    <ClInclude Include="Pair.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceManager.h" />

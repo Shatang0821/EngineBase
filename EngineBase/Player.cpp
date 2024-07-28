@@ -38,6 +38,7 @@ Player::Player()
 
 	boxCollider->OnComponentBeginOverlap.AddDynamic(this, &Player::BeginOverlap);
 	boxCollider->OnComponentEndOverlap.AddDynamic(this, &Player::EndOverlap);
+	boxCollider->SetType(CollisionType::Default);
 
 	// サークルコライダーの設定
 	//circleCollider = ConstructComponent<CircleCollider>();
