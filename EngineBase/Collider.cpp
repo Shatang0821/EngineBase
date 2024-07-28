@@ -26,8 +26,8 @@ void Collider::Clear()
 	//衝突しているコライダーのコンテナから自分をクリアする
 	for (auto& another : collisions) {
 		another->collisions.erase(this);
-		OnComponentEndOverlap.BroadCast(another, another->pOwner);
-		another->OnComponentEndOverlap.BroadCast(this, pOwner);
+		OnComponentEndOverlap.BroadCast(this,another, another->pOwner);
+		another->OnComponentEndOverlap.BroadCast(another,this, pOwner);
 	}
 	//コライダーを削除するときに、衝突しているコライダーコンテナをクリアする
 	collisions.clear();
@@ -45,8 +45,8 @@ void Collider::Inser(Collider* another)
 		//anotherのcollisionsに自身を追加
 		another->collisions.insert(this);
 		//デリケート関数を呼び出す
-		OnComponentBeginOverlap.BroadCast(another, another->pOwner);
-		another->OnComponentBeginOverlap.BroadCast(this, pOwner);
+		OnComponentBeginOverlap.BroadCast(this,another, another->pOwner);
+		another->OnComponentBeginOverlap.BroadCast(another,this, pOwner);
 	}
 }
 
@@ -59,8 +59,8 @@ void Collider::Erase()
 			another->collisions.erase(this);
 			collisions_to_erase.push_back(another);
 			//デリケート関数を呼び出す
-			OnComponentEndOverlap.BroadCast(another, another->pOwner);
-			another->OnComponentEndOverlap.BroadCast(this, pOwner);
+			OnComponentEndOverlap.BroadCast(this,another, another->pOwner);
+			another->OnComponentEndOverlap.BroadCast(another,this, pOwner);
 		}
 	}
 
@@ -259,11 +259,4 @@ bool BoxCollider::IsMouseOver()
 		&& mousePos.y >= pos.y - size.y / 2 && mousePos.y <= pos.y + size.y / 2);
 }
 
-void CollisionDelegate::BroadCast(Collider* OverlapCollider, Object* OverlapActor)
-{
-	//コールバック関数を呼び出す
-	for (auto& callback : callbacks)
-	{
-		callback(OverlapCollider, OverlapActor);
-	}
-}
+

@@ -13,6 +13,7 @@
 #define _COLLIDER_H_
 
 #include "World.h"
+#include "Delegate.h"
 
 //当たり判定の形状
 enum class ColliderShape:UINT8 {
@@ -30,89 +31,96 @@ enum class CollisionMode :UINT8 {
 //前方宣言
 class Collider;
 
-/**
- * @class CollisionDelegate
- * @brief 衝突時の処理を行うためのデリゲートクラス
- *
- * @details このクラスは、
- * 衝突時の処理を行うためのデリゲートクラスです。
- *
- */
-class CollisionDelegate 
-{
-private:
-	//! 衝突時の処理を行う関数
-	std::vector<std::function<void(Collider*,Object*)>> callbacks;
-public:
-	/**
-	 * @brief この関数は、コールバック関数を追加します。
-	 * 
-	 * @param obj コールバック関数を持つオブジェクト
-	 * @param func コールバック関数
-	 */
-	template<typename T>
-	void Add(T* obj,void(T::*func)(Collider*,Object*)) {
-		callbacks.push_back(std::bind(func,obj,std::placeholders::_1,std::placeholders::_2));
-	}
+//衝突デリゲート
 
-	/**
-	 * @brief この関数は、コールバック関数を追加します。
-	 * 
-	 * @param func コールバック関数(ラムダ式)
-	 */
-	void Add(std::function<void(Collider*,Object*)>func)
-	{
-		callbacks.push_back(func);
-	}
+/*Collider* overlapComp,Collider* otherComp, Object* otherActor */
+DECLARE_MULTI_PARAM_MULTICAST_DELEGATE_CLASS(CollisionOverlapDelegate, Collider*, Collider*, Object*);
 
-	/**
-	 * @brief この関数は、コールバックを削除します。
-	 * 
-	 * @param obje コールバック関数を持つオブジェクト
-	 * @param func コールバック関数
-	 */
-	template<typename T>
-	void Remove(T* obje, void(T::* func)(Collider*, Object*))
-	{
-		std::function<void(Collider*, Object*)>targetFunc = std::bind(func, obje, std::placeholders::_1, std::placeholders::_2);
-		for (auto it = callbacks.begin(); it != callbacks.end(); it++)
-		{
-			if (it->target<void(Collider*, Object*)>() == targetFunc.target<void(Collider*, Object*)>())
-			{
-				callbacks.erase(it);
-				break;
-			}
-		}
-	}
 
-	/**
-	 * @brief この関数は、コールバックを削除します。
-	 * 
-	 * @param func コールバック関数(ラムダ式)
-	 */
-	void Remove(std::function<void(Collider*, Object*)>func)
-	{
-		for (auto it = callbacks.begin(); it != callbacks.end(); it++)
-		{
-			if (it->target<void(Collider*, Object*)>() == func.target<void(Collider*, Object*)>())
-			{
-				callbacks.erase(it);
-				break;
-			}
-		}
-	}
-
-	/**
-	 * @brief この関数は、コールバックを実行します。
-	 * 
-	 * @param OverlapCollider 衝突しているコライダー
-	 * @param OverlapActor 衝突しているオブジェクト
-	 */
-	void BroadCast(Collider* OverlapCollider, Object* OverlapActor);
-
-#define AddDynamic Add
-#define RemoveDynamic Remove
-};
+//
+///**
+// * @class CollisionDelegate
+// * @brief 衝突時の処理を行うためのデリゲートクラス
+// *
+// * @details このクラスは、
+// * 衝突時の処理を行うためのデリゲートクラスです。
+// *
+// */
+//class CollisionDelegate 
+//{
+//private:
+//	//! 衝突時の処理を行う関数
+//	std::vector<std::function<void(Collider*,Object*)>> callbacks;
+//public:
+//	/**
+//	 * @brief この関数は、コールバック関数を追加します。
+//	 * 
+//	 * @param obj コールバック関数を持つオブジェクト
+//	 * @param func コールバック関数
+//	 */
+//	template<typename T>
+//	void Add(T* obj,void(T::*func)(Collider*,Object*)) {
+//		callbacks.push_back(std::bind(func,obj,std::placeholders::_1,std::placeholders::_2));
+//	}
+//
+//	/**
+//	 * @brief この関数は、コールバック関数を追加します。
+//	 * 
+//	 * @param func コールバック関数(ラムダ式)
+//	 */
+//	void Add(std::function<void(Collider*,Object*)>func)
+//	{
+//		callbacks.push_back(func);
+//	}
+//
+//	/**
+//	 * @brief この関数は、コールバックを削除します。
+//	 * 
+//	 * @param obje コールバック関数を持つオブジェクト
+//	 * @param func コールバック関数
+//	 */
+//	template<typename T>
+//	void Remove(T* obje, void(T::* func)(Collider*, Object*))
+//	{
+//		std::function<void(Collider*, Object*)>targetFunc = std::bind(func, obje, std::placeholders::_1, std::placeholders::_2);
+//		for (auto it = callbacks.begin(); it != callbacks.end(); it++)
+//		{
+//			if (it->target<void(Collider*, Object*)>() == targetFunc.target<void(Collider*, Object*)>())
+//			{
+//				callbacks.erase(it);
+//				break;
+//			}
+//		}
+//	}
+//
+//	/**
+//	 * @brief この関数は、コールバックを削除します。
+//	 * 
+//	 * @param func コールバック関数(ラムダ式)
+//	 */
+//	void Remove(std::function<void(Collider*, Object*)>func)
+//	{
+//		for (auto it = callbacks.begin(); it != callbacks.end(); it++)
+//		{
+//			if (it->target<void(Collider*, Object*)>() == func.target<void(Collider*, Object*)>())
+//			{
+//				callbacks.erase(it);
+//				break;
+//			}
+//		}
+//	}
+//
+//	/**
+//	 * @brief この関数は、コールバックを実行します。
+//	 * 
+//	 * @param OverlapCollider 衝突しているコライダー
+//	 * @param OverlapActor 衝突しているオブジェクト
+//	 */
+//	void BroadCast(Collider* OverlapCollider, Object* OverlapActor);
+//
+//#define AddDynamic Add
+//#define RemoveDynamic Remove
+//};
 
  /**
    * @class Collider
@@ -241,8 +249,8 @@ public:
 
 	virtual void DrawDebugLine() = 0;
 
-	CollisionDelegate OnComponentBeginOverlap;
-	CollisionDelegate OnComponentEndOverlap;
+	CollisionOverlapDelegate OnComponentBeginOverlap;
+	CollisionOverlapDelegate OnComponentEndOverlap;
 };
 
 /**

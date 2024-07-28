@@ -34,8 +34,8 @@ public:
 
 	void DrawDebug() override; ///< デバッグ描画処理
 private:
-	void BeginOverlap(Collider* OverlapCpm, Object* OverlapActor);
-	void EndOverlap(Collider* OverlapCpm, Object* OverlapActor);
+	void BeginOverlap(Collider*, Collider*, Object* );
+	void EndOverlap  (Collider*, Collider*, Object* );
 };
 
 

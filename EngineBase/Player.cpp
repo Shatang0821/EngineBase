@@ -117,13 +117,13 @@ void Player::DrawDebug()
 	Debug::DrawLine(startPos, endPos, D3DCOLOR_XRGB(0, 255, 0));
 }
 
-void Player::BeginOverlap(Collider* OverlapCpm, Object* OverlapActor)
+void Player::BeginOverlap(Collider* OverlapCpm, Collider* otherCpm, Object* OverlapActor)
 {
 	std::cout << "hello" << std::endl;
 	std::cout << OverlapCpm->GetWorldPosition() << std::endl;
 }
 
-void Player::EndOverlap(Collider* OverlapCpm, Object* OverlapActor)
+void Player::EndOverlap(Collider* OverlapCpm, Collider* otherCpm, Object* OverlapActor)
 {
 	std::cout << "goodbye" << std::endl;
 }

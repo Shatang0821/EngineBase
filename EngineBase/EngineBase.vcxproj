@@ -192,6 +192,7 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="CTimer.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="Delegate.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GameInstance.h" />
     <ClInclude Include="GameLevel.h" />
