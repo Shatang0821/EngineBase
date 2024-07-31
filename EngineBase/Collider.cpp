@@ -82,11 +82,17 @@ void Collider::Clear()
 	//衝突しているコライダーのコンテナから自分をクリアする
 	for (auto& another : collisions) {
 		another->collisions.erase(this);
+		if (another->collisionMode == CollisionMode::COLLISION && this->collisionMode == CollisionMode::COLLISION) continue;
 		OnComponentEndOverlap.BroadCast(this,another, another->pOwner);
 		another->OnComponentEndOverlap.BroadCast(another,this, pOwner);
 	}
 	//コライダーを削除するときに、衝突しているコライダーコンテナをクリアする
 	collisions.clear();
+	if(point != Pair(-1,-1))
+	{
+		for (int i = point.x; i <= point_1.x; ++i)for (int j = point.y; j <= point_1.y; ++j)mainWorld.ColliderZones[i][j].erase(this);
+	}
+	point = {-1,-1},point_1 = {-1,-1};
 }
 
 void Collider::Insert(Collider* another)
@@ -240,20 +246,20 @@ HitResult Collider::collisionHitCircleToBox(Collider* c1, Collider* c2)
 	{
 		if (pos.x < rect.left)
 		{
-			if (pos.y > rect.top) { impactPoint = { rect.left,rect.top };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
-			else if (pos.y < rect.bottom) { impactPoint = { rect.left,rect.bottom };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
+			if (pos.y < rect.top) { impactPoint = { rect.left,rect.top };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
+			else if (pos.y > rect.bottom) { impactPoint = { rect.left,rect.bottom };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
 			else { impactPoint = { rect.left,pos.y };  impactNormal = { 1,0 }; }
 		}
 		else if (pos.x > rect.right)
 		{
-			if (pos.y > rect.top) { impactPoint = { rect.right,rect.top };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
-			else if (pos.y < rect.bottom) { impactPoint = { rect.right,rect.bottom };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
+			if (pos.y < rect.top) { impactPoint = { rect.right,rect.top };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
+			else if (pos.y > rect.bottom) { impactPoint = { rect.right,rect.bottom };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
 			else { impactPoint = { rect.right,pos.y }; impactNormal = { -1,0 }; }
 		}
 		else
 		{
-			if (pos.y > rect.top) { impactPoint = { pos.x,rect.top }; impactNormal = { 0,-1 }; }
-			else { impactPoint = { pos.x,rect.bottom }; impactNormal = { 0,1 }; }
+			if (pos.y < rect.top) { impactPoint = { pos.x,rect.top }; impactNormal = { 0,1 }; }
+			else { impactPoint = { pos.x,rect.bottom }; impactNormal = { 0,-1 }; }
 		}
 	}
 
