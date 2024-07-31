@@ -136,12 +136,6 @@ void World::ReleaseData()
 	}
 	GameObjects_to_delete.clear();
 
-	////UIの解放
-	//for (auto& obj : GameUIs) {
-	//	obj->Destroy();
-	//}
-	//GameUIs.clear();
-
 	//タイマーの解放
 	for (auto obj : GameTimers) {
 		delete obj;

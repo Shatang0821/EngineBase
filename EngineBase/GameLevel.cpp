@@ -2,7 +2,7 @@
 #include "GameLevel.h"
 #include "myApp.h"
 #include "Platform.h"
-
+#include "Block.h"
 GameLevel::GameLevel()
 {
     //buttle = GameStatics::CreateObject<StaticMesh>(Vector2(256,256));
@@ -10,7 +10,12 @@ GameLevel::GameLevel()
 
     //buttle->Destroy();
     player = GameStatics::CreateObject<Player>(Vector2(0, -100));
-    GameStatics::CreateObject<Platform>(Vector2(0, 0));
+    GameStatics::CreateObject<Platform>(Vector2(0, 100));
+    for (int i = 0; i < 10; i++)
+    {
+        GameStatics::CreateObject<Block>(Vector2(32*i, 0));
+    }
+    
 
     //player->Destroy();
 }

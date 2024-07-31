@@ -146,6 +146,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="BaseState.cpp" />
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
@@ -166,10 +168,12 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerStates.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RigidBody.cpp" />
     <ClCompile Include="SceneComponent.cpp" />
     <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="StaticMesh.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -185,6 +189,8 @@
   <ItemGroup>
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Base.h" />
+    <ClInclude Include="BaseState.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -206,12 +212,14 @@
     <ClInclude Include="Pair.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerStates.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="SceneComponent.h" />
     <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="StateMachine.h" />
     <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Timer.h" />

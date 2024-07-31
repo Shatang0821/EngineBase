@@ -47,7 +47,7 @@ public:
         , torque(0)
         , bRotatable(true)
         , force(Vector2::Zero())
-        , gravity(9.8) 
+        , gravity(98) 
         , bGravityEnabled(true)
     {};
     virtual void FixedUpdate(float fixedDeltaTime) override;
@@ -131,7 +131,8 @@ public:
      */
     void AddForce(const Vector2& f){force += f;}
 
-    void RestrictVelocity(Vector2 impactNormal, RigidBody* another = nullptr);
+    void RestrictVelocity(class HitResult hitResult, RigidBody* another = nullptr);
+
 };
 
 #endif // !_RIGIDBODY_H_

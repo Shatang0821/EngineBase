@@ -13,18 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Game">
-      <UniqueIdentifier>{5c293996-2f5d-4ea5-86d8-4c1686e58861}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Game">
-      <UniqueIdentifier>{2ad05f44-b876-41eb-8b06-4f69c7e6b480}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Game\Character">
-      <UniqueIdentifier>{9a402e91-c188-44fa-a794-53b5f66f8362}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Game\Character">
-      <UniqueIdentifier>{8dee89af-e9f7-4b46-9e8c-4a0daaa7c971}</UniqueIdentifier>
-    </Filter>
     <Filter Include="_Engine">
       <UniqueIdentifier>{2e4cef39-ff9e-4832-8de4-a0f7ef913aca}</UniqueIdentifier>
     </Filter>
@@ -43,16 +31,46 @@
     <Filter Include="_Engine\Manager">
       <UniqueIdentifier>{e9548c07-f47d-4158-9b86-9e4ef09187b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\StateMachine">
+      <UniqueIdentifier>{6afd7be8-3205-4b7e-9702-43059c993529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StateMachine">
+      <UniqueIdentifier>{d3f5cabd-b264-4083-9146-77b90eb473a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\StateMachine\Player">
+      <UniqueIdentifier>{9ac095ad-b28f-4a07-b218-6f2305a6bf39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StateMachine\Player">
+      <UniqueIdentifier>{d38920fd-9337-4402-ab35-0d6b167ec6ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\StateMachine\Player\State">
+      <UniqueIdentifier>{4ae2e55e-f7b6-47a6-9ff6-2f2a281c7ccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StateMachine\Player\State">
+      <UniqueIdentifier>{616c4b9f-3a65-4cff-b66c-c20b6bf5ada9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity">
+      <UniqueIdentifier>{5c293996-2f5d-4ea5-86d8-4c1686e58861}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity\Character">
+      <UniqueIdentifier>{8dee89af-e9f7-4b46-9e8c-4a0daaa7c971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity">
+      <UniqueIdentifier>{2ad05f44-b876-41eb-8b06-4f69c7e6b480}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity\Character">
+      <UniqueIdentifier>{9a402e91-c188-44fa-a794-53b5f66f8362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main">
+      <UniqueIdentifier>{4509ac5c-fb4c-42e3-b268-95f071c9b6bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Main">
+      <UniqueIdentifier>{50d65045-a663-46da-9e66-721ae1935347}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameLevel.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="GameController.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files\Game\Character</Filter>
+      <Filter>Source Files\Entity\Character</Filter>
     </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>_Engine\Componentes</Filter>
@@ -136,7 +154,25 @@
       <Filter>_Engine\Utility</Filter>
     </ClCompile>
     <ClCompile Include="Platform.cpp">
-      <Filter>Source Files\Game</Filter>
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>Source Files\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseState.cpp">
+      <Filter>Source Files\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStates.cpp">
+      <Filter>Source Files\StateMachine\Player\State</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLevel.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GameController.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,17 +203,11 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>_Engine\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameLevel.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>_Engine\Object</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>_Engine\Componentes</Filter>
-    </ClInclude>
-    <ClInclude Include="GameController.h">
-      <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
       <Filter>_Engine\Utility</Filter>
@@ -192,7 +222,7 @@
       <Filter>_Engine\Componentes</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Header Files\Game\Character</Filter>
+      <Filter>Header Files\Entity\Character</Filter>
     </ClInclude>
     <ClInclude Include="CTimer.h">
       <Filter>_Engine\Utility</Filter>
@@ -246,7 +276,25 @@
       <Filter>_Engine\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Platform.h">
-      <Filter>Header Files\Game</Filter>
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>Header Files\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseState.h">
+      <Filter>Header Files\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStates.h">
+      <Filter>Header Files\StateMachine\Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLevel.h">
+      <Filter>Header Files\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameController.h">
+      <Filter>Header Files\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

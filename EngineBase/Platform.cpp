@@ -5,13 +5,20 @@
 Platform::Platform()
 {
 	// ボックスコライダーの設定
-	/*boxCollider = ConstructComponent<BoxCollider>();
+	boxCollider = ConstructComponent<BoxCollider>();
 	boxCollider->AttachTo(root);
-	boxCollider->SetSize(Vector2(128, 32));*/
+	boxCollider->SetSize(Vector2(1280, 32));
+	
+	boxCollider2 = ConstructComponent<BoxCollider>();
+	boxCollider2->AttachTo(root);
+	boxCollider2->SetSize(Vector2(64, 32));
+	boxCollider2->SetLocalPosition(Vector2(0, -32));
 
-	circleCollider = ConstructComponent<CircleCollider>();
-	circleCollider->AttachTo(root);
-	circleCollider->SetRadius(32);
+	//circleCollider = ConstructComponent<CircleCollider>();
+	//circleCollider->AttachTo(root);
+	//circleCollider->SetRadius(32);
 
+	//rigidBody = ConstructComponent<RigidBody>();
 
+	//rigidBody->SetGravityEnabled(false);
 }

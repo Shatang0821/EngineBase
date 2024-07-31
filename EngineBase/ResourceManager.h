@@ -23,7 +23,8 @@
 enum class ResID
 {
 	Tex_Bullet,//仮
-	Tex_Player,//プレイヤー仮
+	Tex_Player_Idle,//プレイヤー仮
+	Tex_Player_Run,//プレイヤー仮
 };
 
 //アニメーションリソース

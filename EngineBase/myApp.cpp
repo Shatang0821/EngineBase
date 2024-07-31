@@ -106,6 +106,7 @@ bool MyApp::InitGame()
 
 void MyApp::ReleaseData()
 {
+	mainWorld.ReleaseData();
 
 	// テクスチャの開放.
 	MyTexture::ReleaseAll();

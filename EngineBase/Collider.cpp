@@ -130,6 +130,7 @@ void Collider::Erase()
 		if (!CollisionJudge(another)) {
 			another->collisions.erase(this);
 			collisions_to_erase.push_back(another);
+			if (another->collisionMode == CollisionMode::COLLISION && this->collisionMode == CollisionMode::COLLISION) continue;
 			//デリケート関数を呼び出す
 			OnComponentEndOverlap.BroadCast(this,another, another->pOwner);
 			another->OnComponentEndOverlap.BroadCast(another,this, pOwner);

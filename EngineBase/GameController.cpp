@@ -39,7 +39,7 @@ void GameController::Update(float DeltaTime)
 void GameController::Shake(BYTE key)
 {
 	//camera->ShakeCamera(5,60);
-	AddPosition(Vector2(100.0f, 0));
+	//AddPosition(Vector2(100.0f, 0));
 }
 
 void GameController::ZoomIn(BYTE key)

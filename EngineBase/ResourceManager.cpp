@@ -83,9 +83,13 @@ bool ResourceManager::Initalize()
         		return false;
     }
     
-    if (!LoadTex(device, ResID::Tex_Player, _T("data/image/Virtual Guy/Idle (32x32).png"), 11, 1, 11, 352, 32)) {
+    if (!LoadTex(device, ResID::Tex_Player_Idle, _T("data/image/Virtual Guy/Idle (32x32).png"), 11, 1, 11, 352, 32)) {
 		return false;
 	}
+
+    if (!LoadTex(device, ResID::Tex_Player_Run, _T("data/image/Virtual Guy/Run (32x32).png"), 12, 1, 12, 384, 32)) {
+        return false;
+    }
 
     return true;
 }
