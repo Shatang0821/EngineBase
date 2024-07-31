@@ -20,6 +20,7 @@
 class Level : public Base
 {
 public:
+	virtual void BeginPlay() override;
 	virtual void Update(float DeltaTime) override;
 	virtual void FixedUpdate(float fixedDeltaTime) override;
 };

@@ -67,12 +67,12 @@ inline T* GameStatics::CreateObject(Vector2 pos)
 	T* pObj = new T();
 	//派生クラスを基底クラスにキャストするだけからstatic_castを使う
 	if (pObj && static_cast<Object*>(pObj)) {
-		mainWorld.GameObjects.insert(pObj);
-		pObj->BeginPlay();
+		mainWorld.GameObjects_to_add.push_back(pObj);
 		pObj->SetLocalPosition(pos);
 		return pObj;
 	}
 	//失敗したらnullを返す
+	delete pObj;
 	return nullptr;
 }
 

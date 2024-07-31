@@ -19,6 +19,7 @@
 class Base
 {
 public:
+    virtual void BeginPlay() = 0;
     /**
      * @brief XVˆ—‚Ìƒˆ‰¼‘zŠÖ”
      *

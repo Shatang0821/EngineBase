@@ -1,12 +1,12 @@
-/**
+ï»¿/**
  * @file Collider.h
- * @brief ƒRƒ‰ƒCƒ_[ƒNƒ‰ƒX‚Ì’è‹`
+ * @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚¯ãƒ©ã‚¹ã®å®šç¾©
  *
- * ‚±‚Ìƒtƒ@ƒCƒ‹‚É‚ÍAColliderƒNƒ‰ƒX‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
- * ColliderƒNƒ‰ƒX‚ÍA“–‚½‚è”»’è‚ğs‚¤‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B
+ * ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ã€Colliderã‚¯ãƒ©ã‚¹ãŒå®šç¾©ã•ã‚Œã¦ã„ã¾ã™ã€‚
+ * Colliderã‚¯ãƒ©ã‚¹ã¯ã€å½“ãŸã‚Šåˆ¤å®šã‚’è¡Œã†ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  *
  * @date 2024/07/17
- * @autor ƒTƒgƒE
+ * @autor ã‚µãƒˆã‚¦
  */
 
 #ifndef _COLLIDER_H_
@@ -16,207 +16,256 @@
 #include "Delegate.h"
 #include "CollisionManager.h"
 
-//“–‚½‚è”»’è‚ÌŒ`ó
+//å½“ãŸã‚Šåˆ¤å®šã®å½¢çŠ¶
 enum class ColliderShape:uint8_t {
 	COLLIDER_SHAPE_CIRCLE,
 	COLLIDER_SHAPE_BOX,
 };
 
-//“–‚½‚è”»’è‚Ìƒ‚[ƒh
+//å½“ãŸã‚Šåˆ¤å®šã®ãƒ¢ãƒ¼ãƒ‰
 enum class CollisionMode :uint8_t {
 	NONE,
 	TRIGGER,
 	COLLISION,
 };
 
-//‘O•ûéŒ¾
+//è¡çªçµæœ
+struct HitResult
+{
+	//! è¡çªç‚¹
+	Vector2 ImpactPoint;
+	//! è¡çªæ³•ç·š
+	Vector2 ImpactNormal;
+	Object* HitObject;
+	Component* HitComponent;
+
+	HitResult() 
+		: ImpactPoint(Vector2::Zero())
+		, ImpactNormal(Vector2::Zero())
+		, HitObject(nullptr)
+		, HitComponent(nullptr) 
+	{}
+	HitResult(const Vector2& impactPoint,const Vector2& impactNormal,Object* hitObject, Component* hitComponent)
+		: ImpactPoint(impactPoint)
+		, ImpactNormal(impactNormal)
+		, HitObject(hitObject)
+		, HitComponent(hitComponent) 
+	{}
+};
+
+//å‰æ–¹å®£è¨€
 class Collider;
 
-//Õ“ËƒfƒŠƒQ[ƒg
+//è¡çªãƒ‡ãƒªã‚²ãƒ¼ãƒˆ
 
 /*Collider* overlapComp,Collider* otherComp, Object* otherActor */
 DECLARE_MULTI_PARAM_MULTICAST_DELEGATE_CLASS(CollisionOverlapDelegate, Collider*, Collider*, Object*);
 
+/* Collider* hitComp, Collider* otherComp, Object* otherActor, Vector2 normalImpulse, const HitResult& hitResult */
+DECLARE_MULTI_PARAM_MULTICAST_DELEGATE_CLASS(CollisionHitDelegate, Collider*, Collider*, Object*, Vector2, const HitResult&)
 
  /**
    * @class Collider
-   * @brief ƒRƒ‰ƒCƒ_[ƒNƒ‰ƒX
+   * @brief ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚¯ãƒ©ã‚¹
    *
-   * @details ‚±‚ÌƒNƒ‰ƒX‚ÍA
-   * “–‚½‚è”»’è‚ğs‚¤‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B
+   * @details ã“ã®ã‚¯ãƒ©ã‚¹ã¯ã€
+   * å½“ãŸã‚Šåˆ¤å®šã‚’è¡Œã†ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
    *
    */
 class Collider : public SceneComponent
 {
 	friend class Controller;
+	friend class RigidBody;
+	friend void World::ProcessColliderZones();
 private:
-	//! ƒRƒ‰ƒCƒ_[‚Ìƒ^ƒCƒv ƒ^ƒCƒv‚ğg‚Á‚Ä“–‚½‚è”»’è‚Ìˆ—‚ª•K—v‚È“¯m‚ğ”»•Ê‚·‚é
+	//! ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚¿ã‚¤ãƒ— ã‚¿ã‚¤ãƒ—ã‚’ä½¿ã£ã¦å½“ãŸã‚Šåˆ¤å®šã®å‡¦ç†ãŒå¿…è¦ãªåŒå£«ã‚’åˆ¤åˆ¥ã™ã‚‹
 	CollisionType type = CollisionType::Default;
-	//! “–‚½‚è”»’è‚Ìƒ‚[ƒh
-	CollisionMode collisionMode = CollisionMode::TRIGGER;
+	//! å½“ãŸã‚Šåˆ¤å®šã®ãƒ¢ãƒ¼ãƒ‰
+	CollisionMode collisionMode = CollisionMode::COLLISION;
 	
-	//! Õ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[”ÍˆÍ‚ğ•\‚·
+	//! è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ç¯„å›²ã‚’è¡¨ã™
 	Pair point{-1,-1},point_1{-1,-1};
 
-	//! ƒŒƒCƒ„
+	//! ãƒ¬ã‚¤ãƒ¤
 	int layer = 0;
-	//! –ˆƒtƒŒ[ƒ€©g‚ÆÕ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[
+	//! æ¯ãƒ•ãƒ¬ãƒ¼ãƒ è‡ªèº«ã¨è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	std::unordered_set<Collider*> collisions;
-	//! Õ“Ë‚µ‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg
+	//! è¡çªã—ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	std::vector<Object*>aims;
-	//! ƒRƒ‰ƒCƒ_[‚ğíœ‚·‚é‚½‚ß‚ÌƒRƒ“ƒeƒi
+	//! ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å‰Šé™¤ã™ã‚‹ãŸã‚ã®ã‚³ãƒ³ãƒ†ãƒŠ
 	std::vector<Collider*>collisions_to_erase;
 
+	class RigidBody* rigidBodyAttached = nullptr;
 protected:
 	ColliderShape shape = ColliderShape::COLLIDER_SHAPE_CIRCLE;
 
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍA“–‚½‚è”»’è‚ğs‚¢‚Ü‚·B
-	 *
-	 * @param another Õ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ãƒã‚¦ã‚¹ã¨ã®å½“ãŸã‚Šåˆ¤å®šã‚’è¡Œã„ã¾ã™ã€‚
 	 * 
-	 * @return Õ“Ë‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
-	 */
-	virtual bool CollisionJudge(Collider* another) = 0;
-
-	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒ}ƒEƒX‚Æ‚Ì“–‚½‚è”»’è‚ğs‚¢‚Ü‚·B
-	 * 
-	 * @return Õ“Ë‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
+	 * @return è¡çªã—ã¦ã„ã‚‹ã‹ã©ã†ã‹
 	 */
 	virtual bool IsMouseOver() = 0;
 public:
+	// è¡çªæ™‚ã®ãƒ‡ãƒªã‚²ãƒ¼ãƒˆ //
+	CollisionOverlapDelegate OnComponentBeginOverlap;
+	CollisionOverlapDelegate OnComponentEndOverlap;
+	CollisionHitDelegate OnComponentHit;
+
+
 	Collider(){mainWorld.GameColliders.insert(this);}
 	virtual ~Collider(){
+		//if(rigidBodyAttached) rigidBodyAttached->
 		mainWorld.GameColliders.erase(this);
 		Clear();
 	}
 
+
+	void BeginPlay() override;
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAXVˆ—‚ğs‚¢‚Ü‚·B
+	 * @brief ã“ã®é–¢æ•°ã¯ã€æ›´æ–°å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
 	 *
-	 * @param DeltaTime ‘O‚ÌƒtƒŒ[ƒ€‚©‚ç‚ÌŒo‰ßŠÔ
+	 * @param DeltaTime å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰ã®çµŒéæ™‚é–“
 	 */
 	void Update(float DeltaTime) override;
 	
-	
+	/**
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ãƒ‡ãƒãƒƒã‚°ãƒ©ã‚¤ãƒ³ã‚’æç”»ã—ã¾ã™ã€‚
+	 * 
+	 */
+	virtual void DrawDebugLine() = 0;
 
+#pragma region  GetSet
+	/**
+	 * @brief ã“ã®é–¢æ•°ã¯ã€è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 *
+	 * @param type ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚¿ã‚¤ãƒ—
+	 *
+	 * @return è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
+	 */
 	const std::vector<Object*>& GetCollisions(CollisionType type);
 
-
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒŒƒCƒ„[‚ğæ“¾‚µ‚Ü‚·B
-	 * 
-	 * @return ƒŒƒCƒ„[
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 *
+	 * @return ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	 */
-	int GetLayer()const{ return layer; }
-
+	int GetLayer()const { return layer; }
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒŒƒCƒ„[‚ğİ’è‚µ‚Ü‚·B
-	 * 
-	 * @param l ƒŒƒCƒ„[
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¨­å®šã—ã¾ã™ã€‚
+	 *
+	 * @param l ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	 */
 	void SetLayer(int l) { layer = l; }
 
-	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒRƒ‰ƒCƒ_[‚Ìƒ^ƒCƒv‚ğæ“¾‚µ‚Ü‚·B
-	 * 
-	 * @return ƒRƒ‰ƒCƒ_[‚Ìƒ^ƒCƒv
-	 */
-	const CollisionType GetType() { return type; }
 
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒRƒ‰ƒCƒ_[‚Ìƒ^ƒCƒv‚ğİ’è‚µ‚Ü‚·B
-	 * 
-	 * @param type ƒRƒ‰ƒCƒ_[‚Ìƒ^ƒCƒv
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚¿ã‚¤ãƒ—ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 *
+	 * @return ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚¿ã‚¤ãƒ—
+	 */
+	const CollisionType GetType() { return type; }
+	/**
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚¿ã‚¤ãƒ—ã‚’è¨­å®šã—ã¾ã™ã€‚
+	 *
+	 * @param type ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚¿ã‚¤ãƒ—
 	 */
 	void SetType(CollisionType type) { this->type = type; }
 
+
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒRƒ‰ƒCƒ_[‚ÌŒ`ó‚ğæ“¾‚µ‚Ü‚·B
-	 * 
-	 * @return ƒRƒ‰ƒCƒ_[‚ÌŒ`ó
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å½¢çŠ¶ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 *
+	 * @return ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å½¢çŠ¶
 	 */
 	ColliderShape GetShape() { return shape; }
-	
+
+
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒRƒ‰ƒCƒ_[‚Ì“–‚½‚è”»’è‚Ìƒ‚[ƒh‚ğİ’è‚µ‚Ü‚·B
-	 * 
-	 * @param mode “–‚½‚è”»’è‚Ìƒ‚[ƒh
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®šã®ãƒ¢ãƒ¼ãƒ‰ã‚’è¨­å®šã—ã¾ã™ã€‚
+	 *
+	 * @param mode å½“ãŸã‚Šåˆ¤å®šã®ãƒ¢ãƒ¼ãƒ‰
 	 */
 	void SetCollisionMode(CollisionMode mode) { collisionMode = mode; }
-
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒRƒ‰ƒCƒ_[‚Ì“–‚½‚è”»’è‚Ìƒ‚[ƒh‚ğæ“¾‚µ‚Ü‚·B
-	 * 
-	 * @return “–‚½‚è”»’è‚Ìƒ‚[ƒh
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®šã®ãƒ¢ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™ã€‚
+	 *
+	 * @return å½“ãŸã‚Šåˆ¤å®šã®ãƒ¢ãƒ¼ãƒ‰
 	 */
 	CollisionMode GetCollisionMode() { return collisionMode; }
+#pragma endregion
+private:
 
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒRƒ“ƒeƒi‚Ì’†g‚ğƒNƒŠƒA‚µ‚Ü‚·B
-	 * 
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ã‚³ãƒ³ãƒ†ãƒŠã®ä¸­èº«ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™ã€‚
+	 *
 	 */
 	void Clear();
 
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAÕ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[‚ğW‚ß‚Ä‚¢‚é
-	 * 
-	 * ˆø”‚Æ‚Ì“–‚½‚è”»’è‚ğs‚¢AÕ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[‚ğ
-	 * collisions‚É’Ç‰Á‚µ‚Ü‚·B
-	 * 
-	 * @param another Õ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[
+	 * @brief ã“ã®é–¢æ•°ã¯ã€è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’é›†ã‚ã¦ã„ã‚‹
+	 *
+	 * å¼•æ•°ã¨ã®å½“ãŸã‚Šåˆ¤å®šã‚’è¡Œã„ã€è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’
+	 * collisionsã«è¿½åŠ ã—ã¾ã™ã€‚
+	 *
+	 * @param another è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	 */
 	void Insert(Collider* another);
 
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAÕ“Ë‚µ‚Ä‚È‚¢ƒRƒ‰ƒCƒ_[‚ğíœ‚µ‚Ü‚·B
-	 * 
+	 * @brief ã“ã®é–¢æ•°ã¯ã€è¡çªã—ã¦ãªã„ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å‰Šé™¤ã—ã¾ã™ã€‚
+	 *
 	 */
 	void Erase();
 
+	bool CollisionJudge(Collider* another);
 
-	virtual void DrawDebugLine() = 0;
+	//è¡çªåˆ¤å®š
+	static bool (*collisionJudgeMap[3])(Collider*, Collider*);
+	static bool collisionJudgeCircleToCircle(Collider* c1, Collider* c2);
+	static bool collisionJudgeCircleToBox(Collider* c1, Collider* c2);
+	static bool collisionJudgeBoxToBox(Collider* c1, Collider* c2);
 
-	CollisionOverlapDelegate OnComponentBeginOverlap;
-	CollisionOverlapDelegate OnComponentEndOverlap;
+	//è¡çªçµæœ
+	HitResult CollisionHit(Collider* another);
+	static HitResult(*collisionHitMap[3])(Collider*, Collider*);
+	static HitResult collisionHitCircleToCircle(Collider* c1, Collider* c2);
+	static HitResult collisionHitCircleToBox(Collider* c1, Collider* c2);
+	static HitResult collisionHitBoxToBox(Collider* c1, Collider* c2);
 };
 
 /**
  * @class CircleCollider
- * @brief ‰~ƒRƒ‰ƒCƒ_[ƒNƒ‰ƒX
+ * @brief å††ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚¯ãƒ©ã‚¹
  *
- * @details ‚±‚ÌƒNƒ‰ƒX‚ÍA
- * ‰~ƒRƒ‰ƒCƒ_[‚ğ¶¬‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B
+ * @details ã“ã®ã‚¯ãƒ©ã‚¹ã¯ã€
+ * å††ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  *
  */
 class CircleCollider final : public Collider
 {
 private:
-	//! ”¼Œa
+	//! åŠå¾„
 	float radius = 0.0f;
 	float radius_init = 0.0f;
-
-	virtual bool CollisionJudge(Collider* another) override;
 
 public:
 	CircleCollider(){shape = ColliderShape::COLLIDER_SHAPE_CIRCLE; }
 
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAXVˆ—‚ğs‚¢‚Ü‚·B
+	 * @brief ã“ã®é–¢æ•°ã¯ã€æ›´æ–°å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
 	 *
-	 * @param DeltaTime ‘O‚ÌƒtƒŒ[ƒ€‚©‚ç‚ÌŒo‰ßŠÔ
+	 * @param DeltaTime å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰ã®çµŒéæ™‚é–“
 	 */
 	void Update(float DeltaTime) override;
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒfƒoƒbƒOƒ‰ƒCƒ“‚ğ•`‰æ‚µ‚Ü‚·B
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ãƒ‡ãƒãƒƒã‚°ãƒ©ã‚¤ãƒ³ã‚’æç”»ã—ã¾ã™ã€‚
 	 * 
 	 */
 	virtual void DrawDebugLine() override;
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒ}ƒEƒX‚Æ‚Ì“–‚½‚è”»’è‚ğs‚¢‚Ü‚·B
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ãƒã‚¦ã‚¹ã¨ã®å½“ãŸã‚Šåˆ¤å®šã‚’è¡Œã„ã¾ã™ã€‚
 	 * 
-	 * @return Õ“Ë‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
+	 * @return è¡çªã—ã¦ã„ã‚‹ã‹ã©ã†ã‹
 	 */
 	virtual bool IsMouseOver() override;
 
@@ -227,39 +276,49 @@ public:
 
 /**
  * @class BoxCollider
- * @brief ƒ{ƒbƒNƒXƒRƒ‰ƒCƒ_[ƒNƒ‰ƒX
+ * @brief ãƒœãƒƒã‚¯ã‚¹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚¯ãƒ©ã‚¹
  *
- * @details ‚±‚ÌƒNƒ‰ƒX‚ÍA
- * ƒ{ƒbƒNƒXƒRƒ‰ƒCƒ_[‚ğ¶¬‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX‚Å‚·B
+ * @details ã“ã®ã‚¯ãƒ©ã‚¹ã¯ã€
+ * ãƒœãƒƒã‚¯ã‚¹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  *
  */
 class BoxCollider final : public Collider
 {
+public:
+	struct Rect
+	{
+		float left = 0, top = 0, right = 0, bottom = 0;
+	};
 private:
 	Vector2 size = Vector2::Zero();
 	Vector2 size_init = Vector2::Zero();
-	
-	virtual bool CollisionJudge(Collider* another) override;
+
+	Rect rect;
 public:
+	
+
 	BoxCollider(){shape = ColliderShape::COLLIDER_SHAPE_BOX; }
 
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAXVˆ—‚ğs‚¢‚Ü‚·B
+	 * @brief ã“ã®é–¢æ•°ã¯ã€æ›´æ–°å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
 	 * 
-	 * @param DeltaTime ‘O‚ÌƒtƒŒ[ƒ€‚©‚ç‚ÌŒo‰ßŠÔ
+	 * @param DeltaTime å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰ã®çµŒéæ™‚é–“
 	 */
 	void Update(float DeltaTime) override;
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒfƒoƒbƒOƒ‰ƒCƒ“‚ğ•`‰æ‚µ‚Ü‚·B
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ãƒ‡ãƒãƒƒã‚°ãƒ©ã‚¤ãƒ³ã‚’æç”»ã—ã¾ã™ã€‚
 	 * 
 	 */
 	virtual void DrawDebugLine() override;
 	/**
-	 * @brief ‚±‚ÌŠÖ”‚ÍAƒ}ƒEƒX‚Æ‚Ì“–‚½‚è”»’è‚ğs‚¢‚Ü‚·B
+	 * @brief ã“ã®é–¢æ•°ã¯ã€ãƒã‚¦ã‚¹ã¨ã®å½“ãŸã‚Šåˆ¤å®šã‚’è¡Œã„ã¾ã™ã€‚
 	 * 
-	 * @return Õ“Ë‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
+	 * @return è¡çªã—ã¦ã„ã‚‹ã‹ã©ã†ã‹
 	 */
 	virtual bool IsMouseOver() override;
+
+	Rect GetRect()const { return rect; }
+	static Vector2 GetOverlapRect(const Rect& r1, const Rect& r2);
 
 	const Vector2& GetSize()const { return size; }
 	void SetSize(const Vector2& s) { size = s; size_init = s / GetWorldScale(); }

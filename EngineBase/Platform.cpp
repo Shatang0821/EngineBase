@@ -8,8 +8,4 @@ Platform::Platform()
 	boxCollider->AttachTo(root);
 	boxCollider->SetSize(Vector2(128, 32));
 
-	// 剛体コンポーネントの設定
-	rigidBody = ConstructComponent<RigidBody>();
-	rigidBody->SetGravity(9.8f);
-	rigidBody->SetGravityEnabled(false);
 }

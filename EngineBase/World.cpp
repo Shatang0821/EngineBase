@@ -33,6 +33,14 @@ void World::Update(float DeltaTime)
 		if(obj != nullptr)
 			obj->Update(DeltaTime);
 	}
+	//オブジェクトの追加
+	for(auto& obj : GameObjects_to_add)
+	{
+		GameObjects.insert(obj);
+		obj->BeginPlay();
+	}
+	GameObjects_to_add.clear();
+
 	//削除予定のオブジェクトを削除する
 	for (auto& obj : GameObjects_to_delete) {
 		delete obj;

@@ -12,9 +12,9 @@
 #define _RIGIDBODY_H_
 #include "Component.h"
 
-
 class RigidBody : public Component
 {
+    friend class Collider;
 private:
     bool bMoveable;              //< 物理移動可能かどうか
     // 位置に関する物理パラメータ
@@ -33,6 +33,8 @@ private:
     Vector2 force;               //< 力
     float gravity;               //< 重力
     bool bGravityEnabled;        //< 重力の有無
+
+    std::unordered_set<Collider*> colliders;
 
 public:
     RigidBody() 
@@ -128,6 +130,8 @@ public:
      * @param f 力の値
      */
     void AddForce(const Vector2& f){force += f;}
+
+    void RestrictVelocity(Vector2 impactNormal, RigidBody* another = nullptr);
 };
 
 #endif // !_RIGIDBODY_H_

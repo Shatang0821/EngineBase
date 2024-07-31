@@ -13,6 +13,14 @@ void Object::UnregisterComponent(Component* pCom)
 	components_iter = components.erase(it);
 }
 
+void Object::BeginPlay()
+{
+	for (auto& it : components)
+	{
+		it->BeginPlay();
+	}
+}
+
 void Object::AttachTo(Object* par)
 {
 	if (par) {

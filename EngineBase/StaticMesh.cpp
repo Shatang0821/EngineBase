@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "StaticMesh.h"
 
-void StaticMesh::BeginPlay()
-{
-}
-
 StaticMesh::StaticMesh()
 {
 	renderer = ConstructComponent<SpriteRenderer>();

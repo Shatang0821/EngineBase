@@ -86,6 +86,8 @@ class World final
 private:
 	/* シーンオブジェクト、UI、タイマーコンテナ*/
 
+	//! 追加予定オブジェクトの配列
+	std::vector<Object*>GameObjects_to_add;
 	//! オブジェクトコンテナ
 	std::unordered_set<class Object*>GameObjects;
 	//! 削除予定のオブジェクトコンテナ

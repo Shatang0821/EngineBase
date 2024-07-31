@@ -179,6 +179,12 @@ struct Vector2
         return Vector2(x / scalar, y / scalar);
     }
 
+
+    Vector2 operator-() const
+    {
+        return Vector2(-x, -y);
+    }
+
     
     /**
      * @brief ベクトルの大きさ（長さ）を計算します。
@@ -218,6 +224,26 @@ struct Vector2
 	 */
     float cross(const Vector2& v) const {
 		return x * v.y - y * v.x;
+	}
+
+    /**
+     * @brief ベクトルの射影を計算します
+     *
+     * この静的メソッドは、ベクトルuをベクトルvに射影します。
+     * 射影されたベクトルを返します。
+     *
+     * @param u 射影するベクトル
+     * @param v 射影の基準となるベクトル
+     * @return Vector2 射影されたベクトル
+     */
+    static Vector2 ProjectVector(const Vector2& u, const Vector2& v) {
+		float scalar = Dot(u,v) / v.Length();
+        return v.normalized() * scalar;
+	}
+
+    
+    static float Dot(const Vector2& u, const Vector2& v) {
+		return u.x * v.x + u.y * v.y;
 	}
 
     /**

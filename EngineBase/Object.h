@@ -99,13 +99,7 @@ public:
 	 * @param pCom 解除するコンポーネントのポインタ
 	 */
 	void UnregisterComponent(Component* pCom);
-	/**
-	 * @brief ゲームプレイの開始時に呼び出される純粋仮想関数
-	 *
-	 * この関数は、ゲームプレイが開始されるときに初期化処理を行うために呼び出されます。
-	 * 各派生クラスは、この関数をオーバーライドして独自の初期化処理を実装する必要があります。
-	 */
-	virtual void BeginPlay() = 0;
+	
 	/**
 	* @brief 親オブジェクトの設定関数
 	*
@@ -113,6 +107,7 @@ public:
 	*
 	* @param par 設定する親オブジェクトへのポインタ
 	*/
+
 	void AttachTo(Object* par);
 	/**
 	* @brief 親オブジェクトの設定する関数
@@ -121,8 +116,16 @@ public:
 	*
 	* @param par 設定する親オブジェクトへのポインタ
 	*/
+
 	void DetachFrom(Object* par);
 
+	/**
+	 * @brief ゲームプレイの開始時に呼び出される純粋仮想関数
+	 *
+	 * この関数は、ゲームプレイが開始されるときに初期化処理を行うために呼び出されます。
+	 * 各派生クラスは、この関数をオーバーライドして独自の初期化処理を実装する必要があります。
+	 */
+	virtual void BeginPlay() override;
 
 	/**
 	 * @brief オブジェクトの更新処理

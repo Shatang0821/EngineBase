@@ -1,8 +1,22 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Collider.h"
 #include "Debug.h"
 #include "SceneComponent.h"
+#include "RigidBody.h"
 
+bool (*Collider::collisionJudgeMap[3])(Collider*, Collider*) =
+{ &Collider::collisionJudgeCircleToCircle,Collider::collisionJudgeCircleToBox,Collider::collisionJudgeBoxToBox };
+
+HitResult(*Collider::collisionHitMap[3])(Collider*, Collider*) =
+{ &Collider::collisionHitCircleToCircle,Collider::collisionHitCircleToBox,Collider::collisionHitBoxToBox };
+
+void Collider::BeginPlay()
+{
+	SceneComponent::BeginPlay();
+	
+	rigidBodyAttached = pOwner->GetComponentByClass<RigidBody>();
+	if (rigidBodyAttached) rigidBodyAttached->colliders.insert(this);
+}
 
 void Collider::Update(float DeltaTime)
 {
@@ -10,7 +24,7 @@ void Collider::Update(float DeltaTime)
 
 	if(collisionMode == CollisionMode::NONE) return;
 
-	//Õ“ËƒGƒŠƒA‚Ì¶ã‚ÌÀ•W‚ÌŒvZ
+	//è¡çªã‚¨ãƒªã‚¢ã®å·¦ä¸Šã®åº§æ¨™ã®è¨ˆç®—
 	Vector2 half;
 	if (shape == ColliderShape::COLLIDER_SHAPE_CIRCLE) {
 		float a = Cast<CircleCollider>(this)->GetRadius();
@@ -20,15 +34,15 @@ void Collider::Update(float DeltaTime)
 		half = Cast<BoxCollider>(this)->GetSize() / 2;
 	}
 
-	//Õ“ËƒGƒŠƒA‚Ì¶ã‚ÌÀ•W
+	//è¡çªã‚¨ãƒªã‚¢ã®å·¦ä¸Šã®åº§æ¨™
 	Vector2 pos = GetWorldPosition() - half;
 	Pair newPoint(Math::clamp(int(pos.x) / 100, 0, 7), Math::clamp(int(pos.y) / 100, 0, 5));
 	pos += half * 2;
 	Pair newPoint_1(Math::clamp(int(pos.x) / 100, 0, 7), Math::clamp(int(pos.y) / 100, 0, 5));
-	//Õ“ËƒGƒŠƒA‚ª•ÏX‚³‚ê‚Ä‚¢‚È‚¢ê‡
+	//è¡çªã‚¨ãƒªã‚¢ãŒå¤‰æ›´ã•ã‚Œã¦ã„ãªã„å ´åˆ
 	if(newPoint == point && newPoint_1 == point_1) return;
 
-	//Õ“ËƒGƒŠƒA‚ğƒNƒŠƒA
+	//è¡çªã‚¨ãƒªã‚¢ã‚’ã‚¯ãƒªã‚¢
 	if (point != Pair(-1, -1)) {
 		for (int i = point.x; i <= point_1.x; i++) {
 			for (int j = point.y; j <= point_1.y; j++) {
@@ -37,7 +51,7 @@ void Collider::Update(float DeltaTime)
 		}
 	}
 
-	//Õ“ËƒGƒŠƒA‚ğXV
+	//è¡çªã‚¨ãƒªã‚¢ã‚’æ›´æ–°
 	point = newPoint;
 	point_1 = newPoint_1;
 	for(int i = point.x; i <= point_1.x; i++) {
@@ -50,12 +64,12 @@ void Collider::Update(float DeltaTime)
 const std::vector<Object*>& Collider::GetCollisions(CollisionType type)
 {
 	aims.clear();
-	//Õ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[‚ª‹ó‚Å‚È‚¢ê‡
+	//è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãŒç©ºã§ãªã„å ´åˆ
 	if (!collisions.empty()) {
 		for (auto it = collisions.begin(); it != collisions.end(); it++) {
-			//ƒRƒ‰ƒCƒ_[‚Ìƒ^ƒCƒv‚ªtype‚Æˆê’v‚·‚éê‡
+			//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚¿ã‚¤ãƒ—ãŒtypeã¨ä¸€è‡´ã™ã‚‹å ´åˆ
 			if ((*it)->GetType() == type)
-				//aims‚ÉƒRƒ‰ƒCƒ_[‚ÌƒI[ƒi[(Object)‚ğ’Ç‰Á
+				//aimsã«ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚ªãƒ¼ãƒŠãƒ¼(Object)ã‚’è¿½åŠ 
 				aims.push_back((*it)->pOwner);
 		}
 	}
@@ -65,30 +79,40 @@ const std::vector<Object*>& Collider::GetCollisions(CollisionType type)
 
 void Collider::Clear()
 {
-	//Õ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[‚ÌƒRƒ“ƒeƒi‚©‚ç©•ª‚ğƒNƒŠƒA‚·‚é
+	//è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚³ãƒ³ãƒ†ãƒŠã‹ã‚‰è‡ªåˆ†ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 	for (auto& another : collisions) {
 		another->collisions.erase(this);
 		OnComponentEndOverlap.BroadCast(this,another, another->pOwner);
 		another->OnComponentEndOverlap.BroadCast(another,this, pOwner);
 	}
-	//ƒRƒ‰ƒCƒ_[‚ğíœ‚·‚é‚Æ‚«‚ÉAÕ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[ƒRƒ“ƒeƒi‚ğƒNƒŠƒA‚·‚é
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’å‰Šé™¤ã™ã‚‹ã¨ãã«ã€è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚³ãƒ³ãƒ†ãƒŠã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 	collisions.clear();
 }
 
 void Collider::Insert(Collider* another)
 {
-	//ƒ^ƒCƒv‚Ìƒ}ƒbƒsƒ“ƒO‚ª‘¶İ‚µAÕ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[‚ª‚Ü‚¾Õ“ËƒŠƒXƒg‚É‚È‚¢A‚©‚Â“–‚½‚è”»’è‚ªtrue‚Ìê‡
+	//ã‚¿ã‚¤ãƒ—ã®ãƒãƒƒãƒ”ãƒ³ã‚°ãŒå­˜åœ¨ã—ã€è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãŒã¾ã è¡çªãƒªã‚¹ãƒˆã«ãªã„ã€ã‹ã¤å½“ãŸã‚Šåˆ¤å®šãŒtrueã®å ´åˆ
 	if (CollisionManager::Instance()->FindMapping(type, another->GetType())
 		&& collisions.find(another) == collisions.end()
 		&& CollisionJudge(another))
 	{
-		//Õ“Ë‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[‚ğ’Ç‰Á
+		//è¡çªã—ã¦ã„ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’è¿½åŠ 
 		collisions.insert(another);
-		//another‚Ìcollisions‚É©g‚ğ’Ç‰Á
+		//anotherã®collisionsã«è‡ªèº«ã‚’è¿½åŠ 
 		another->collisions.insert(this);
-		//ƒfƒŠƒP[ƒgŠÖ”‚ğŒÄ‚Ño‚·
-		OnComponentBeginOverlap.BroadCast(this,another, another->pOwner);
-		another->OnComponentBeginOverlap.BroadCast(another,this, pOwner);
+		if(another->collisionMode == CollisionMode::COLLISION && this->collisionMode == CollisionMode::COLLISION)
+		{
+			HitResult hitResult = this->CollisionHit(another);
+			//ãƒ‡ãƒªã‚±ãƒ¼ãƒˆé–¢æ•°ã‚’å‘¼ã³å‡ºã™
+			OnComponentHit.BroadCast(this, another, another->pOwner, hitResult.ImpactNormal * -1, hitResult);
+			another->OnComponentHit.BroadCast(another, this, pOwner, hitResult.ImpactNormal, { hitResult.ImpactPoint,hitResult.ImpactNormal * -1,pOwner,this });
+		}
+		else {
+			//ãƒ‡ãƒªã‚±ãƒ¼ãƒˆé–¢æ•°ã‚’å‘¼ã³å‡ºã™
+			OnComponentBeginOverlap.BroadCast(this, another, another->pOwner);
+			another->OnComponentBeginOverlap.BroadCast(another, this, pOwner);
+		}
+		
 	}
 }
 
@@ -100,7 +124,7 @@ void Collider::Erase()
 		if (!CollisionJudge(another)) {
 			another->collisions.erase(this);
 			collisions_to_erase.push_back(another);
-			//ƒfƒŠƒP[ƒgŠÖ”‚ğŒÄ‚Ño‚·
+			//ãƒ‡ãƒªã‚±ãƒ¼ãƒˆé–¢æ•°ã‚’å‘¼ã³å‡ºã™
 			OnComponentEndOverlap.BroadCast(this,another, another->pOwner);
 			another->OnComponentEndOverlap.BroadCast(another,this, pOwner);
 		}
@@ -110,82 +134,170 @@ void Collider::Erase()
 		collisions.erase(another);
 }
 
-
-bool CircleCollider::CollisionJudge(Collider* another)
+/* ---- è¡çª ---- */
+bool Collider::CollisionJudge(Collider* another)
 {
-	if (another->GetShape() == ColliderShape::COLLIDER_SHAPE_CIRCLE) {
-		//‰~‚Æ‰~‚Ì“–‚½‚è”»’è
-		CircleCollider* circle = Cast<CircleCollider>(another);
-		return Vector2::Distance(GetWorldPosition(),circle->GetWorldPosition()) <= radius + circle->GetRadius();
-	}
-	else if (another->GetShape() == ColliderShape::COLLIDER_SHAPE_BOX) {
-		//‰~‚Æ‹éŒ`‚Ì“–‚½‚è”»’è
-		BoxCollider* box = Cast<BoxCollider>(another);
-		//‰~‚Ì’†SÀ•W‚Æ‹éŒ`‚Ì’†SÀ•W
-		Vector2 pos = GetWorldPosition();
-		Vector2 boxPos = box->GetWorldPosition();
-		//‹éŒ`‚ÌƒTƒCƒY
-		Vector2 size = box->GetSize();
-
-		//‹éŒ`‚Ìã‰º¶‰E‚ÌÀ•W‚ğŒvZ
-		float top = boxPos.y - size.y / 2, bottom = boxPos.y + size.y / 2,
-			left = boxPos.x - size.x / 2, right = boxPos.x + size.x / 2;
-
-		//‰~‚Ì’†S‚ª‹éŒ`‚Ì’†‚É‚ ‚éê‡
-		if(pos.x <= right && pos.x >= left && pos.y <= bottom && pos.y >= top)
-			return true;
-		else {
-			if(pos.x <= left) {
-				if(pos.y <= top) {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì¶ã‚É‚ ‚éê‡
-					return Vector2::Distance(pos, Vector2(left, top)) <= radius;
-				}
-				else if(pos.y >= bottom) {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì¶‰º‚É‚ ‚éê‡
-					return Vector2::Distance(pos, Vector2(left, bottom)) <= radius;
-				}
-				else {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì¶•Ó‚É‚ ‚éê‡
-					return pos.x + radius >= left;
-				}
-			}
-			else if(pos.x >= right) {
-				if(pos.y <= top) {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì‰Eã‚É‚ ‚éê‡
-					return Vector2::Distance(pos, Vector2(right, top)) <= radius;
-				}
-				else if(pos.y >= bottom) {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì‰E‰º‚É‚ ‚éê‡
-					return Vector2::Distance(pos, Vector2(right, bottom)) <= radius;
-				}
-				else {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì‰E•Ó‚É‚ ‚éê‡
-					return pos.x - radius <= right;
-				}
-			}
-			else if(pos.y <= top) {
-				//‰~‚Ì’†S‚ª‹éŒ`‚Ìã•Ó‚É‚ ‚éê‡
-				return pos.y + radius >= top;
-			}
-			else if(pos.y >= bottom) {
-				//‰~‚Ì’†S‚ª‹éŒ`‚Ì‰º•Ó‚É‚ ‚éê‡
-				return pos.y - radius <= bottom;
-			}
-		}
-	}
-	return false;
+	int shape1 = int(this->shape), shape2 = int(another->shape);
+	return collisionJudgeMap[shape1 * shape1 + shape2 * shape2](this, another);
 }
 
+bool Collider::collisionJudgeCircleToCircle(Collider* c1, Collider* c2)
+{
+	CircleCollider* circle1 = Cast<CircleCollider>(c1);
+	CircleCollider* circle2 = Cast<CircleCollider>(c2);
+	return Vector2::Distance(circle1->GetWorldPosition(), circle2->GetWorldPosition()) <= circle1->GetRadius() + circle2->GetRadius();
+}
+
+bool Collider::collisionJudgeCircleToBox(Collider* c1, Collider* c2)
+{
+	CircleCollider* circle; BoxCollider* box;
+	if (c1->GetShape() == ColliderShape::COLLIDER_SHAPE_CIRCLE)
+	{
+		circle = Cast<CircleCollider>(c1), box = Cast<BoxCollider>(c2);
+	}
+	else
+	{
+		circle = Cast<CircleCollider>(c2), box = Cast<BoxCollider>(c1);
+	}
+	float radius = circle->GetRadius(); Vector2 pos = circle->GetWorldPosition();
+	BoxCollider::Rect rect = box->GetRect();
+
+	if (pos.x <= rect.right && pos.x >= rect.left && pos.y <= rect.top && pos.y >= rect.bottom)
+		return true;
+	else
+	{
+		if (pos.x < rect.left)
+		{
+			if (pos.y > rect.top)return Vector2::Distance(pos, { rect.left,rect.top }) <= radius;
+			else if (pos.y < rect.bottom)return Vector2::Distance(pos, { rect.left,rect.bottom }) <= radius;
+			else return rect.left - pos.x <= radius;
+		}
+		else if (pos.x > rect.right)
+		{
+			if (pos.y > rect.top)return Vector2::Distance(pos, { rect.right,rect.top }) <= radius;
+			else if (pos.y < rect.bottom)return Vector2::Distance(pos, { rect.right,rect.bottom }) <= radius;
+			else return pos.x - rect.right <= radius;
+		}
+		else
+		{
+			if (pos.y > rect.top)return pos.y - rect.top <= radius;
+			else return rect.bottom - pos.y <= radius;
+		}
+	}
+}
+
+bool Collider::collisionJudgeBoxToBox(Collider* c1, Collider* c2)
+{
+	BoxCollider* box1 = Cast<BoxCollider>(c1);
+	BoxCollider* box2 = Cast<BoxCollider>(c2);
+	Vector2 pos1 = box1->GetWorldPosition() - box1->GetSize() / 2;
+	Vector2 pos2 = box2->GetWorldPosition() - box2->GetSize() / 2;
+	return (pos1.x < pos2.x + box2->GetSize().x && pos1.x + box1->GetSize().x > pos2.x &&
+		pos1.y < pos2.y + box2->GetSize().y && pos1.y + box1->GetSize().y > pos2.y);
+}
+
+HitResult Collider::CollisionHit(Collider* another)
+{
+	int shape1 = int(this->shape), shape2 = int(another->shape);
+	return collisionHitMap[shape1 * shape1 + shape2 * shape2](this, another);
+}
+
+HitResult Collider::collisionHitCircleToCircle(Collider* c1, Collider* c2)
+{
+	CircleCollider* circle1 = Cast<CircleCollider>(c1);
+	CircleCollider* circle2 = Cast<CircleCollider>(c2);
+	Vector2 impactNormal = (circle2->GetWorldPosition() - circle1->GetWorldPosition()).normalized();
+	Vector2 impactPoint = circle1->GetWorldPosition() + impactNormal * circle1->GetRadius();
+	return HitResult(impactPoint, impactNormal, circle2->pOwner, circle2);
+}
+
+HitResult Collider::collisionHitCircleToBox(Collider* c1, Collider* c2)
+{
+	CircleCollider* circle;
+	BoxCollider* box;
+
+	if (c1->GetShape() == ColliderShape::COLLIDER_SHAPE_CIRCLE) {
+		circle = Cast<CircleCollider>(c1);
+		box = Cast<BoxCollider>(c2);
+	}
+	else {
+		circle = Cast<CircleCollider>(c2);
+		box = Cast<BoxCollider>(c1);
+	}
+	float radius = circle->GetRadius();
+	Vector2 pos = circle->GetWorldPosition();
+	BoxCollider::Rect rect = box->GetRect();
+
+	Vector2 impactNormal;
+	Vector2 impactPoint;
+
+	if (pos.x <= rect.right && pos.x >= rect.left && pos.y <= rect.top && pos.y >= rect.bottom)
+	{
+		impactPoint = pos;
+		impactNormal = (c2->GetWorldPosition() - c1->GetWorldPosition()).normalized();
+	}
+	else
+	{
+		if (pos.x < rect.left)
+		{
+			if (pos.y > rect.top) { impactPoint = { rect.left,rect.top };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
+			else if (pos.y < rect.bottom) { impactPoint = { rect.left,rect.bottom };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
+			else { impactPoint = { rect.left,pos.y };  impactNormal = { 1,0 }; }
+		}
+		else if (pos.x > rect.right)
+		{
+			if (pos.y > rect.top) { impactPoint = { rect.right,rect.top };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
+			else if (pos.y < rect.bottom) { impactPoint = { rect.right,rect.bottom };  impactNormal = (impactPoint - circle->GetWorldPosition()).normalized(); }
+			else { impactPoint = { rect.right,pos.y }; impactNormal = { -1,0 }; }
+		}
+		else
+		{
+			if (pos.y > rect.top) { impactPoint = { pos.x,rect.top }; impactNormal = { 0,-1 }; }
+			else { impactPoint = { pos.x,rect.bottom }; impactNormal = { 0,1 }; }
+		}
+	}
+
+
+
+	return HitResult(impactPoint, impactNormal * (c1 == circle ? 1.f : -1.f), c2->pOwner, c2);
+}
+
+HitResult Collider::collisionHitBoxToBox(Collider* c1, Collider* c2)
+{
+	BoxCollider* box1 = Cast<BoxCollider>(c1);
+	BoxCollider* box2 = Cast<BoxCollider>(c2);
+	BoxCollider::Rect r1 = box1->GetRect(), r2 = box2->GetRect();
+	Vector2 overlapRect = BoxCollider::GetOverlapRect(r1, r2);
+	Vector2 impactNormal;
+
+	if (overlapRect.x >= overlapRect.y)
+	{
+		box1->GetWorldPosition().y - box2->GetWorldPosition().y > 0 ? impactNormal = { 0,-1 } : impactNormal = { 0,1 };
+	}
+	else
+	{
+		box1->GetWorldPosition().x - box2->GetWorldPosition().x > 0 ? impactNormal = { -1,0 } : impactNormal = { 1,0 };
+	}
+
+	//
+	float centerX = max(r1.left, r2.left) + overlapRect.x / 2;
+	float centerY = max(r1.bottom, r2.bottom) + overlapRect.y / 2;
+
+	return HitResult({ centerX, centerY }, impactNormal, box2->pOwner, box2);
+}
+
+
+/* ---- CIRCLE ---- */
 void CircleCollider::Update(float DeltaTime)
 {
 	Collider::Update(DeltaTime);
-	//”¼Œa‚ÍƒIƒuƒWƒFƒNƒg‚ÌƒXƒP[ƒ‹‚É‰ˆ‚Á‚ÄXV‚·‚é
+	//åŠå¾„ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¹ã‚±ãƒ¼ãƒ«ã«æ²¿ã£ã¦æ›´æ–°ã™ã‚‹
 	radius = radius_init * sqrtf(GetWorldScale().x * GetWorldScale().y);
 }
 
 void CircleCollider::DrawDebugLine()
 {
-	auto pos = Transform::WordToScreen(GetWorldPosition());// mainWorld.mainCamera->GetCameraPosition()) / mainWorld.mainCamera->GetZoomFactor() + Vector2(WIDTH / 2, HEIGHT / 2);
+	auto pos = Transform::WordToScreen(GetWorldPosition());
 
 	Debug::DrawCircle(pos, int(radius / mainWorld.mainCamera->springArmLength_virtual), 32, D3DCOLOR_XRGB(0, 255, 0));
 }
@@ -195,100 +307,20 @@ bool CircleCollider::IsMouseOver()
 	return Vector2::Distance(GetWorldPosition(), mainWorld.mainController->GetMousePosition()) <= radius;
 }
 
-
-
-bool BoxCollider::CollisionJudge(Collider* another)
-{
-	if (another->GetShape() == ColliderShape::COLLIDER_SHAPE_CIRCLE) {
-		//‹éŒ`‚Æ‰~‚Ì“–‚½‚è”»’è
-		CircleCollider* circle = Cast<CircleCollider>(another);
-		//‹éŒ`‚Ì’†SÀ•W
-		Vector2 pos = GetWorldPosition();
-		//‰~‚Ì’†SÀ•W
-		Vector2 circlePos = circle->GetWorldPosition();
-		//‰~‚Ì”¼Œa
-		float radius = circle->GetRadius();
-
-		//‹éŒ`‚Ìã‰º¶‰E‚ÌÀ•W‚ğŒvZ
-		float top = pos.y - size.y / 2, bottom = pos.y + size.y / 2,
-			left = pos.x - size.x / 2, right = pos.x + size.x / 2;
-
-		//‰~‚Ì’†S‚ª‹éŒ`‚Ì’†‚É‚ ‚éê‡
-		if (circlePos.x <= right && circlePos.x >= left && circlePos.y <= bottom && circlePos.y >= top)
-			return true;
-		else {
-			if (circlePos.x <= left) {
-				if (circlePos.y <= top) {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì¶ã‚É‚ ‚éê‡
-					return Vector2::Distance(circlePos, Vector2(left, top)) <= radius;
-				}
-				else if (circlePos.y >= bottom) {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì¶‰º‚É‚ ‚éê‡
-					return Vector2::Distance(circlePos, Vector2(left, bottom)) <= radius;
-				}
-				else {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì¶•Ó‚É‚ ‚éê‡
-					return circlePos.x + radius >= left;
-				}
-			}
-			else if (circlePos.x >= right) {
-				if (circlePos.y <= top) {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì‰Eã‚É‚ ‚éê‡
-					return Vector2::Distance(circlePos, Vector2(right, top)) <= radius;
-				}
-				else if (circlePos.y >= bottom) {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì‰E‰º‚É‚ ‚éê‡
-					return Vector2::Distance(circlePos, Vector2(right, bottom)) <= radius;
-				}
-				else {
-					//‰~‚Ì’†S‚ª‹éŒ`‚Ì‰E•Ó‚É‚ ‚éê‡
-					return circlePos.x - radius <= right;
-
-				}
-			}
-			else if (circlePos.y <= top) {
-				//‰~‚Ì’†S‚ª‹éŒ`‚Ìã•Ó‚É‚ ‚éê‡
-				return circlePos.y + radius >= top;
-			}
-			else if (circlePos.y >= bottom) {
-				//‰~‚Ì’†S‚ª‹éŒ`‚Ì‰º•Ó‚É‚ ‚éê‡
-				return circlePos.y - radius <= bottom;
-			}
-			return false;
-		}
-	}
-	else {
-		//‹éŒ`‚Æ‹éŒ`‚Ì“–‚½‚è”»’è
-		BoxCollider* box = Cast<BoxCollider>(another);
-		//©g‚Ì¶ã‚ÌÀ•W
-		Vector2 pos = GetWorldPosition() - size / 2;
-		//another‚Ì¶ã‚ÌÀ•W
-		Vector2 anotherPos = box->GetWorldPosition() - box->GetSize() / 2;
-
-		//©g‚Ì‰E‰º‚ÌÀ•W
-		Vector2 posBottomRight = pos + size;
-		//another‚Ì‰E‰º‚ÌÀ•W
-		Vector2 anotherPosBottomRight = anotherPos + box->GetSize();
-
-		//©g‚Æanother‚Ì‹éŒ`‚ªd‚È‚Á‚Ä‚¢‚éê‡‚ÌƒR[ƒh‚ğ‘‚¢‚Ä
-
-		return (pos.x < anotherPosBottomRight.x && posBottomRight.x > anotherPos.x &&
-				pos.y < anotherPosBottomRight.y && posBottomRight.y > anotherPos.y);
-		
-	}	
-	return false;
-}
-
+/* ---- BOX ---- */
 void BoxCollider::Update(float DeltaTime)
 {
 	Collider::Update(DeltaTime);
-	//ƒTƒCƒY‚ªƒIƒuƒWƒFƒNƒg‚ÌƒXƒP[ƒ‹‚É‰ˆ‚Á‚ÄXV‚·‚é
+	//ã‚µã‚¤ã‚ºãŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¹ã‚±ãƒ¼ãƒ«ã«æ²¿ã£ã¦æ›´æ–°ã™ã‚‹
 	size = size_init * GetWorldScale(); 
+	Vector2 pos = GetWorldPosition();
+	rect = { pos.x - size.x / 2, pos.y - size.y / 2, pos.x + size.x / 2, pos.y + size.y / 2 };
+	//std::cout << rect.left << " " << rect.top << " " << rect.right << " " << rect.bottom << std::endl;
 }
 
 void BoxCollider::DrawDebugLine()
 {
-	auto pos = Transform::WordToScreen(GetWorldPosition());// (GetWorldPosition() - mainWorld.mainCamera->GetCameraPosition()) / mainWorld.mainCamera->GetZoomFactor() + Vector2(WIDTH / 2, HEIGHT / 2);
+	auto pos = Transform::WordToScreen(GetWorldPosition());
 
 	Debug::DrawBox(pos, size / mainWorld.mainCamera->springArmLength_virtual, D3DCOLOR_XRGB(255, 0, 0));
 }
@@ -298,9 +330,14 @@ bool BoxCollider::IsMouseOver()
 	Vector2 pos = GetWorldPosition();
 	Vector2 mousePos = mainWorld.mainController->GetMousePosition();
 
-	//‹éŒ`‚Ìã‰º¶‰E‚ÌÀ•W‚ğŒvZ
+	//çŸ©å½¢ã®ä¸Šä¸‹å·¦å³ã®åº§æ¨™ã‚’è¨ˆç®—
 	return (mousePos.x >= pos.x - size.x / 2 && mousePos.x <= pos.x + size.x / 2
 		&& mousePos.y >= pos.y - size.y / 2 && mousePos.y <= pos.y + size.y / 2);
+}
+
+Vector2 BoxCollider::GetOverlapRect(const Rect& r1, const Rect& r2)
+{
+	return {min(r1.right, r2.right) - max(r1.left, r2.left) , min(r1.bottom, r2.bottom) - max(r1.top, r2.top) };
 }
 
 

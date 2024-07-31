@@ -36,6 +36,7 @@ public:
 private:
 	void BeginOverlap(Collider*, Collider*, Object* );
 	void EndOverlap  (Collider*, Collider*, Object* );
+	void OnHit(Collider* hitComp,Collider* otherComp,Object* otherActor,Vector2 hitNormal,const HitResult& hitResult);
 };
 
 

@@ -36,14 +36,10 @@ Player::Player()
 	boxCollider->AttachTo(root);
 	boxCollider->SetSize(Vector2(64, 64));
 
-	boxCollider->OnComponentBeginOverlap.AddDynamic(this, &Player::BeginOverlap);
-	boxCollider->OnComponentEndOverlap.AddDynamic(this, &Player::EndOverlap);
+	//boxCollider->OnComponentBeginOverlap.AddDynamic(this, &Player::BeginOverlap);
+	//boxCollider->OnComponentEndOverlap.AddDynamic(this, &Player::EndOverlap);
+	boxCollider->OnComponentHit.AddDynamic(this, &Player::OnHit);
 	boxCollider->SetType(CollisionType::Default);
-
-	// サークルコライダーの設定
-	//circleCollider = ConstructComponent<CircleCollider>();
-	//circleCollider->AttachTo(root);
-	//circleCollider->SetRadius(16);
 
 	// 剛体コンポーネントの設定
 	rigidBody = ConstructComponent<RigidBody>();
@@ -66,7 +62,6 @@ Player::Player()
 void Player::Update(float DeltaTime)
 {
 	StaticMesh::Update(DeltaTime);
-
 	// Wキーで上に移動
 	if (InputManager::Instance()->IsPushKey(DIK_W))
 	{
@@ -110,7 +105,8 @@ void Player::DrawDebug()
 	auto pos = GetWorldPosition() - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
 	wchar_t text[50];
 	swprintf(text, 50, L" %.1f,%.1f", GetWorldPosition().x, GetWorldPosition().y); // 数値を文字列に変換
-	Debug::RenderText(MyApp::Instance()->GetDevice(), pos.x + 16, pos.y + 16, text);
+	//Debug::RenderText(MyApp::Instance()->GetDevice(), pos.x + 16, pos.y + 16, text);
+	Debug::RenderText(MyApp::Instance()->GetDevice(), 0, 60, text);
 	
 	auto startPos= anchorPoint - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
 	auto endPos = GetWorldPosition() - mainWorld.GetMainCamera()->GetCameraPosition() + Vector2(WIDTH / 2, HEIGHT / 2);
@@ -127,6 +123,11 @@ void Player::BeginOverlap(Collider* OverlapCpm, Collider* otherCpm, Object* Over
 void Player::EndOverlap(Collider* OverlapCpm, Collider* otherCpm, Object* OverlapActor)
 {
 	std::cout << "goodbye" << std::endl;
+}
+
+void Player::OnHit(Collider* hitComp, Collider* otherComp, Object* otherActor, Vector2 hitNormal, const HitResult& hitResult)
+{
+	std::cout << "Hit" << std::endl;
 }
 
 

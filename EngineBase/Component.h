@@ -27,6 +27,9 @@ protected:
     
 public:
     virtual ~Component() {};
+
+    virtual void BeginPlay() {};
+
     /**
       * @brief コンポーネントの更新処理
       *
