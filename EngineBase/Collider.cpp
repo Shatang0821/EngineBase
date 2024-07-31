@@ -162,26 +162,26 @@ bool Collider::collisionJudgeCircleToBox(Collider* c1, Collider* c2)
 	float radius = circle->GetRadius(); Vector2 pos = circle->GetWorldPosition();
 	BoxCollider::Rect rect = box->GetRect();
 
-	if (pos.x <= rect.right && pos.x >= rect.left && pos.y <= rect.top && pos.y >= rect.bottom)
+	if (pos.x <= rect.right && pos.x >= rect.left && pos.y >= rect.top && pos.y <= rect.bottom)
 		return true;
 	else
 	{
 		if (pos.x < rect.left)
 		{
-			if (pos.y > rect.top)return Vector2::Distance(pos, { rect.left,rect.top }) <= radius;
-			else if (pos.y < rect.bottom)return Vector2::Distance(pos, { rect.left,rect.bottom }) <= radius;
+			if (pos.y < rect.top)return Vector2::Distance(pos, { rect.left,rect.top }) <= radius;
+			else if (pos.y > rect.bottom)return Vector2::Distance(pos, { rect.left,rect.bottom }) <= radius;
 			else return rect.left - pos.x <= radius;
 		}
 		else if (pos.x > rect.right)
 		{
-			if (pos.y > rect.top)return Vector2::Distance(pos, { rect.right,rect.top }) <= radius;
-			else if (pos.y < rect.bottom)return Vector2::Distance(pos, { rect.right,rect.bottom }) <= radius;
+			if (pos.y < rect.top)return Vector2::Distance(pos, { rect.right,rect.top }) <= radius;
+			else if (pos.y > rect.bottom)return Vector2::Distance(pos, { rect.right,rect.bottom }) <= radius;
 			else return pos.x - rect.right <= radius;
 		}
 		else
 		{
-			if (pos.y > rect.top)return pos.y - rect.top <= radius;
-			else return rect.bottom - pos.y <= radius;
+			if (pos.y < rect.top)return rect.top - pos.y <= radius;
+			else return pos.y - rect.bottom <= radius;
 		}
 	}
 }
@@ -231,7 +231,7 @@ HitResult Collider::collisionHitCircleToBox(Collider* c1, Collider* c2)
 	Vector2 impactNormal;
 	Vector2 impactPoint;
 
-	if (pos.x <= rect.right && pos.x >= rect.left && pos.y <= rect.top && pos.y >= rect.bottom)
+	if (pos.x <= rect.right && pos.x >= rect.left && pos.y >= rect.top && pos.y <= rect.bottom)
 	{
 		impactPoint = pos;
 		impactNormal = (c2->GetWorldPosition() - c1->GetWorldPosition()).normalized();

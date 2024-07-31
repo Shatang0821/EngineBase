@@ -15,8 +15,8 @@ Player::Player()
 	, angularVelocity(0)
 	, angularAcceleration(0)
 	, animator(nullptr)
-	, boxCollider(nullptr)
-	//, circleCollider(nullptr)
+	//, boxCollider(nullptr)
+	, circleCollider(nullptr)
 	, rigidBody(nullptr)
 {
 	// レイヤーの設定
@@ -31,15 +31,24 @@ Player::Player()
 	animator->Insert("idle", ani);
 	animator->SetNode("idle");
 
+	circleCollider = ConstructComponent<CircleCollider>();
+	circleCollider->AttachTo(root);
+	circleCollider->SetRadius(64);
+
+	circleCollider->OnComponentBeginOverlap.AddDynamic(this, &Player::BeginOverlap);
+	circleCollider->OnComponentEndOverlap.AddDynamic(this, &Player::EndOverlap);
+	circleCollider->OnComponentHit.AddDynamic(this, &Player::OnHit);
+	circleCollider->SetType(CollisionType::Default);
+
 	// ボックスコライダーの設定
-	boxCollider = ConstructComponent<BoxCollider>();
-	boxCollider->AttachTo(root);
-	boxCollider->SetSize(Vector2(64, 64));
+	//boxCollider = ConstructComponent<BoxCollider>();
+	//boxCollider->AttachTo(root);
+	//boxCollider->SetSize(Vector2(64, 64));
 
 	//boxCollider->OnComponentBeginOverlap.AddDynamic(this, &Player::BeginOverlap);
 	//boxCollider->OnComponentEndOverlap.AddDynamic(this, &Player::EndOverlap);
-	boxCollider->OnComponentHit.AddDynamic(this, &Player::OnHit);
-	boxCollider->SetType(CollisionType::Default);
+	//boxCollider->OnComponentHit.AddDynamic(this, &Player::OnHit);
+	//boxCollider->SetType(CollisionType::Default);
 
 	// 剛体コンポーネントの設定
 	rigidBody = ConstructComponent<RigidBody>();

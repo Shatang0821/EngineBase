@@ -16,8 +16,8 @@ class Player : public StaticMesh
 private:
 	Animation ani; ///< プレイヤーのアニメーション
 	Animator* animator; ///< アニメーションを管理するAnimator
-	BoxCollider* boxCollider; ///< プレイヤーのボックスコライダー
-	//CircleCollider* circleCollider; ///< プレイヤーのサークルコライダー
+	//BoxCollider* boxCollider; ///< プレイヤーのボックスコライダー
+	CircleCollider* circleCollider; ///< プレイヤーのサークルコライダー
 	class RigidBody* rigidBody; ///< プレイヤーの剛体コンポーネント
 
 private:

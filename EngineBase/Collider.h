@@ -81,7 +81,7 @@ private:
 	//! コライダーのタイプ タイプを使って当たり判定の処理が必要な同士を判別する
 	CollisionType type = CollisionType::Default;
 	//! 当たり判定のモード
-	CollisionMode collisionMode = CollisionMode::COLLISION;
+	CollisionMode collisionMode = CollisionMode::TRIGGER;
 	
 	//! 衝突しているコライダー範囲を表す
 	Pair point{-1,-1},point_1{-1,-1};
