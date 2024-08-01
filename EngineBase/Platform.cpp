@@ -14,9 +14,6 @@ Platform::Platform()
 	boxCollider2->SetSize(Vector2(64, 32));
 	boxCollider2->SetLocalPosition(Vector2(0, -32));
 
-	//circleCollider = ConstructComponent<CircleCollider>();
-	//circleCollider->AttachTo(root);
-	//circleCollider->SetRadius(32);
 
 	//rigidBody = ConstructComponent<RigidBody>();
 

@@ -110,8 +110,8 @@ void Collider::Insert(Collider* another)
 		{
 			HitResult hitResult = this->CollisionHit(another);
 			//デリケート関数を呼び出す
-			OnComponentHit.BroadCast(this, another, another->pOwner, hitResult.ImpactNormal * -1, hitResult);
-			another->OnComponentHit.BroadCast(another, this, pOwner, hitResult.ImpactNormal, { hitResult.ImpactPoint,hitResult.ImpactNormal * -1,pOwner,this });
+			OnComponentHit.BroadCast(this, another, another->pOwner, -hitResult.ImpactNormal, hitResult);
+			another->OnComponentHit.BroadCast(another, this, pOwner, hitResult.ImpactNormal, { hitResult.ImpactPoint,-hitResult.ImpactNormal,hitResult.Length,pOwner,this });
 		}
 		else {
 			//デリケート関数を呼び出す
@@ -213,9 +213,15 @@ HitResult Collider::collisionHitCircleToCircle(Collider* c1, Collider* c2)
 {
 	CircleCollider* circle1 = Cast<CircleCollider>(c1);
 	CircleCollider* circle2 = Cast<CircleCollider>(c2);
-	Vector2 impactNormal = (circle2->GetWorldPosition() - circle1->GetWorldPosition()).normalized();
-	Vector2 impactPoint = circle1->GetWorldPosition() + impactNormal * circle1->GetRadius();
-	return HitResult(impactPoint, impactNormal, circle2->pOwner, circle2);
+	auto c1Pos = circle1->GetWorldPosition();
+	auto c2Pos = circle2->GetWorldPosition();
+	Vector2 impactNormal = (c2Pos - c1Pos).normalized();
+	Vector2 impactPoint = c1Pos + impactNormal * circle1->GetRadius();
+
+	//重なった部分の長さ
+	float length = circle1->GetRadius() + circle2->GetRadius() - Vector2::Distance(c1Pos, c2Pos);
+
+	return HitResult(impactPoint, impactNormal, length , circle2->pOwner, circle2);
 }
 
 HitResult Collider::collisionHitCircleToBox(Collider* c1, Collider* c2)
@@ -264,9 +270,11 @@ HitResult Collider::collisionHitCircleToBox(Collider* c1, Collider* c2)
 		}
 	}
 
+	float length = radius - Vector2::Distance(pos, impactPoint);
 
 
-	return HitResult(impactPoint, impactNormal * (c1 == circle ? 1.f : -1.f), c2->pOwner, c2);
+
+	return HitResult(impactPoint, impactNormal * (c1 == circle ? 1.f : -1.f), length, c2->pOwner, c2);
 }
 
 HitResult Collider::collisionHitBoxToBox(Collider* c1, Collider* c2)
@@ -276,21 +284,24 @@ HitResult Collider::collisionHitBoxToBox(Collider* c1, Collider* c2)
 	BoxCollider::Rect r1 = box1->GetRect(), r2 = box2->GetRect();
 	Vector2 overlapRect = BoxCollider::GetOverlapRect(r1, r2);
 	Vector2 impactNormal;
+	float length = 0;
 
 	if (overlapRect.x >= overlapRect.y)
 	{
 		box1->GetWorldPosition().y - box2->GetWorldPosition().y > 0 ? impactNormal = { 0,-1 } : impactNormal = { 0,1 };
+		length = overlapRect.y;
 	}
 	else
 	{
 		box1->GetWorldPosition().x - box2->GetWorldPosition().x > 0 ? impactNormal = { -1,0 } : impactNormal = { 1,0 };
+		length = overlapRect.x;
 	}
 
 	//
 	float centerX = max(r1.left, r2.left) + overlapRect.x / 2;
 	float centerY = max(r1.bottom, r2.bottom) + overlapRect.y / 2;
 
-	return HitResult({ centerX, centerY }, impactNormal, box2->pOwner, box2);
+	return HitResult({ centerX, centerY }, impactNormal,length, box2->pOwner, box2);
 }
 
 

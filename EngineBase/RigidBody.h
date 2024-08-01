@@ -131,7 +131,7 @@ public:
      */
     void AddForce(const Vector2& f){force += f;}
 
-    void RestrictVelocity(class HitResult hitResult, RigidBody* another = nullptr);
+    void RestrictVelocity(struct HitResult hitResult, RigidBody* another = nullptr);
 
 };
 

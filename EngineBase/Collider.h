@@ -36,18 +36,25 @@ struct HitResult
 	Vector2 ImpactPoint;
 	//! 衝突法線
 	Vector2 ImpactNormal;
+	//! 衝突解決のための距離
+	float Length;
+
+	//! 衝突したオブジェクト
 	Object* HitObject;
+	//! 衝突したコンポーネント
 	Component* HitComponent;
 
 	HitResult() 
 		: ImpactPoint(Vector2::Zero())
 		, ImpactNormal(Vector2::Zero())
+		, Length(0.0f)
 		, HitObject(nullptr)
 		, HitComponent(nullptr) 
 	{}
-	HitResult(const Vector2& impactPoint,const Vector2& impactNormal,Object* hitObject, Component* hitComponent)
+	HitResult(const Vector2& impactPoint, const Vector2& impactNormal, float length, Object* hitObject, Component* hitComponent)
 		: ImpactPoint(impactPoint)
 		, ImpactNormal(impactNormal)
+		, Length(length)
 		, HitObject(hitObject)
 		, HitComponent(hitComponent) 
 	{}
@@ -318,6 +325,15 @@ public:
 	virtual bool IsMouseOver() override;
 
 	Rect GetRect()const { return rect; }
+
+	/**
+	 * @brief この関数は、2つの矩形の重なりを取得します。
+	 * 
+	 * @param r1 矩形1
+	 * @param r2 矩形2
+	 * 
+	 * @return 重なりの幅と高さ
+	 */
 	static Vector2 GetOverlapRect(const Rect& r1, const Rect& r2);
 
 	const Vector2& GetSize()const { return size; }

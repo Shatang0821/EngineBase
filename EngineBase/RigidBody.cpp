@@ -149,6 +149,9 @@ void RigidBody::RestrictVelocity(HitResult hitresult, RigidBody* another)
 {
 	auto impactNormal = -hitresult.ImpactNormal;
 
+	// d‚È‚è‚Ì‰ðŒˆ‹——£‚Ì”¼•ª‚ðŒvŽZ
+	float halfLength = hitresult.Length / 4.0f;
+
 	Vector2 tangentVector = { impactNormal.y, -impactNormal.x };
 
 	Vector2 normalVelocity = Vector2::ProjectVector(velocity, impactNormal);
@@ -163,6 +166,9 @@ void RigidBody::RestrictVelocity(HitResult hitresult, RigidBody* another)
 		{
 			float multiplier = (tangentVelocity.Length() - normalVelocity.Length() * friction) / tangentVelocity.Length();
 			multiplier = Math::clamp(multiplier, 0.0f, 1.0f);
+
+			pOwner->AddPosition(impactNormal * halfLength);
+
 			velocity = tangentVelocity * multiplier - normalVelocity * restitution;
 		}
 		return;
@@ -179,4 +185,7 @@ void RigidBody::RestrictVelocity(HitResult hitresult, RigidBody* another)
 
 	velocity = normalVelocity + tangentVelocity;
 	another->velocity = anotherNormalVelocity + anotherTangentVelocity;
+
+	pOwner->AddPosition(impactNormal * halfLength);
+	another->pOwner->AddPosition(-impactNormal * halfLength);
 }
