@@ -1,5 +1,17 @@
 #include "stdafx.h"
 #include "StateMachine.h"
+#include "BaseState.h"
+
+StateMachine::~StateMachine()
+{
+	for (auto& state : StateMap)
+	{
+		delete state.second;
+		state.second = nullptr;
+	}
+	StateMap.clear();
+	currentState = nullptr;
+}
 
 void StateMachine::RegisterState(int StateId, BaseState* state)
 {

@@ -14,8 +14,18 @@
 
 class GameController : public Controller
 {
+private:
 	Timer OverallTimeHandle;
 	Timer ShakeTimeHandle;
+
+	//ゲーム入力
+	Vector2 axis;
+
+	// キーの状態フラグ
+	bool isWPressed = false;
+	bool isSPressed = false;
+	bool isAPressed = false;
+	bool isDPressed = false;
 public:
 	GameController();
 
@@ -24,6 +34,8 @@ public:
 	void Update(float DeltaTime) override;
 
 	void Shake(BYTE);
+
+	Vector2 GetAxis() { return axis; }
 private:
 	//! カメラのスプリングアームの長さ
 	float armLength = 1;
@@ -31,7 +43,10 @@ private:
 	void ZoomIn(BYTE);
 	void ZoomOut(BYTE);
 
+	void SetAxis(BYTE);
+	void ResetAxis(BYTE);
 
+	void UpdateAxis();
 };
 
 #endif // !_GAMECONTROLLER_H_

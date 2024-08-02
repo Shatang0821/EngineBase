@@ -13,12 +13,12 @@ World mainWorld;
 
 bool World::Init()
 {
+	//コントローラーの生成
+	mainWorld.mainController = GameStatics::CreateObject<GameController>();
 	//ワールド初期化
 	mainWorld.currentLevel = new GameLevel;
 	mainWorld.gameInstance = new GameInstance;
 
-	//mainWorld.mainController = new Controller;
-	mainWorld.mainController = GameStatics::CreateObject<GameController>();
 
 	return true;
 }

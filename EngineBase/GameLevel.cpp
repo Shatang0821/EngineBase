@@ -11,12 +11,15 @@ GameLevel::GameLevel()
     //buttle->Destroy();
     player = GameStatics::CreateObject<Player>(Vector2(0, -100));
     GameStatics::CreateObject<Platform>(Vector2(0, 100));
-    for (int i = 0; i < 10; i++)
-    {
-        GameStatics::CreateObject<Block>(Vector2(32*i, 0));
-    }
     
-
+    for(int y = 0; y < HEIGHT / 2; y+=32)
+	{
+		for(int x = 0; x < WIDTH / 2; x+=32)
+		{
+            GameStatics::CreateObject<Block>(Vector2(x, y));
+		}
+	}
+    //GameStatics::CreateObject<Block>(Vector2(0, 100));
     //player->Destroy();
 }
 

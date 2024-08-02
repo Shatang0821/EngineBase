@@ -25,7 +25,7 @@
   */
 class StaticMesh : public Object
 {
-private:
+protected:
     //! スプライトを描画するためのレンダラー
 	SpriteRenderer* renderer;
 public:

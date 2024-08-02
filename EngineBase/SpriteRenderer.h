@@ -25,6 +25,9 @@
   */
 class SpriteRenderer final: public SceneComponent,public LayerInterface,public ImageInterface
 {
+private:
+    bool flipX = false; ///< XŽ²•ûŒü‚É”½“]‚·‚é‚©‚Ç‚¤‚©
+    bool flipY = false; ///< YŽ²•ûŒü‚É”½“]‚·‚é‚©‚Ç‚¤‚©
 public:
     virtual ~SpriteRenderer() {};
     /**
@@ -34,6 +37,17 @@ public:
      * ƒXƒvƒ‰ƒCƒg‚Ì•`‰æˆ—‚ðŽÀ‘•‚µ‚Ü‚·B
      */
 	virtual void Render() override;
+
+    /**
+	 * @brief XŽ²•ûŒü‚É”½“]‚·‚é‚©‚Ç‚¤‚©‚ðŽæ“¾‚·‚é
+	 * @return XŽ²•ûŒü‚É”½“]‚·‚é‚©‚Ç‚¤‚©
+	 */
+    void SetFlipX(bool flip) { flipX = flip; }
+    /**
+     * @brief YŽ²•ûŒü‚É”½“]‚·‚é‚©‚Ç‚¤‚©‚ðŽæ“¾‚·‚é
+     * @return YŽ²•ûŒü‚É”½“]‚·‚é‚©‚Ç‚¤‚©
+     */
+    void SetFlipY(bool flip) { flipY = flip; }
 };
 
 #endif // !_SPRITERENDERER_H_

@@ -195,6 +195,7 @@ private:
 public:
 
 	class Camera* GetMainCamera() { return mainCamera; }
+	class Controller* GetMainController() { return mainController; }
 };
 
 extern World mainWorld;

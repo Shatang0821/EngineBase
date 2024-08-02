@@ -3,92 +3,6 @@
 #include "Object.h"
 #include "Collider.h"
 
-//void RigidBody::FixedUpdate(float fixedDeltaTime)
-//{
-//	if (pOwner) {
-//		//à⁄ìÆèàóù
-//		if (bMoveable) {
-//
-//			if (bGravityEnabled) force.y += gravity * mass;
-//
-//			acceleration += force / mass;
-//
-//			velocity += acceleration * fixedDeltaTime;
-//
-//			for (auto& collider : colliders) {
-//				if (collider->collisionMode != CollisionMode::COLLISION) continue;
-//				for (auto& another : collider->collisions) {
-//					if (collider->collisionMode != CollisionMode::COLLISION) continue;
-//					RestrictVelocity(-collider->CollisionHit(another).ImpactNormal, another->rigidBodyAttached);
-//				}
-//			}
-//
-//			for (auto& collider : colliders) {
-//				if (collider->collisionMode != CollisionMode::COLLISION) continue;
-//				for (auto& another : collider->collisions) {
-//					if (collider->collisionMode != CollisionMode::COLLISION || another->rigidBodyAttached) continue;
-//					RestrictVelocity(-collider->CollisionHit(another).ImpactNormal);
-//				}
-//			}
-//
-//			pOwner->AddPosition(velocity * fixedDeltaTime);
-//
-//			acceleration = Vector2::Zero();
-//		}
-//		
-//		//âÒì]èàóù
-//		if (bRotatable) {
-//			angularAcceleration = torque;
-//			angularVelocity += angularAcceleration * fixedDeltaTime;
-//
-//			pOwner->AddRotation(angularVelocity);
-//
-//			torque = 0;
-//		}
-//
-//		force = Vector2::Zero();
-//	}
-//}
-//
-//void RigidBody::RestrictVelocity(Vector2 impactNormal, RigidBody* another)
-//{
-//	//
-//	Vector2 tangentVector = { impactNormal.y, -impactNormal.x };
-//
-//	Vector2 normalVelocity = Vector2::ProjectVector(velocity,impactNormal);
-//	Vector2 tangentVelocity = Vector2::ProjectVector(velocity, tangentVector);
-//
-//	float friction = 0.1f; // ñÄéCånêî
-//	float restitution = 0.0f;	// íeê´è’ìÀåWêî
-//
-//	if (!another)
-//	{
-//		if (Vector2::Dot(velocity, impactNormal) < 0)
-//		{
-//			float multiplier = (tangentVelocity.Length() - normalVelocity.Length() * friction) / tangentVelocity.Length();
-//			multiplier = Math::clamp(multiplier, 0.0f, 1.0f);
-//			velocity = tangentVelocity * multiplier - normalVelocity * restitution;
-//		}
-//		return;
-//	}
-//
-//
-//	Vector2 anotherNormalVelocity = Vector2::ProjectVector(another->velocity, impactNormal);
-//	Vector2 anotherTangentVelocity = Vector2::ProjectVector(another->velocity, tangentVector);
-//
-//    // ëäëŒë¨ìxÇ∆è’ìÀñ@ê¸ÇÃì‡êœÇ™0à»â∫ÇÃèÍçáÅAè’ìÀâûìöÇçsÇ§
-//    if (Vector2::Dot(normalVelocity - anotherNormalVelocity, impactNormal) >= 0) return;
-//
-//
-//
-//	Vector2 normalVelocity_ = normalVelocity;
-//	normalVelocity = (normalVelocity * (mass - restitution * another->mass) + anotherNormalVelocity * (1 + restitution) * another->mass) / (mass + another->mass);
-//	anotherNormalVelocity = (anotherNormalVelocity * (another->mass - restitution * mass) + normalVelocity_ * (1 + restitution) * mass) / (mass + another->mass);
-//
-//	velocity = normalVelocity + tangentVelocity;
-//	another->velocity = anotherNormalVelocity + anotherTangentVelocity;
-//}
-
 void RigidBody::FixedUpdate(float fixedDeltaTime)
 {
 	if (pOwner) {
@@ -102,8 +16,8 @@ void RigidBody::FixedUpdate(float fixedDeltaTime)
 			velocity += acceleration * fixedDeltaTime;
 
 			// ñÄéCÇÃìKóp
-			Vector2 friction = -velocity.normalized() * 0.1f * mass * gravity;
-			velocity += friction * fixedDeltaTime;
+			Vector2 v2friction = -velocity.normalized() * friction * mass * gravity;
+			velocity += v2friction * fixedDeltaTime;
 
 			// è’ìÀÇ…ÇÊÇÈë¨ìxêßå¿
 			for (auto& collider : colliders) {
@@ -149,16 +63,13 @@ void RigidBody::RestrictVelocity(HitResult hitresult, RigidBody* another)
 {
 	auto impactNormal = -hitresult.ImpactNormal;
 
-	// èdÇ»ÇËÇÃâåàãóó£ÇÃîºï™ÇåvéZ
+	// èdÇ»ÇËÇÃâåàãóó£Å@ï™äÑÇµÇƒÇªÇÃï™ÇæÇØã≠êßà⁄ìÆÇ≥ÇπÇÈ
 	float halfLength = hitresult.Length / 4.0f;
 
 	Vector2 tangentVector = { impactNormal.y, -impactNormal.x };
 
 	Vector2 normalVelocity = Vector2::ProjectVector(velocity, impactNormal);
 	Vector2 tangentVelocity = Vector2::ProjectVector(velocity, tangentVector);
-
-	float friction = 0.001f; // ñÄéCåWêî
-	float restitution = 0.0f; // íeê´è’ìÀåWêî
 
 	if (!another)
 	{
@@ -167,6 +78,7 @@ void RigidBody::RestrictVelocity(HitResult hitresult, RigidBody* another)
 			float multiplier = (tangentVelocity.Length() - normalVelocity.Length() * friction) / tangentVelocity.Length();
 			multiplier = Math::clamp(multiplier, 0.0f, 1.0f);
 
+			//ã≠êßà⁄ìÆ
 			pOwner->AddPosition(impactNormal * halfLength);
 
 			velocity = tangentVelocity * multiplier - normalVelocity * restitution;
@@ -186,6 +98,7 @@ void RigidBody::RestrictVelocity(HitResult hitresult, RigidBody* another)
 	velocity = normalVelocity + tangentVelocity;
 	another->velocity = anotherNormalVelocity + anotherTangentVelocity;
 
+	//ã≠êßà⁄ìÆ
 	pOwner->AddPosition(impactNormal * halfLength);
 	another->pOwner->AddPosition(-impactNormal * halfLength);
 }

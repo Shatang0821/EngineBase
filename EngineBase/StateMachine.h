@@ -1,6 +1,7 @@
 #ifndef _STATEMACHINE_H_
 #define _STATEMACHINE_H_
-#include "BaseState.h"
+
+class BaseState;
 
 class StateMachine
 {
@@ -12,7 +13,7 @@ public:
 	StateMachine()
 		: currentState(nullptr)
 	{};
-	~StateMachine() {};
+	~StateMachine();
 
 	void RegisterState(int StateId,BaseState*);
 

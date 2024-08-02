@@ -4,7 +4,7 @@
 #include "RigidBody.h"
 #include "Debug.h"
 #include "StateMachine.h"
-
+#include "PlayerStates.h"
 /**
  * @brief Playerのコンストラクタ。
  *
@@ -19,11 +19,19 @@ Player::Player()
 	// レイヤーの設定
 	auto spriteRenderer = GetComponentByClass<SpriteRenderer>();
 	spriteRenderer->SetLayer(1);
-	
+
 	InitAnimation();
 
 	InitPhysics();
 
+	InitStateMachine();
+}
+
+Player::~Player()
+{
+	if(stateMachine)
+		delete stateMachine;
+	stateMachine = nullptr;
 }
 
 void Player::InitPhysics()
@@ -54,6 +62,7 @@ void Player::InitPhysics()
 void Player::Update(float DeltaTime)
 {
 	StaticMesh::Update(DeltaTime);
+	stateMachine->LogicUpdate(DeltaTime);
 	
 }
 
@@ -64,27 +73,26 @@ void Player::FixedUpdate(float fixedDeltaTime)
 	{
 		rigidBody->SetVelocity({ rigidBody->GetVelocity().x,-100 });
 	}
-	// Aキーで左に移動
-	if (InputManager::Instance()->IsPushKey(DIK_A))
-	{
-		//anchorPoint += Vector2(-100, 0) * DeltaTime;
-		rigidBody->SetVelocity(Vector2(-100, rigidBody->GetVelocity().y));
-		animator->SetNode("run");
-	}
-	// Dキーで右に移動
-	else if (InputManager::Instance()->IsPushKey(DIK_D))
-	{
-		//anchorPoint += Vector2(100, 0) * DeltaTime;
-		rigidBody->SetVelocity(Vector2(100, rigidBody->GetVelocity().y));
-		animator->SetNode("run");
-	}
-	else
-	{
-		rigidBody->SetVelocity({ 0, rigidBody->GetVelocity().y });
-		animator->SetNode("idle");
-	}
-	
-	
+	//// Aキーで左に移動
+	//if (InputManager::Instance()->IsPushKey(DIK_A))
+	//{
+	//	//anchorPoint += Vector2(-100, 0) * DeltaTime;
+	//	rigidBody->SetVelocity(Vector2(-100, rigidBody->GetVelocity().y));
+	//	animator->SetNode("run");
+	//}
+	//// Dキーで右に移動
+	//else if (InputManager::Instance()->IsPushKey(DIK_D))
+	//{
+	//	//anchorPoint += Vector2(100, 0) * DeltaTime;
+	//	rigidBody->SetVelocity(Vector2(100, rigidBody->GetVelocity().y));
+	//	animator->SetNode("run");
+	//}
+	//else
+	//{
+	//	rigidBody->SetVelocity({ 0, rigidBody->GetVelocity().y });
+	//	animator->SetNode("idle");
+	//}
+	stateMachine->PhysicsUpdate(fixedDeltaTime);
 }
 
 void Player::DrawDebug()
@@ -94,6 +102,63 @@ void Player::DrawDebug()
 	swprintf(text, 50, L" %.1f,%.1f", GetWorldPosition().x, GetWorldPosition().y); // 数値を文字列に変換
 	//Debug::RenderText(MyApp::Instance()->GetDevice(), pos.x + 16, pos.y + 16, text);
 	Debug::RenderText(MyApp::Instance()->GetDevice(), 0, 60, text);
+}
+
+void Player::InitStateMachine()
+{
+	stateMachine = new StateMachine();
+
+	stateMachine->RegisterState(PlayerStateType::IDLE, new PlayerIdleState(stateMachine,this,"idle"));
+	stateMachine->RegisterState(PlayerStateType::RUN, new PlayerRunState(stateMachine,this,"run"));
+
+	stateMachine->ChangeState(PlayerStateType::IDLE);
+}
+
+void Player::InitAnimation()
+{
+	// アニメーターの生成と設定
+	animator = ConstructComponent<Animator>();
+	animation[0].Load(ResID::Tex_Player_Idle);
+	animation[0].SetInterVal(0.02f);
+	animation[1].Load(ResID::Tex_Player_Run);
+	animation[1].SetInterVal(0.02f);
+
+	animator->Insert("idle", animation[0]);
+	animator->Insert("run", animation[1]);
+	animator->SetNode("run");
+}
+
+void Player::SetAnimation(const std::string& name)
+{
+	animator->SetNode(name);
+}
+
+void Player::SetVelocity(const Vector2& velocity)
+{
+	rigidBody->SetVelocity(velocity);
+}
+
+void Player::SetVelocityX(float x)
+{
+	if (x < 0) {
+		renderer->SetFlipX(true);
+	}
+	else if(x > 0)
+		{
+		renderer->SetFlipX(false);
+	}
+		
+	rigidBody->SetVelocity(Vector2(x,rigidBody->GetVelocity().y));
+}
+
+void Player::SetVelocityY(float y)
+{
+	rigidBody->SetVelocity(Vector2(rigidBody->GetVelocity().x,y));
+}
+
+Vector2 Player::GetVelocity()
+{
+	return rigidBody->GetVelocity();
 }
 
 void Player::BeginOverlap(Collider* OverlapCpm, Collider* otherCpm, Object* OverlapActor)
@@ -112,18 +177,6 @@ void Player::OnHit(Collider* hitComp, Collider* otherComp, Object* otherActor, V
 	std::cout << "Hit" << std::endl;
 }
 
-void Player::InitAnimation()
-{
-	// アニメーターの生成と設定
-	animator = ConstructComponent<Animator>();
-	animation[0].Load(ResID::Tex_Player_Idle);
-	animation[0].SetInterVal(0.02f);
-	animation[1].Load(ResID::Tex_Player_Run);
-	animation[1].SetInterVal(0.02f);
 
-	animator->Insert("idle", animation[0]);
-	animator->Insert("run", animation[1]);
-	animator->SetNode("run");
-}
 
 

@@ -12,7 +12,7 @@ void GameController::SetUpInputComponent(InputComponent* inputComponent)
 
 	//キーバインドと設定
 	inputComponent->SetMapping("Shake", DIK_SPACE);
-	inputComponent->BindAction("Shake", InputType::Released, this,&GameController::Shake);
+	inputComponent->BindAction("Shake", InputType::Pressed, this, &GameController::Shake);
 
 	inputComponent->SetMapping("ZoomIn", DIK_Q);
 	inputComponent->BindAction("ZoomIn", InputType::Holding, this, &GameController::ZoomIn);
@@ -20,7 +20,25 @@ void GameController::SetUpInputComponent(InputComponent* inputComponent)
 	inputComponent->SetMapping("ZoomOut", DIK_E);
 	inputComponent->BindAction("ZoomOut", InputType::Holding, this, &GameController::ZoomOut);
 
+	inputComponent->SetMapping("SetAxisUp", DIK_W);
+	inputComponent->BindAction("SetAxisUp", InputType::Holding, this, &GameController::SetAxis);
+	inputComponent->SetMapping("ResetAxisUp", DIK_W);
+	inputComponent->BindAction("ResetAxisUp", InputType::Released, this, &GameController::ResetAxis);
 
+	inputComponent->SetMapping("SetAxisDown", DIK_S);
+	inputComponent->BindAction("SetAxisDown", InputType::Holding, this, &GameController::SetAxis);
+	inputComponent->SetMapping("ResetAxisDown", DIK_S);
+	inputComponent->BindAction("ResetAxisDown", InputType::Released, this, &GameController::ResetAxis);
+
+	inputComponent->SetMapping("SetAxisLeft", DIK_A);
+	inputComponent->BindAction("SetAxisLeft", InputType::Holding, this, &GameController::SetAxis);
+	inputComponent->SetMapping("ResetAxisLeft", DIK_A);
+	inputComponent->BindAction("ResetAxisLeft", InputType::Released, this, &GameController::ResetAxis);
+
+	inputComponent->SetMapping("SetAxisRight", DIK_D);
+	inputComponent->BindAction("SetAxisRight", InputType::Holding, this, &GameController::SetAxis);
+	inputComponent->SetMapping("ResetAxisRight", DIK_D);
+	inputComponent->BindAction("ResetAxisRight", InputType::Released, this, &GameController::ResetAxis);
 }
 
 void GameController::Update(float DeltaTime)
@@ -38,7 +56,7 @@ void GameController::Update(float DeltaTime)
 
 void GameController::Shake(BYTE key)
 {
-	//camera->ShakeCamera(5,60);
+	camera->ShakeCamera(5,60);
 	//AddPosition(Vector2(100.0f, 0));
 }
 
@@ -53,4 +71,70 @@ void GameController::ZoomOut(BYTE key)
 {
 	armLength = Math::clamp(armLength + 0.05f, 0.5f, 10000.f);
 	camera->SetSpringArmLength(armLength);
+}
+
+void GameController::SetAxis(BYTE key)
+{
+	switch (key) {
+	case DIK_W:
+		isWPressed = true;
+		break;
+	case DIK_S:
+		isSPressed = true;
+		break;
+	case DIK_A:
+		isAPressed = true;
+		break;
+	case DIK_D:
+		isDPressed = true;
+		break;
+	default:
+		break;
+	}
+	UpdateAxis();
+	//std::cout << axis << std::endl;
+}
+
+void GameController::ResetAxis(BYTE key)
+{
+	switch (key) {
+	case DIK_W:
+		isWPressed = false;
+		break;
+	case DIK_S:
+		isSPressed = false;
+		break;
+	case DIK_A:
+		isAPressed = false;
+		break;
+	case DIK_D:
+		isDPressed = false;
+		break;
+	default:
+		break;
+	}
+	UpdateAxis();
+}
+
+void GameController::UpdateAxis()
+{
+	if (isWPressed && !isSPressed) {
+		axis.y = 1.0f;
+	}
+	else if (!isWPressed && isSPressed) {
+		axis.y = -1.0f;
+	}
+	else {
+		axis.y = 0.0f;
+	}
+
+	if (isAPressed && !isDPressed) {
+		axis.x = -1.0f;
+	}
+	else if (!isAPressed && isDPressed) {
+		axis.x = 1.0f;
+	}
+	else {
+		axis.x = 0.0f;
+	}
 }

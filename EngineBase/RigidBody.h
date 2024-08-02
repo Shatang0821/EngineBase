@@ -18,7 +18,9 @@ class RigidBody : public Component
 private:
     bool bMoveable;              //< •¨—ˆÚ“®‰Â”\‚©‚Ç‚¤‚©
     // ˆÊ’u‚ÉŠÖ‚·‚é•¨—ƒpƒ‰ƒ[ƒ^
-    float mass;                  //< Ž¿—Ê
+    float mass;                  //< Ž¿
+    float restitution;			 //< ”½”­ŒW”   
+    float friction;              //< –€ŽCŒW”
     Vector2 velocity;            //< ‘¬“x
     Vector2 acceleration;        //< ‰Á‘¬“x
 
@@ -40,6 +42,8 @@ public:
     RigidBody() 
         : bMoveable(true)
         , mass(1.0f)
+        , restitution(0.0f)
+        , friction(0.001f)
         , velocity(Vector2::Zero())
         , acceleration(Vector2::Zero())
         , angularVelocity(0)
@@ -52,7 +56,26 @@ public:
     {};
     virtual void FixedUpdate(float fixedDeltaTime) override;
 
+    /**
+	 * @brief Ž¿—Ê‚ðÝ’è‚·‚é
+     * 
+     * @param m Ž¿—Ê‚Ì’l
+	 */
+    void SetMass(float m) { mass = m; }
 
+    /**
+    * @brief ”½”­ŒW”‚ðÝ’è‚·‚é
+    * 
+    * @param r ”½”­ŒW”‚Ì’l
+	*/
+    void SetRestitution(float r) { restitution = r; }
+
+    /**
+    * @brief –€ŽCŒW”‚ðÝ’è‚·‚é
+    * 
+    * @param f –€ŽCŒW”‚Ì’l
+    */
+    void SetFriction(float f) { friction = f; }
 
     /**
      * @brief •¨—ˆÚ“®‰Â”\‚©‚Ç‚¤‚©‚ðÝ’è‚·‚éB
