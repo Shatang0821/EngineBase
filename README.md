@@ -29,10 +29,11 @@
 
 ### 入力処理
     - キーボードやマウスの入力を簡単に取得し、ゲーム内での操作を実現します。
-    -キーの押された状態、離された状態、押し続けられた状態ごとにアクションをバインドできるようにしています。
+    -　キーの押された状態、離された状態、押し続けられた状態ごとにアクションをバインドできるようにしています。
 
 #### InputManager
 エンジン側で自動で初期化と終了処理を行い、ユーザの入力を取得することができます
+
   <a href = "" target="_blank" rel="noopener noreferrer">InputManagersソースコード</a>
     
 #### InputComponent
@@ -45,7 +46,7 @@
     - 画像を読み込み、画面にスプライトを表示することができます。
     - スプライトの位置、回転、スケーリングをサポート。
     - スプライトシートおよび単一のスプライト画像の両方素材に対応。
-
+    - レイヤを設定することで表示する順番の変更ができます。
 #### 
 
 #### SpriteRenderer
@@ -62,8 +63,22 @@
 
 
 ### 物理演算
-    矩形および円形の当たり判定機能を備え、オブジェクト間の衝突を検出。
+    - 矩形および円形の当たり判定機能を備え、オブジェクト間の衝突を検出。
+    - 重量、質量、摩擦、弾性力を考慮した物理演算。
+    - トリガー衝突とコリジョン衝突の2種類をサポート。
+        - トリガー衝突：`TriggerEnter` と `TriggerExit` イベントが呼び出される。
+        - コリジョン衝突：`Hit` イベントが呼び出される。
+    - 衝突タイプを設定可能（Unityの物理レイヤ機能に類似、指定タイプの衝突のみ発生する）。
+
+<a href = "" target="_blank" rel="noopener noreferrer">RigidBodyソースコード</a>
+
+<a href = "" target="_blank" rel="noopener noreferrer">Colliderソースコード</a>
+
+<a href = "" target="_blank" rel="noopener noreferrer">CollisionManagerソースコード</a>
+
 ### オブジェクトの自動メモリ解放
     - ライブラリの基底クラスを継承すれば使用が終わったオブジェクトを自動的に解放する機能があり、メモリリークを防止。
 
+<img src="Report/Image/Release.png" alt="スクリーンショット1" style="width: 75%; margin: 1%;">
 
+<a href = "" target="_blank" rel="noopener noreferrer">Worldソースコード</a>
