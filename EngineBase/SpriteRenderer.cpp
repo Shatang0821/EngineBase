@@ -19,7 +19,8 @@ void SpriteRenderer::Render()
 
         Vector2 scaleVec = GetWorldScale();
         // 2.0fはスプライトのサイズを画面サイズに合わせるための係数
-        D3DXVECTOR2 scale(scaleVec.x * 2.0f / mainWorld.mainCamera->springArmLength_virtual * (flipX ? -1 : 1), scaleVec.y * 2.0f / mainWorld.mainCamera->springArmLength_virtual * (flipY ? -1 : 1) );
+        D3DXVECTOR2 scale(scaleVec.x * 2.0f / mainWorld.mainCamera->springArmLength_virtual * (flipX ? -1 : 1)
+            , scaleVec.y * 2.0f / mainWorld.mainCamera->springArmLength_virtual * (flipY ? -1 : 1) );
 
         // 中心点の計算
         D3DXVECTOR2 center(sprite->GetWidth() / 2, sprite->GetHeight() / 2);

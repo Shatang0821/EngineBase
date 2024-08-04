@@ -42,6 +42,7 @@ private:
 
 	void ZoomIn(BYTE);
 	void ZoomOut(BYTE);
+	void CameraMove(BYTE);
 
 	void SetAxis(BYTE);
 	void ResetAxis(BYTE);

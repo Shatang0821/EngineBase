@@ -11,8 +11,14 @@ void GameController::SetUpInputComponent(InputComponent* inputComponent)
 	Controller::SetUpInputComponent(inputComponent);
 
 	//キーバインドと設定
-	inputComponent->SetMapping("Shake", DIK_SPACE);
+	inputComponent->SetMapping("Shake", DIK_X);
 	inputComponent->BindAction("Shake", InputType::Pressed, this, &GameController::Shake);
+
+	inputComponent->SetMapping("CameraMoveLeft", DIK_C);
+	inputComponent->BindAction("CameraMoveLeft", InputType::Pressed, this, &GameController::CameraMove);
+	inputComponent->SetMapping("CameraMoveRight", DIK_Z);
+	inputComponent->BindAction("CameraMoveRight", InputType::Pressed, this, &GameController::CameraMove);
+
 
 	inputComponent->SetMapping("ZoomIn", DIK_Q);
 	inputComponent->BindAction("ZoomIn", InputType::Holding, this, &GameController::ZoomIn);
@@ -71,6 +77,21 @@ void GameController::ZoomOut(BYTE key)
 {
 	armLength = Math::clamp(armLength + 0.05f, 0.5f, 10000.f);
 	camera->SetSpringArmLength(armLength);
+}
+
+void GameController::CameraMove(BYTE key)
+{
+	switch (key)
+	{
+	case DIK_C:
+		camera->AddPosition(Vector2(100.0f, 0));
+		break;
+	case DIK_Z:
+		camera->AddPosition(Vector2(-100.0f, 0));
+		break;
+	default:
+		break;
+	}
 }
 
 void GameController::SetAxis(BYTE key)

@@ -9,16 +9,19 @@ GameLevel::GameLevel()
     //buttle->GetComponentByClass<SpriteRenderer>()->LoadSprite(ResID::Tex_Bullet);
 
     //buttle->Destroy();
-    player = GameStatics::CreateObject<Player>(Vector2(0, -100));
+    player = GameStatics::CreateObject<Player>(Vector2(-100, -100));
     GameStatics::CreateObject<Platform>(Vector2(0, 100));
-    
-    for(int y = 0; y < HEIGHT / 2; y+=32)
+    /*for(int i = 0; i< 200; i++)
 	{
-		for(int x = 0; x < WIDTH / 2; x+=32)
+		GameStatics::CreateObject<Block>(Vector2(i*2, -50));
+	}*/
+   /* for(int y = - HEIGHT / 2; y < HEIGHT / 2; y+=64)
+	{
+		for(int x = -WIDTH / 2; x < WIDTH / 2; x+=64)
 		{
             GameStatics::CreateObject<Block>(Vector2(x, y));
 		}
-	}
+	}*/
     //GameStatics::CreateObject<Block>(Vector2(0, 100));
     //player->Destroy();
 }
