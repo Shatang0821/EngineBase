@@ -5,8 +5,8 @@
 #include "MyApp.h"
 #include "Collider.h"
 
-#include "GameLevel.h"
-#include "GameController.h"
+#include "../GameLevel.h"
+#include "../GameController.h"
 #include "Debug.h"
 
 World mainWorld;

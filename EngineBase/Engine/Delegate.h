@@ -1,7 +1,7 @@
 #ifndef _DELEGATE_H_
 #define _DELEGATE_H_
 
-#include "stdafx.h"
+#include "../stdafx.h"
 
 template<typename R = void,typename... Args>
 class UnicastDelegate

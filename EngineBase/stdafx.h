@@ -36,11 +36,11 @@
 #include <d3dx9core.h>	// DirectX スプライトに必要.
 #include <dsound.h>	// DirectSoundに必要.
 
-#include "Singleton.h"
-#include "Transform.h"
+#include "Engine/Singleton.h"
+#include "Engine/Transform.h"
 #include "Math.h"
-#include "Vector2.h"
-#include "Pair.h"
+#include "Engine/Vector2.h"
+#include "Engine/Pair.h"
 
 #define DIRECTINPUT_VERSION 0x0800// これがないとビルド時に警告が出る.
 #include <dinput.h>	// DirectInputに必要.

@@ -9,8 +9,8 @@
 #ifndef _GAMECONTROLLER_H_
 #define _GAMECONTROLLER_H_
 
-#include "Controller.h"
-#include "Timer.h"
+#include "Engine/Controller.h"
+#include "Engine/Timer.h"
 
 class GameController : public Controller
 {

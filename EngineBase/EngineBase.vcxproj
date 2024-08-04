@@ -70,6 +70,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -145,88 +149,88 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="Engine\Animator.cpp" />
     <ClCompile Include="BaseState.cpp" />
     <ClCompile Include="Block.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Collider.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="Controller.cpp" />
-    <ClCompile Include="CTimer.cpp" />
-    <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="Engine\Camera.cpp" />
+    <ClCompile Include="Engine\Collider.cpp" />
+    <ClCompile Include="Engine\CollisionManager.cpp" />
+    <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\Controller.cpp" />
+    <ClCompile Include="Engine\CTimer.cpp" />
+    <ClCompile Include="Engine\Debug.cpp" />
     <ClCompile Include="GameController.cpp" />
-    <ClCompile Include="GameInstance.cpp" />
+    <ClCompile Include="Engine\GameInstance.cpp" />
     <ClCompile Include="GameLevel.cpp" />
-    <ClCompile Include="GameStatics.cpp" />
-    <ClCompile Include="InputComponent.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="Level.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="myApp.cpp" />
-    <ClCompile Include="MyTexture.cpp" />
-    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Engine\GameStatics.cpp" />
+    <ClCompile Include="Engine\InputComponent.cpp" />
+    <ClCompile Include="Engine\InputManager.cpp" />
+    <ClCompile Include="Engine\Level.cpp" />
+    <ClCompile Include="Engine\Game.cpp" />
+    <ClCompile Include="Engine\myApp.cpp" />
+    <ClCompile Include="Engine\MyTexture.cpp" />
+    <ClCompile Include="Engine\Object.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerStates.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="RigidBody.cpp" />
-    <ClCompile Include="SceneComponent.cpp" />
-    <ClCompile Include="SpriteRenderer.cpp" />
+    <ClCompile Include="Engine\ResourceManager.cpp" />
+    <ClCompile Include="Engine\RigidBody.cpp" />
+    <ClCompile Include="Engine\SceneComponent.cpp" />
+    <ClCompile Include="Engine\SpriteRenderer.cpp" />
     <ClCompile Include="StateMachine.cpp" />
-    <ClCompile Include="StaticMesh.cpp" />
+    <ClCompile Include="Engine\StaticMesh.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="VisualInterface.cpp" />
-    <ClCompile Include="World.cpp" />
+    <ClCompile Include="Engine\Timer.cpp" />
+    <ClCompile Include="Engine\Transform.cpp" />
+    <ClCompile Include="Engine\VisualInterface.cpp" />
+    <ClCompile Include="Engine\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animator.h" />
-    <ClInclude Include="Base.h" />
+    <ClInclude Include="Engine\Animator.h" />
+    <ClInclude Include="Engine\Base.h" />
     <ClInclude Include="BaseState.h" />
     <ClInclude Include="Block.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Collider.h" />
-    <ClInclude Include="CollisionManager.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="Controller.h" />
-    <ClInclude Include="CTimer.h" />
-    <ClInclude Include="Debug.h" />
-    <ClInclude Include="Delegate.h" />
+    <ClInclude Include="Engine\Camera.h" />
+    <ClInclude Include="Engine\Collider.h" />
+    <ClInclude Include="Engine\CollisionManager.h" />
+    <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\Controller.h" />
+    <ClInclude Include="Engine\CTimer.h" />
+    <ClInclude Include="Engine\Debug.h" />
+    <ClInclude Include="Engine\Delegate.h" />
     <ClInclude Include="GameController.h" />
-    <ClInclude Include="GameInstance.h" />
+    <ClInclude Include="Engine\GameInstance.h" />
     <ClInclude Include="GameLevel.h" />
-    <ClInclude Include="GameStatics.h" />
-    <ClInclude Include="InputComponent.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="Level.h" />
-    <ClInclude Include="Math.h" />
-    <ClInclude Include="myApp.h" />
-    <ClInclude Include="MyTexture.h" />
-    <ClInclude Include="Pair.h" />
+    <ClInclude Include="Engine\GameStatics.h" />
+    <ClInclude Include="Engine\InputComponent.h" />
+    <ClInclude Include="Engine\InputManager.h" />
+    <ClInclude Include="Engine\Level.h" />
+    <ClInclude Include="Engine\Math.h" />
+    <ClInclude Include="Engine\myApp.h" />
+    <ClInclude Include="Engine\MyTexture.h" />
+    <ClInclude Include="Engine\Pair.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerStates.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="RigidBody.h" />
-    <ClInclude Include="Singleton.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="SceneComponent.h" />
-    <ClInclude Include="SpriteRenderer.h" />
+    <ClInclude Include="Engine\ResourceManager.h" />
+    <ClInclude Include="Engine\RigidBody.h" />
+    <ClInclude Include="Engine\Singleton.h" />
+    <ClInclude Include="Engine\Object.h" />
+    <ClInclude Include="Engine\SceneComponent.h" />
+    <ClInclude Include="Engine\SpriteRenderer.h" />
     <ClInclude Include="StateMachine.h" />
-    <ClInclude Include="StaticMesh.h" />
+    <ClInclude Include="Engine\StaticMesh.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="VisualInterface.h" />
-    <ClInclude Include="World.h" />
+    <ClInclude Include="Engine\Timer.h" />
+    <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="Engine\Vector2.h" />
+    <ClInclude Include="Engine\VisualInterface.h" />
+    <ClInclude Include="Engine\World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

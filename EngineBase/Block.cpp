@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Block.h"
-#include "RigidBody.h"
-#include "Collider.h"
+#include "Engine/RigidBody.h"
+#include "Engine/Collider.h"
 
 Block::Block()
 {

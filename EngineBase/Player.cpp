@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Player.h"
-#include "InputManager.h"
-#include "RigidBody.h"
-#include "Debug.h"
+#include "Engine/InputManager.h"
+#include "Engine/RigidBody.h"
+#include "Engine/Debug.h"
 #include "StateMachine.h"
 #include "PlayerStates.h"
 /**
