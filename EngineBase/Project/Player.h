@@ -1,9 +1,9 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include "Engine/StaticMesh.h"
-#include "Engine/Animator.h"
-#include "Engine/Collider.h"
+#include "../Engine/StaticMesh.h"
+#include "../Engine/Animator.h"
+#include "../Engine/Collider.h"
 /**
  * @class Player
  * @brief ゲーム内のプレイヤーキャラクターを表すクラス。

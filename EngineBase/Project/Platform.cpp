@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Platform.h"
-#include "Engine/RigidBody.h"
+#include "../Engine/RigidBody.h"
 
 Platform::Platform()
 {

@@ -1,9 +1,9 @@
 #ifndef _GAMELEVEL_H_
 #define _GAMELEVEL_H_
 
-#include "Engine/Level.h"
-#include "Engine/StaticMesh.h"
-#include "Engine/SpriteRenderer.h"
+#include "../Engine/Level.h"
+#include "../Engine/StaticMesh.h"
+#include "../Engine/SpriteRenderer.h"
 
 #include "Player.h"
 class GameLevel :public Level {

@@ -150,8 +150,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Animator.cpp" />
-    <ClCompile Include="BaseState.cpp" />
-    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Project\BaseState.cpp" />
+    <ClCompile Include="Project\Block.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\Collider.cpp" />
     <ClCompile Include="Engine\CollisionManager.cpp" />
@@ -159,9 +159,9 @@
     <ClCompile Include="Engine\Controller.cpp" />
     <ClCompile Include="Engine\CTimer.cpp" />
     <ClCompile Include="Engine\Debug.cpp" />
-    <ClCompile Include="GameController.cpp" />
+    <ClCompile Include="Project\GameController.cpp" />
     <ClCompile Include="Engine\GameInstance.cpp" />
-    <ClCompile Include="GameLevel.cpp" />
+    <ClCompile Include="Project\GameLevel.cpp" />
     <ClCompile Include="Engine\GameStatics.cpp" />
     <ClCompile Include="Engine\InputComponent.cpp" />
     <ClCompile Include="Engine\InputManager.cpp" />
@@ -170,14 +170,14 @@
     <ClCompile Include="Engine\myApp.cpp" />
     <ClCompile Include="Engine\MyTexture.cpp" />
     <ClCompile Include="Engine\Object.cpp" />
-    <ClCompile Include="Platform.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerStates.cpp" />
+    <ClCompile Include="Project\Platform.cpp" />
+    <ClCompile Include="Project\Player.cpp" />
+    <ClCompile Include="Project\PlayerStates.cpp" />
     <ClCompile Include="Engine\ResourceManager.cpp" />
     <ClCompile Include="Engine\RigidBody.cpp" />
     <ClCompile Include="Engine\SceneComponent.cpp" />
     <ClCompile Include="Engine\SpriteRenderer.cpp" />
-    <ClCompile Include="StateMachine.cpp" />
+    <ClCompile Include="Project\StateMachine.cpp" />
     <ClCompile Include="Engine\StaticMesh.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -193,8 +193,8 @@
   <ItemGroup>
     <ClInclude Include="Engine\Animator.h" />
     <ClInclude Include="Engine\Base.h" />
-    <ClInclude Include="BaseState.h" />
-    <ClInclude Include="Block.h" />
+    <ClInclude Include="Project\BaseState.h" />
+    <ClInclude Include="Project\Block.h" />
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Collider.h" />
     <ClInclude Include="Engine\CollisionManager.h" />
@@ -203,9 +203,9 @@
     <ClInclude Include="Engine\CTimer.h" />
     <ClInclude Include="Engine\Debug.h" />
     <ClInclude Include="Engine\Delegate.h" />
-    <ClInclude Include="GameController.h" />
+    <ClInclude Include="Project\GameController.h" />
     <ClInclude Include="Engine\GameInstance.h" />
-    <ClInclude Include="GameLevel.h" />
+    <ClInclude Include="Project\GameLevel.h" />
     <ClInclude Include="Engine\GameStatics.h" />
     <ClInclude Include="Engine\InputComponent.h" />
     <ClInclude Include="Engine\InputManager.h" />
@@ -214,16 +214,16 @@
     <ClInclude Include="Engine\myApp.h" />
     <ClInclude Include="Engine\MyTexture.h" />
     <ClInclude Include="Engine\Pair.h" />
-    <ClInclude Include="Platform.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerStates.h" />
+    <ClInclude Include="Project\Platform.h" />
+    <ClInclude Include="Project\Player.h" />
+    <ClInclude Include="Project\PlayerStates.h" />
     <ClInclude Include="Engine\ResourceManager.h" />
     <ClInclude Include="Engine\RigidBody.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Object.h" />
     <ClInclude Include="Engine\SceneComponent.h" />
     <ClInclude Include="Engine\SpriteRenderer.h" />
-    <ClInclude Include="StateMachine.h" />
+    <ClInclude Include="Project\StateMachine.h" />
     <ClInclude Include="Engine\StaticMesh.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Engine\Timer.h" />

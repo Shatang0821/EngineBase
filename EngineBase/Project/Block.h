@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/StaticMesh.h"
+#include "../Engine/StaticMesh.h"
 class Block : public StaticMesh
 {
 private:
