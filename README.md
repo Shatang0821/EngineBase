@@ -19,13 +19,14 @@
 
 ---
 
-このライブラリは、簡単な2Dゲーム開発を支援するために設計されています。以下の機能を提供します：
+このライブラリは、以下の機能を提供します：
 
 ## 機能
 #### 目次
 - [入力処理](#入力処理)
 - [スプライト表示](#スプライト表示)
 - [カメラ操作](#カメラ操作)
+- [物理演算](#物理演算)
 
 ### 入力処理
     - キーボードやマウスの入力を簡単に取得し、ゲーム内での操作を実現します。
@@ -76,9 +77,9 @@
 
 <a href = "https://github.com/Shatang0821/EngineBase/blob/main/EngineBase/Engine/CollisionManager.h" target="_blank" rel="noopener noreferrer">CollisionManagerソースコード</a>
 
-### オブジェクトの自動メモリ解放
+### メモリ管理
     - ライブラリの基底クラスを継承すれば使用が終わったオブジェクトを自動的に解放する機能があり、メモリリークを防止。
-
+    - テクスチャメモリも自動で解放します
 <img src="Report/Image/Release.png" alt="スクリーンショット1" style="width: 75%; margin: 1%;">
 
 <a href = "https://github.com/Shatang0821/EngineBase/blob/main/EngineBase/Engine/World.h" target="_blank" rel="noopener noreferrer">Worldソースコード</a>
