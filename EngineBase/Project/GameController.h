@@ -19,7 +19,8 @@ private:
 	Timer ShakeTimeHandle;
 
 	//ゲーム入力
-	Vector2 axis;
+	Vector2 axis;	//移動入力
+	bool jump = false;		//ジャンプ入力
 
 	// キーの状態フラグ
 	bool isWPressed = false;
@@ -36,6 +37,7 @@ public:
 	void Shake(BYTE);
 
 	Vector2 GetAxis() { return axis; }
+	bool GetJump() { return jump; }
 private:
 	//! カメラのスプリングアームの長さ
 	float armLength = 1;
@@ -46,6 +48,9 @@ private:
 
 	void SetAxis(BYTE);
 	void ResetAxis(BYTE);
+
+	void SetJump(BYTE);
+	void ResetJump(BYTE);
 
 	void UpdateAxis();
 };

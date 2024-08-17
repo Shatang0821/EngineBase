@@ -36,7 +36,16 @@ void PlayerIdleState::LogicUpdate(float deltaTime)
 	if (mainController->GetAxis().x != 0)
 	{
 		stateMachine->ChangeState(PlayerStateType::RUN);
+		return;
 	}
+
+	if (mainController->GetJump())
+	{
+		stateMachine->ChangeState(PlayerStateType::JUMP);
+		return;
+	}
+
+
 };
 
 #pragma endregion
@@ -56,6 +65,13 @@ void PlayerRunState::LogicUpdate(float deltaTime)
 	if (mainController->GetAxis().x == 0)
 	{
 		stateMachine->ChangeState(PlayerStateType::IDLE);
+		return;
+	}
+
+	if (mainController->GetJump())
+	{
+		stateMachine->ChangeState(PlayerStateType::JUMP);
+		return;
 	}
 }
 
@@ -71,7 +87,19 @@ void PlayerRunState::PhysicsUpdate(float fixedDeltaTime)
 void PlayerJumpState::Enter()
 {
 	PlayerBaseState::Enter();
+	player->SetVelocityY(100);
 }
+
+void PlayerJumpState::LogicUpdate(float deltaTime)
+{
+	PlayerBaseState::LogicUpdate(deltaTime);
+	if (player->GetVelocity().y <= 0)
+	{
+		stateMachine->ChangeState(PlayerStateType::FALL);
+		return;
+	}
+}
+
 
 #pragma endregion
 
@@ -80,6 +108,16 @@ void PlayerJumpState::Enter()
 void PlayerFallState::Enter()
 {
 	PlayerBaseState::Enter();
+}
+
+void PlayerFallState::LogicUpdate(float deltaTime)
+{
+	PlayerBaseState::LogicUpdate(deltaTime);
+	if (player->GetVelocity().y == 0)
+	{
+		stateMachine->ChangeState(PlayerStateType::IDLE);
+		return;
+	}
 }
 
 

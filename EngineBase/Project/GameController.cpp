@@ -45,6 +45,12 @@ void GameController::SetUpInputComponent(InputComponent* inputComponent)
 	inputComponent->BindAction("SetAxisRight", InputType::Holding, this, &GameController::SetAxis);
 	inputComponent->SetMapping("ResetAxisRight", DIK_D);
 	inputComponent->BindAction("ResetAxisRight", InputType::Released, this, &GameController::ResetAxis);
+
+	inputComponent->SetMapping("Jump", DIK_SPACE);
+	inputComponent->BindAction("Jump", InputType::Pressed, this, &GameController::SetJump);
+	inputComponent->SetMapping("ResetJump", DIK_SPACE);
+	inputComponent->BindAction("ResetJump", InputType::Released, this, &GameController::ResetJump);
+	
 }
 
 void GameController::Update(float DeltaTime)
@@ -135,6 +141,16 @@ void GameController::ResetAxis(BYTE key)
 		break;
 	}
 	UpdateAxis();
+}
+
+void GameController::SetJump(BYTE)
+{
+	jump = true;
+}
+
+void GameController::ResetJump(BYTE)
+{
+	jump = false;
 }
 
 void GameController::UpdateAxis()

@@ -76,10 +76,7 @@ public:
 
 	virtual void Enter() override;
 
-	virtual void LogicUpdate(float deltaTime) override {
-		PlayerBaseState::LogicUpdate(deltaTime);
-		//std::cout << "Idle State Time: " << stateTime << std::endl;
-	};
+	virtual void LogicUpdate(float deltaTime) override;
 
 	virtual void PhysicsUpdate(float fixedDeltaTime) override {
 		//std::cout << "Idle State Physics Time: " << stateTime << std::endl;
@@ -98,10 +95,7 @@ public:
 
 	virtual void Enter() override;
 
-	virtual void LogicUpdate(float deltaTime) override {
-		PlayerBaseState::LogicUpdate(deltaTime);
-		//std::cout << "Idle State Time: " << stateTime << std::endl;
-	};
+	virtual void LogicUpdate(float deltaTime) override;
 
 	virtual void PhysicsUpdate(float fixedDeltaTime) override {
 		//std::cout << "Idle State Physics Time: " << stateTime << std::endl;

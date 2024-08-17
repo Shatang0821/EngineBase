@@ -15,7 +15,7 @@ class Player : public StaticMesh
 {
 private:
 	//エンジンコンポーネント
-	Animation animation[2]; ///< プレイヤーのアニメーション
+	Animation animation[4]; ///< プレイヤーのアニメーション
 	Animator* animator; ///< アニメーションを管理するAnimator
 	BoxCollider* boxCollider; ///< プレイヤーのボックスコライダー
 	class RigidBody* rigidBody; ///< プレイヤーの剛体コンポーネント

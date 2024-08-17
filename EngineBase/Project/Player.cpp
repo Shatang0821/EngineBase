@@ -69,29 +69,6 @@ void Player::Update(float DeltaTime)
 void Player::FixedUpdate(float fixedDeltaTime)
 {
 	StaticMesh::FixedUpdate(fixedDeltaTime);
-	if (InputManager::Instance()->IsPushKeyOne(DIK_SPACE))
-	{
-		rigidBody->SetVelocity({ rigidBody->GetVelocity().x,-100 });
-	}
-	//// Aキーで左に移動
-	//if (InputManager::Instance()->IsPushKey(DIK_A))
-	//{
-	//	//anchorPoint += Vector2(-100, 0) * DeltaTime;
-	//	rigidBody->SetVelocity(Vector2(-100, rigidBody->GetVelocity().y));
-	//	animator->SetNode("run");
-	//}
-	//// Dキーで右に移動
-	//else if (InputManager::Instance()->IsPushKey(DIK_D))
-	//{
-	//	//anchorPoint += Vector2(100, 0) * DeltaTime;
-	//	rigidBody->SetVelocity(Vector2(100, rigidBody->GetVelocity().y));
-	//	animator->SetNode("run");
-	//}
-	//else
-	//{
-	//	rigidBody->SetVelocity({ 0, rigidBody->GetVelocity().y });
-	//	animator->SetNode("idle");
-	//}
 	stateMachine->PhysicsUpdate(fixedDeltaTime);
 }
 
@@ -110,6 +87,8 @@ void Player::InitStateMachine()
 
 	stateMachine->RegisterState(PlayerStateType::IDLE, new PlayerIdleState(stateMachine,this,"idle"));
 	stateMachine->RegisterState(PlayerStateType::RUN, new PlayerRunState(stateMachine,this,"run"));
+	stateMachine->RegisterState(PlayerStateType::JUMP, new PlayerJumpState(stateMachine,this,"jump"));
+	stateMachine->RegisterState(PlayerStateType::FALL, new PlayerFallState(stateMachine,this,"fall"));
 
 	stateMachine->ChangeState(PlayerStateType::IDLE);
 }
@@ -122,6 +101,8 @@ void Player::InitAnimation()
 	animation[0].SetInterVal(0.02f);
 	animation[1].Load(ResID::Tex_Player_Run);
 	animation[1].SetInterVal(0.02f);
+
+
 
 	animator->Insert("idle", animation[0]);
 	animator->Insert("run", animation[1]);
