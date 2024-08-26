@@ -37,6 +37,8 @@ public:
 	void SetVelocity(const Vector2& velocity); ///< 速度の設定
 	void SetVelocityX(float x); ///< X軸方向の速度の設定
 	void SetVelocityY(float y); ///< Y軸方向の速度の設定
+
+	void SetGravityScale(float scale); ///< 重力の設定
 	Vector2 GetVelocity(); ///< 速度の取得
 private:
 	/// <summary>
@@ -52,6 +54,7 @@ private:
 	/// 物理演算の初期化を行います。
 	/// </summary>
 	void InitPhysics();
+
 
 	void BeginOverlap(Collider*, Collider*, Object* );
 	void EndOverlap  (Collider*, Collider*, Object* );

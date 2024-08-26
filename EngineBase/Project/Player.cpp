@@ -34,25 +34,6 @@ Player::~Player()
 	stateMachine = nullptr;
 }
 
-void Player::InitPhysics()
-{
-	// ボックスコライダーの設定
-	boxCollider = ConstructComponent<BoxCollider>();
-	boxCollider->AttachTo(root);
-	boxCollider->SetSize(Vector2(32, 64));
-
-	boxCollider->OnComponentBeginOverlap.AddDynamic(this, &Player::BeginOverlap);
-	boxCollider->OnComponentEndOverlap.AddDynamic(this, &Player::EndOverlap);
-	boxCollider->OnComponentHit.AddDynamic(this, &Player::OnHit);
-	boxCollider->SetType(CollisionType::Default);
-
-	// 剛体コンポーネントの設定
-	rigidBody = ConstructComponent<RigidBody>();
-	rigidBody->SetGravity(100.0f);
-	//rigidBody->SetGravityEnabled(false);
-}
-
-
 /**
  * @brief プレイヤーの更新処理。
  *
@@ -81,6 +62,30 @@ void Player::DrawDebug()
 	Debug::RenderText(MyApp::Instance()->GetDevice(), 0, 60, text);
 }
 
+
+void Player::InitPhysics()
+{
+	// ボックスコライダーの設定
+	boxCollider = ConstructComponent<BoxCollider>();
+	boxCollider->AttachTo(root);
+	boxCollider->SetSize(Vector2(32, 64));
+
+	boxCollider->OnComponentBeginOverlap.AddDynamic(this, &Player::BeginOverlap);
+	boxCollider->OnComponentEndOverlap.AddDynamic(this, &Player::EndOverlap);
+	boxCollider->OnComponentHit.AddDynamic(this, &Player::OnHit);
+	boxCollider->SetType(CollisionType::Default);
+
+	// 剛体コンポーネントの設定
+	rigidBody = ConstructComponent<RigidBody>();
+	rigidBody->SetGravity(100.0f);
+	//rigidBody->SetGravityEnabled(false);
+}
+
+void Player::SetGravityScale(float scale)
+{
+	rigidBody->SetGravity(scale);
+}
+
 void Player::InitStateMachine()
 {
 	stateMachine = new StateMachine();
@@ -101,12 +106,16 @@ void Player::InitAnimation()
 	animation[0].SetInterVal(0.02f);
 	animation[1].Load(ResID::Tex_Player_Run);
 	animation[1].SetInterVal(0.02f);
-
-
+	animation[2].Load(ResID::Tex_Player_Jump);
+	animation[2].SetInterVal(0.02f);
+	animation[3].Load(ResID::Tex_Player_Fall);
+	animation[3].SetInterVal(0.02f);
 
 	animator->Insert("idle", animation[0]);
 	animator->Insert("run", animation[1]);
-	animator->SetNode("run");
+	animator->Insert("jump", animation[2]);
+	animator->Insert("fall", animation[3]);
+	animator->SetNode("idle");
 }
 
 void Player::SetAnimation(const std::string& name)

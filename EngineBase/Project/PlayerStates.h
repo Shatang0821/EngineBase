@@ -78,14 +78,9 @@ public:
 
 	virtual void LogicUpdate(float deltaTime) override;
 
-	virtual void PhysicsUpdate(float fixedDeltaTime) override {
-		//std::cout << "Idle State Physics Time: " << stateTime << std::endl;
-	};
+	virtual void PhysicsUpdate(float fixedDeltaTime) override;
 
-	virtual void Exit() override {
-		PlayerBaseState::Exit();
-		//std::cout << "Exiting " << typeid(*this).name() << " State" << std::endl;
-	};
+	virtual void Exit() override;
 };
 
 class PlayerFallState : public PlayerBaseState
@@ -97,14 +92,9 @@ public:
 
 	virtual void LogicUpdate(float deltaTime) override;
 
-	virtual void PhysicsUpdate(float fixedDeltaTime) override {
-		//std::cout << "Idle State Physics Time: " << stateTime << std::endl;
-	};
+	virtual void PhysicsUpdate(float fixedDeltaTime) override;
 
-	virtual void Exit() override {
-		PlayerBaseState::Exit();
-		//std::cout << "Exiting " << typeid(*this).name() << " State" << std::endl;
-	};
+	virtual void Exit() override;
 };
 
 #endif // !_PLAYERSTATES_H_

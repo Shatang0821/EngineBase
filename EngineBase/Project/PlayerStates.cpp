@@ -45,6 +45,12 @@ void PlayerIdleState::LogicUpdate(float deltaTime)
 		return;
 	}
 
+	if (player->GetVelocity().y > 0)
+	{
+		stateMachine->ChangeState(PlayerStateType::FALL);
+		return;
+	}
+
 
 };
 
@@ -73,6 +79,12 @@ void PlayerRunState::LogicUpdate(float deltaTime)
 		stateMachine->ChangeState(PlayerStateType::JUMP);
 		return;
 	}
+
+	if (player->GetVelocity().y > 0)
+	{
+		stateMachine->ChangeState(PlayerStateType::FALL);
+		return;
+	}
 }
 
 void PlayerRunState::PhysicsUpdate(float fixedDeltaTime)
@@ -87,18 +99,32 @@ void PlayerRunState::PhysicsUpdate(float fixedDeltaTime)
 void PlayerJumpState::Enter()
 {
 	PlayerBaseState::Enter();
-	player->SetVelocityY(100);
+	player->SetVelocityY(-300);
+	player->SetGravityScale(500.0f);
 }
 
 void PlayerJumpState::LogicUpdate(float deltaTime)
 {
 	PlayerBaseState::LogicUpdate(deltaTime);
-	if (player->GetVelocity().y <= 0)
+	if (player->GetVelocity().y >= 0)
 	{
 		stateMachine->ChangeState(PlayerStateType::FALL);
 		return;
 	}
 }
+
+void PlayerJumpState::PhysicsUpdate(float fixedDeltaTime)
+{
+	player->SetVelocityX(mainController->GetAxis().x * 100);
+}
+
+void PlayerJumpState::Exit()
+{
+	PlayerBaseState::Exit();
+	player->SetGravityScale(100.0f);
+}
+
+
 
 
 #pragma endregion
@@ -108,6 +134,7 @@ void PlayerJumpState::LogicUpdate(float deltaTime)
 void PlayerFallState::Enter()
 {
 	PlayerBaseState::Enter();
+	player->SetGravityScale(500.0f);
 }
 
 void PlayerFallState::LogicUpdate(float deltaTime)
@@ -115,9 +142,25 @@ void PlayerFallState::LogicUpdate(float deltaTime)
 	PlayerBaseState::LogicUpdate(deltaTime);
 	if (player->GetVelocity().y == 0)
 	{
-		stateMachine->ChangeState(PlayerStateType::IDLE);
+		if (mainController->GetAxis().x == 0){
+			stateMachine->ChangeState(PlayerStateType::IDLE);
+		}
+		else{
+			stateMachine->ChangeState(PlayerStateType::RUN);
+		}
 		return;
 	}
+}
+
+void PlayerFallState::PhysicsUpdate(float fixedDeltaTime)
+{
+	player->SetVelocityX(mainController->GetAxis().x * 100);
+}
+
+void PlayerFallState::Exit()
+{
+	PlayerBaseState::Exit();
+	player->SetGravityScale(100.0f);
 }
 
 

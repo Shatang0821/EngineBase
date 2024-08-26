@@ -91,6 +91,14 @@ bool ResourceManager::Initalize()
         return false;
     }
 
+    if (!LoadTex(device, ResID::Tex_Player_Jump, _T("data/image/Virtual Guy/Jump (32x32).png"), 1, 1, 1, 32, 32)) {
+		return false;
+	}
+
+    if (!LoadTex(device, ResID::Tex_Player_Fall, _T("data/image/Virtual Guy/Fall (32x32).png"), 1, 1, 1, 32, 32)) {
+        return false;
+    }
+
     return true;
 }
 
