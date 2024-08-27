@@ -4,9 +4,6 @@
 #include "InputManager.h"
 #include "MyApp.h"
 #include "Collider.h"
-
-#include "../Project/GameLevel.h"
-#include "../Project/GameController.h"
 #include "Debug.h"
 
 World mainWorld;
@@ -14,9 +11,9 @@ World mainWorld;
 bool World::Init()
 {
 	//コントローラーの生成
-	mainWorld.mainController = GameStatics::CreateObject<GameController>();
+	//mainWorld.mainController = GameStatics::CreateObject<GameController>();
 	//ワールド初期化
-	mainWorld.currentLevel = new GameLevel;
+	//mainWorld.currentLevel = new GameLevel;
 	mainWorld.gameInstance = new GameInstance;
 
 
@@ -26,7 +23,7 @@ bool World::Init()
 void World::Update(float DeltaTime)
 {
 	//レベルの更新
-	currentLevel->Update(DeltaTime);
+	//currentLevel->Update(DeltaTime);
 
 	//オブジェクトの更新
 	for (auto& obj : GameObjects) {

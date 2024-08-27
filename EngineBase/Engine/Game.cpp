@@ -2,8 +2,6 @@
 #include "myApp.h"
 #include "StaticMesh.h"
 #include "ResourceManager.h"
-#include "../Project/GameLevel.h"
-#include "../Project/GameController.h"
 #include "InputManager.h"
 
 // イベント処理コールバック（ウィンドウプロシージャ）.
