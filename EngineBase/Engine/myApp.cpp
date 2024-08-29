@@ -283,6 +283,7 @@ void MyApp::MainLoop()
 
 			// deltaTimeの計算
 			mainWorld.Timer.GetPassTime(&mainWorld.deltaTime);
+			std::cout << "DeltaTime : " << mainWorld.deltaTime << std::endl;
 			// FPSの計算
 			mainWorld.fps = 1.0f / mainWorld.deltaTime;
 		}

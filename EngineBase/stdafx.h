@@ -60,8 +60,10 @@
 #define HEIGHT (720)	// 高さ.
 
 #define TARGET_FPS 60					// fps
-#define FRAME_TIME (1.0f / TARGET_FPS)	// フレームタイム
-#define FIXED_DELTA_TIME 0.02f			// 固定間隔タイム
+#define FIXED_FPS 50					// 固定fps
+
+#define FRAME_TIME (1.0f / TARGET_FPS)		// フレームタイム
+#define FIXED_DELTA_TIME (1.0f / FIXED_FPS)	// 固定間隔タイム
 
 #endif // !_STDAFX_H_
 

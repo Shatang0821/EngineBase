@@ -77,13 +77,6 @@ void World::FixedUpdate(float fixedDeltaTime)
 
 void World::ProcessColliderZones()
 {
-	/*for (auto me : GameColliders) {
-		for (auto he : GameColliders) {
-			if (he != me) {
-				me->Insert(he);
-			}
-		}
-	}*/
 	for (auto& arr_i : ColliderZones) {
 		for (auto& arr_j : arr_i) {
 			if (!arr_j.empty()) {

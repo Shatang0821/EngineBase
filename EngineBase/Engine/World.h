@@ -122,7 +122,7 @@ private:
 
 	/*  FPS関連  */
 
-	float deltaTime = 0.016f;			// 前フレームからの経過時間.
+	float deltaTime = 0.0f;			// 前フレームからの経過時間.
 	float fixedDeltaTime = 0.02f;		// 固定間隔
 
 	float fixedAccumulator = 0;		//経過時間

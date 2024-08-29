@@ -116,6 +116,7 @@ void PlayerJumpState::LogicUpdate(float deltaTime)
 void PlayerJumpState::PhysicsUpdate(float fixedDeltaTime)
 {
 	player->SetVelocityX(mainController->GetAxis().x * 100);
+	std::cout << "Jumping" << std::endl;
 }
 
 void PlayerJumpState::Exit()
@@ -155,6 +156,7 @@ void PlayerFallState::LogicUpdate(float deltaTime)
 void PlayerFallState::PhysicsUpdate(float fixedDeltaTime)
 {
 	player->SetVelocityX(mainController->GetAxis().x * 100);
+	std::cout << "Falling" << std::endl;
 }
 
 void PlayerFallState::Exit()
