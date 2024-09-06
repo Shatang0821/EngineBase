@@ -79,25 +79,10 @@ bool ResourceManager::Initalize()
 	auto myApp = MyApp::Instance();
 	auto device = myApp->GetDevice();
 
-    if (!LoadTex(device, ResID::Tex_Bullet, _T("data/image/parallax-mountain-bg.png"))) {
-        		return false;
-    }
-    
-    if (!LoadTex(device, ResID::Tex_Player_Idle, _T("data/image/Virtual Guy/Idle (32x32).png"), 11, 1, 11, 352, 32)) {
-		return false;
-	}
-
-    if (!LoadTex(device, ResID::Tex_Player_Run, _T("data/image/Virtual Guy/Run (32x32).png"), 12, 1, 12, 384, 32)) {
-        return false;
-    }
-
-    if (!LoadTex(device, ResID::Tex_Player_Jump, _T("data/image/Virtual Guy/Jump (32x32).png"), 1, 1, 1, 32, 32)) {
-		return false;
-	}
-
-    if (!LoadTex(device, ResID::Tex_Player_Fall, _T("data/image/Virtual Guy/Fall (32x32).png"), 1, 1, 1, 32, 32)) {
-        return false;
-    }
+    assert(LoadTex(device, ResID::Tex_Player_Idle, _T("data/image/Samurai/IDLE.png"), 5, 1, 5, 500, 44));
+    assert(LoadTex(device, ResID::Tex_Player_Run, _T("data/image/Samurai/RUN.png"), 7, 1, 7, 700, 44));
+    assert(LoadTex(device, ResID::Tex_Player_Jump, _T("data/image/Samurai/JUMP.png"), 1, 1, 1, 100, 44));
+    assert(LoadTex(device, ResID::Tex_Player_Fall, _T("data/image/Samurai/FALL.png"), 2, 1, 2, 200, 44));
 
     return true;
 }

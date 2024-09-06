@@ -80,6 +80,7 @@ public:
 	 * @param time 設定する遅延時間（秒）。
 	 */
 	void SetDelay(double time){ delay = std::chrono::duration<double>(time); }
+
 	/**
 	 * @brief 最後の時間記録を現在の時間にリセットします。
 	 *

@@ -40,7 +40,14 @@ private:
 	Timer clock;
 
 public:
-	Animation() { clock.Bind(0, [this]() {index = (index + 1) % num; }, true); }
+	Animation() {  }
+
+	/**
+	 * @brief アニメーションの更新設定
+	 * 
+	 * @param loop ループするかどうか
+	 */
+	void Bind(bool loop = true);
 
 	void Load(ResID id, POINT delta = {0,0});
 

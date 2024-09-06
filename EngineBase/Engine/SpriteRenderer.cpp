@@ -11,16 +11,19 @@ void SpriteRenderer::Render()
         //プレイヤーの位置をスクリーン座標に変換
         auto p = Transform::WordToScreen(GetWorldPosition());
 
+        // フリップ値の設定
+        int flipX_value = flipX ? -1 : 1;
+        int flipY_value = flipY ? -1 : 1;
 
         auto size = Vector2(GetSpriteWidth(), GetSpriteHeight());
-        D3DXVECTOR2 position(p.x - size.x / 2, p.y - size.y /2);
+        D3DXVECTOR2 position(p.x - size.x / 2 + spriteInfo.offset.x * flipX_value, p.y - size.y /2 + spriteInfo.offset.y * flipY_value);
         // 角度の取得ラジアン
         float rot = D3DXToRadian(GetWorldRotation());
 
         Vector2 scaleVec = GetWorldScale();
         // 2.0fはスプライトのサイズを画面サイズに合わせるための係数
-        D3DXVECTOR2 scale(scaleVec.x * 2.0f / mainWorld.mainCamera->springArmLength_virtual * (flipX ? -1 : 1)
-            , scaleVec.y * 2.0f / mainWorld.mainCamera->springArmLength_virtual * (flipY ? -1 : 1) );
+        D3DXVECTOR2 scale(scaleVec.x * 2.0f / mainWorld.mainCamera->springArmLength_virtual * flipX_value
+            , scaleVec.y * 2.0f / mainWorld.mainCamera->springArmLength_virtual * flipY_value);
 
         // 中心点の計算
         D3DXVECTOR2 center(sprite->GetWidth() / 2, sprite->GetHeight() / 2);

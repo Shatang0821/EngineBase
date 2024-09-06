@@ -102,14 +102,22 @@ void Player::InitAnimation()
 {
 	// アニメーターの生成と設定
 	animator = ConstructComponent<Animator>();
-	animation[0].Load(ResID::Tex_Player_Idle);
-	animation[0].SetInterVal(0.02f);
-	animation[1].Load(ResID::Tex_Player_Run);
-	animation[1].SetInterVal(0.02f);
+	animation[0].Load(ResID::Tex_Player_Idle, { 16,-10 });
+	animation[0].Bind();
+	animation[0].SetInterVal(0.1f);
+	
+	animation[1].Load(ResID::Tex_Player_Run, { 16,-10 });
+	animation[1].Bind();
+	animation[1].SetInterVal(0.15f);
+	
 	animation[2].Load(ResID::Tex_Player_Jump);
+	animation[2].Bind();
 	animation[2].SetInterVal(0.02f);
+	
 	animation[3].Load(ResID::Tex_Player_Fall);
-	animation[3].SetInterVal(0.02f);
+	animation[3].Bind(false);
+	animation[3].SetInterVal(0.15f);
+	
 
 	animator->Insert("idle", animation[0]);
 	animator->Insert("run", animation[1]);

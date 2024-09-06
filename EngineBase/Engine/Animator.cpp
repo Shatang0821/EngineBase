@@ -2,6 +2,21 @@
 #include "Animator.h"
 #include "ResourceManager.h"
 
+void Animation::Bind(bool loop)
+{
+	if (loop){
+		clock.Bind(0, [this]() {index = (index + 1) % num; }, true);
+	}
+	else {
+		clock.Bind(0, [this]() {
+			if (index < num - 1){
+				index++;
+			};
+		}, true);
+	}
+	
+}
+
 void Animation::Load(ResID id, POINT delta)
 {
 	AnimationResource aniRes = ResourceManager::Instance()->FetchAnim(id);
