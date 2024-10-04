@@ -28,42 +28,6 @@
     <Filter Include="_Engine\Manager">
       <UniqueIdentifier>{e9548c07-f47d-4158-9b86-9e4ef09187b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\StateMachine">
-      <UniqueIdentifier>{6afd7be8-3205-4b7e-9702-43059c993529}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\StateMachine">
-      <UniqueIdentifier>{d3f5cabd-b264-4083-9146-77b90eb473a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\StateMachine\Player">
-      <UniqueIdentifier>{9ac095ad-b28f-4a07-b218-6f2305a6bf39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\StateMachine\Player">
-      <UniqueIdentifier>{d38920fd-9337-4402-ab35-0d6b167ec6ec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\StateMachine\Player\State">
-      <UniqueIdentifier>{4ae2e55e-f7b6-47a6-9ff6-2f2a281c7ccf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\StateMachine\Player\State">
-      <UniqueIdentifier>{616c4b9f-3a65-4cff-b66c-c20b6bf5ada9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Entity">
-      <UniqueIdentifier>{5c293996-2f5d-4ea5-86d8-4c1686e58861}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Entity\Character">
-      <UniqueIdentifier>{8dee89af-e9f7-4b46-9e8c-4a0daaa7c971}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Entity">
-      <UniqueIdentifier>{2ad05f44-b876-41eb-8b06-4f69c7e6b480}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Entity\Character">
-      <UniqueIdentifier>{9a402e91-c188-44fa-a794-53b5f66f8362}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Main">
-      <UniqueIdentifier>{4509ac5c-fb4c-42e3-b268-95f071c9b6bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Main">
-      <UniqueIdentifier>{50d65045-a663-46da-9e66-721ae1935347}</UniqueIdentifier>
-    </Filter>
     <Filter Include="_Engine\Manager\Interface">
       <UniqueIdentifier>{2a2ac0bb-da7e-4825-bf7b-c544461ecb4a}</UniqueIdentifier>
     </Filter>
@@ -71,12 +35,6 @@
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>_Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Project\GameController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Project\GameLevel.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Animator.cpp">
       <Filter>_Engine\Componentes</Filter>
@@ -141,26 +99,8 @@
     <ClCompile Include="Engine\Controller.cpp">
       <Filter>_Engine\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Project\BaseState.cpp">
-      <Filter>Source Files\StateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="Project\Block.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\GameInstance.cpp">
       <Filter>_Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Project\StateMachine.cpp">
-      <Filter>Source Files\StateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="Project\PlayerStates.cpp">
-      <Filter>Source Files\StateMachine\Player\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Project\Player.cpp">
-      <Filter>Source Files\Entity\Character</Filter>
-    </ClCompile>
-    <ClCompile Include="Project\Platform.cpp">
-      <Filter>Source Files\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Engine\MyTexture.cpp">
       <Filter>_Engine\Utility</Filter>
@@ -178,12 +118,6 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>_Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\GameController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\GameLevel.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base.h">
       <Filter>_Engine\Object</Filter>
@@ -277,24 +211,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Singleton.h">
       <Filter>_Engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\BaseState.h">
-      <Filter>Header Files\StateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Block.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Player.h">
-      <Filter>Header Files\Entity\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\Platform.h">
-      <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\PlayerStates.h">
-      <Filter>Header Files\StateMachine\Player\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Project\StateMachine.h">
-      <Filter>Header Files\StateMachine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
